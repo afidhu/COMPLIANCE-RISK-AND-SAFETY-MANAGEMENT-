@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'add_incident.dart';
+
 class AllIncidents extends StatefulWidget {
   const AllIncidents({super.key});
 
@@ -8,8 +10,292 @@ class AllIncidents extends StatefulWidget {
 }
 
 class _AllIncidentsState extends State<AllIncidents> {
+
+  final Color primaryColor = const Color(0xFF0D47A1);
+
+  /// SAMPLE DATA
+  final List<Map<String, dynamic>> incidents = [
+
+    {
+      "asset_id": "AST-001",
+      "incident_type": "Lift Malfunction",
+      "description": "Lift stopped suddenly between floors",
+      "date_reported": "12/05/2026",
+      "status": "High"
+    },
+
+    {
+      "asset_id": "AST-002",
+      "incident_type": "Fire Outbreak",
+      "description": "Small electrical fire detected",
+      "date_reported": "10/05/2026",
+      "status": "Critical"
+    },
+
+    {
+      "asset_id": "AST-003",
+      "incident_type": "Water Leakage",
+      "description": "Pipe leakage near boiler room",
+      "date_reported": "08/05/2026",
+      "status": "Medium"
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+
+    return Scaffold(
+
+      backgroundColor: Colors.grey.shade100,
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const AddIncident(),
+            ),
+          );
+        },
+      ),
+
+      body: incidents.isEmpty
+          ? Center(
+        child: Text(
+          "No Incidents Found",
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.grey.shade700,
+          ),
+        ),
+      )
+
+          : ListView.builder(
+
+        padding: const EdgeInsets.all(14),
+
+        itemCount: incidents.length,
+
+        itemBuilder: (context, index) {
+
+          final incident = incidents[index];
+
+          return Container(
+
+            margin: const EdgeInsets.only(bottom: 14),
+
+            decoration: BoxDecoration(
+              color: Colors.white,
+
+              borderRadius: BorderRadius.circular(18),
+
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                )
+              ],
+            ),
+
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+
+                children: [
+
+                  /// TOP ROW
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+
+                    children: [
+
+                      Row(
+                        children: [
+
+                          CircleAvatar(
+                            backgroundColor:
+                            primaryColor.withOpacity(0.1),
+
+                            child: Icon(
+                              Icons.warning_amber_rounded,
+                              color: primaryColor,
+                            ),
+                          ),
+
+                          const SizedBox(width: 12),
+
+                          Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+
+                            children: [
+
+                              Text(
+                                incident["incident_type"],
+                                style: TextStyle(
+                                  fontWeight:
+                                  FontWeight.bold,
+                                  fontSize: 17,
+                                  color: primaryColor,
+                                ),
+                              ),
+
+                              Text(
+                                "Asset: ${incident["asset_id"]}",
+                                style: TextStyle(
+                                  color:
+                                  Colors.grey.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      buildStatusBadge(
+                          incident["status"]),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  /// DESCRIPTION
+                  Text(
+                    incident["description"],
+                    style: TextStyle(
+                      color: Colors.grey.shade800,
+                      fontSize: 15,
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  /// DATE
+                  Row(
+                    children: [
+
+                      Icon(
+                        Icons.calendar_month,
+                        size: 18,
+                        color: Colors.grey.shade700,
+                      ),
+
+                      const SizedBox(width: 6),
+
+                      Text(
+                        "Reported: ${incident["date_reported"]}",
+                        style: TextStyle(
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  /// ACTION BUTTONS
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.end,
+
+                    children: [
+
+                      TextButton.icon(
+                        onPressed: () {},
+
+                        icon: Icon(
+                          Icons.visibility,
+                          color: primaryColor,
+                        ),
+
+                        label: Text(
+                          "View",
+                          style: TextStyle(
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
+
+                      TextButton.icon(
+                        onPressed: () {},
+
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.orange,
+                        ),
+
+                        label: const Text(
+                          "Edit",
+                          style: TextStyle(
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /// STATUS BADGE
+  Widget buildStatusBadge(String status) {
+
+    Color badgeColor;
+
+    switch (status) {
+
+      case "Critical":
+        badgeColor = Colors.red;
+        break;
+
+      case "High":
+        badgeColor = Colors.orange;
+        break;
+
+      case "Medium":
+        badgeColor = Colors.amber;
+        break;
+
+      default:
+        badgeColor = Colors.green;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 6,
+      ),
+
+      decoration: BoxDecoration(
+        color: badgeColor.withOpacity(0.15),
+
+        borderRadius: BorderRadius.circular(30),
+      ),
+
+      child: Text(
+        status,
+        style: TextStyle(
+          color: badgeColor,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 }

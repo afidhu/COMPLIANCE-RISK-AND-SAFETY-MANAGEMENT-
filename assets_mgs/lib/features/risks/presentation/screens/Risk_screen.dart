@@ -1,3 +1,4 @@
+import 'package:assets_mgs/features/risks/presentation/screens/risks_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -14,12 +15,14 @@ class RiskScreen extends StatelessWidget {
       "asset_id": "FIRE-001",
       "hazard": "Blocked emergency exit",
       "risk_level": "High",
+      "is_solved":false
     },
     {
       "id": 2,
       "asset_id": "LIFT-002",
       "hazard": "Lift door malfunction",
       "risk_level": "Medium",
+      "is_solved":false
     },
     {
       "id": 3,
@@ -32,6 +35,7 @@ class RiskScreen extends StatelessWidget {
       "asset_id": "BOILER-004",
       "hazard": "Pressure leakage detected",
       "risk_level": "High",
+      "is_solved":false
     },
   ];
 
@@ -166,13 +170,34 @@ class RiskScreen extends StatelessWidget {
                     ).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text(
-                    risk["risk_level"],
-                    style: TextStyle(
-                      color: getRiskColor(risk["risk_level"]),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+
+          child:  TextButton.icon(
+          onPressed: () {
+            Get.to(()=>RisksDetails(risk: {
+              "id": 1,
+              "asset_id": "FIRE-001",
+              "hazard": "Blocked emergency exit",
+              "risk_level": "High",
+              "is_solved":false
+            },));
+          },
+          iconAlignment: IconAlignment.end,
+          label:  risk["is_solved"] == true? Text('Solved'): Text(
+          risk["risk_level"],
+          style: TextStyle(
+          color: getRiskColor(risk["risk_level"]),
+          fontWeight: FontWeight.bold,
+          ),
+          ),
+
+          icon: const Icon(
+          Icons.arrow_forward,
+          color: Colors.blue,
+          ),
+          )
+
+
+
                 ),
               ],
             ),

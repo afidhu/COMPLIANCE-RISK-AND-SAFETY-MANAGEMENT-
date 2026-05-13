@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'asset_compliant.dart';
+
 class AssetScreen extends StatelessWidget {
   AssetScreen({super.key});
 
@@ -160,12 +162,29 @@ class AssetScreen extends StatelessWidget {
                     color: const Color(0xFF0000BA).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text(
-                    "#${asset["id"]}",
-                    style: const TextStyle(
-                      color: Color(0xFF0000BA),
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    children: [
+
+
+                      TextButton.icon(
+                        onPressed: () {
+                          assetCompliant();
+                        },
+                        iconAlignment: IconAlignment.end,
+                        label: const Text(
+                          "Compliant",
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.blue,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
