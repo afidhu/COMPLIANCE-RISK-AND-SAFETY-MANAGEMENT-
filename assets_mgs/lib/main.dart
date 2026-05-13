@@ -45,10 +45,10 @@ class MyApp extends StatelessWidget {
             colorScheme: .fromSeed(seedColor: Colors.deepPurple),
           ),
           // home: HomeBottomNav()
-          // home: LoginScreen(),
+          home: LoginScreen(),
           // home: InspectionScreen(),
           // home: AssetScreen(),
-          home: RiskScreen(),
+          // home: RiskScreen(),
         );
       }
     );

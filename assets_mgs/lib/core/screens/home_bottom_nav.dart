@@ -1,5 +1,7 @@
-
 import 'package:flutter/material.dart';
+import '../../features/assets/presentation/screens/asset_screen.dart';
+import '../../features/inspections/presentation/screens/inspensions.dart';
+import '../../features/risks/presentation/screens/Risk_screen.dart';
 import 'home_screen.dart';
 
 class HomeBottomNav extends StatefulWidget {
@@ -11,31 +13,52 @@ class HomeBottomNav extends StatefulWidget {
 
 class _HomeBottomNavState extends State<HomeBottomNav> {
 
-  var  currentIndex =0;
+  int currentIndex = 0;
 
-  List pages =[
+  List pages = [
     HomeScreen(),
-    Scaffold(),
-    Scaffold(),
+    InspectionScreen(),
+    AssetScreen(),
+    RiskScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[currentIndex],
+
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        iconSize: 10,
         currentIndex: currentIndex,
-          onTap: (val){
-          currentIndex = val;
-          },
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home'),
-          ]
+
+        onTap: (val) {
+          setState(() {
+            currentIndex = val;
+          });
+        },
+
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.fact_check),
+            label: 'Inspection',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.inventory),
+            label: 'Asset',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.warning),
+            label: 'Risk',
+          ),
+        ],
       ),
     );
   }
 }
-

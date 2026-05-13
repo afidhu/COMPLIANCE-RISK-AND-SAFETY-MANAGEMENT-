@@ -63,12 +63,12 @@ class InspectionScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
 
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0000BA),
-        foregroundColor: Colors.white,
-        title: const Text("Inspections"),
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: const Color(0xFF0000BA),
+      //   foregroundColor: Colors.white,
+      //   title: const Text("Inspections"),
+      //   elevation: 0,
+      // ),
 
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
