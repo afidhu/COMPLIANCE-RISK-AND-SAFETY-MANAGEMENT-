@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
 import '../../features/inspections/presentation/screens/inspensions.dart';
 import '../../features/risks/presentation/screens/Risk_screen.dart';
@@ -94,6 +95,9 @@ class _HomeScreenState extends State<HomeScreen>
                 Tab(
                   icon: Icon(Icons.warning_amber),
                   text: 'Risks',
+                ),Tab(
+                  icon: Icon(Icons.warning_amber),
+                  text: 'Incidents',
                 ),
               ],
             ),
@@ -116,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen>
                 InspectionScreen(),
                 AssetScreen(),
                 RiskScreen(),
+                AllIncidents(),
               ],
             ),
           ),

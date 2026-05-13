@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import 'add_risks.dart';
 
 class RiskScreen extends StatelessWidget {
   RiskScreen({super.key});
@@ -179,7 +183,7 @@ class RiskScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0000BA),
         onPressed: () {
-          // Add Risk
+          Get.to(()=>AddRisks());
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
