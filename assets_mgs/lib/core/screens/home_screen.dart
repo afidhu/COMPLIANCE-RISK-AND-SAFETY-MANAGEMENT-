@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen>
       backgroundColor: const Color(0xffF4F7FC),
 
       appBar: AppBar(
-        elevation: 0,
+        elevation: 10,
         backgroundColor: Colors.blue.shade900,
         centerTitle: true,
 
@@ -52,13 +53,34 @@ class _HomeScreenState extends State<HomeScreen>
             fontWeight: FontWeight.bold,
           ),
         ),
+        surfaceTintColor: Colors.white,
+        foregroundColor: Colors.white,
+        // leading: IconButton(onPressed: (){}, icon: Icon(Icons.menu, color: Colors.white,)),
+        actions: [
+          Stack(
+            children: [
+              IconButton(onPressed: (){}, icon: Icon(Icons.notifications_active, color: Colors.white,fontWeight: FontWeight.bold,size: 30,)),
+              TextButton(onPressed: (){},
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.all(Radius.circular(10.r))
+                  ),
+                  child: Text('12',
+                    style: TextStyle(color: Colors.red, fontSize: 20,fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
 
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(80),
           child: Container(
             margin: const EdgeInsets.symmetric(
               horizontal: 12,
-              vertical: 10,
+              vertical: 8,
             ),
 
             decoration: BoxDecoration(
@@ -125,6 +147,12 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
         ),
+      ),
+      drawer: Drawer(
+        shadowColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.white,
+
       ),
     );
   }

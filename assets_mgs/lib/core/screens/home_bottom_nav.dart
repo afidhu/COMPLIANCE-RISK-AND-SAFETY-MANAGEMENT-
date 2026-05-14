@@ -17,9 +17,11 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
 
   List pages = [
     HomeScreen(),
-    InspectionScreen(),
-    AssetScreen(),
-    RiskScreen(),
+    Scaffold(),
+    Scaffold(),
+    // InspectionScreen(),
+    // AssetScreen(),
+    // RiskScreen(),
   ];
 
   @override
@@ -45,18 +47,18 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
 
           BottomNavigationBarItem(
             icon: Icon(Icons.fact_check),
-            label: 'Inspection',
+            label: 'Reports',
           ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.inventory),
-            label: 'Asset',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.inventory),
+          //   label: 'Asset',
+          // ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.warning),
-            label: 'Risk',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.warning),
+          //   label: 'Risk',
+          // ),
         ],
       ),
     );

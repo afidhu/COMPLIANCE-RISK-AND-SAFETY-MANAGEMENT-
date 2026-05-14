@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../../core/screens/home_bottom_nav.dart';
 import '../../../../core/screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -125,7 +126,8 @@ class LoginScreen extends StatelessWidget {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.off(()=>HomeScreen());
+                      Get.off(()=>HomeBottomNav());
+                      // Get.off(()=>HomeScreen());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF0000BA),
