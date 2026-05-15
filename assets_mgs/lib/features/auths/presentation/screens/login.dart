@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../core/screens/home_bottom_nav.dart';
 import '../../../../core/screens/home_screen.dart';
+import '../../../CAPA/presentation/widgets/capa_technician_navbar.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -128,6 +129,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       Get.off(()=>HomeBottomNav());
                       // Get.off(()=>HomeScreen());
+                      // Get.off(()=>CapaTechnicianNavbar());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF0000BA),

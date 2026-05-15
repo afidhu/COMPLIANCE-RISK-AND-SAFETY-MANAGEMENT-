@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../CAPA/presentation/widgets/asset_capa.dart';
 import 'add_mitigation.dart';
 class AllMitigations extends StatelessWidget {
   final List<Map<String, dynamic>> mitigations;
@@ -58,6 +60,14 @@ class AllMitigations extends StatelessWidget {
               subtitle: Text(
                 "Created: ${item["created_date"]}",
               ),
+              trailing:TextButton.icon(onPressed: (){assetCapa(asset:{
+                "id": 1,
+                "name": "Main Lift",
+                "type": "Lift",
+                "location": "Block A",
+                "status": "Inactive"
+              });}, label: Icon(Icons.remove_red_eye_outlined, color: Colors.blue,size: 14.sp,))
+
             ),
           );
         },

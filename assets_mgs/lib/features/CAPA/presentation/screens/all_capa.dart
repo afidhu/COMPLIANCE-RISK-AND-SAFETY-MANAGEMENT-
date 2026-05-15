@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../widgets/asset_capa.dart';
 import 'add_capa.dart';
 class AllCapa extends StatelessWidget {
   final List<Map<String, dynamic>> capas;
@@ -64,7 +65,7 @@ class AllCapa extends StatelessWidget {
                       Container(
                         padding:
                         const EdgeInsets.symmetric(
-                          horizontal: 12,
+                          horizontal: 10,
                           vertical: 5,
                         ),
 
@@ -120,6 +121,18 @@ class AllCapa extends StatelessWidget {
                     title: "Deadline",
                     value: item["deadline"],
                   ),
+                  
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton.icon(onPressed: (){assetCapa(asset:{
+                      "id": 1,
+                      "name": "Main Lift",
+                      "type": "Lift",
+                      "location": "Block A",
+                      "status": "Inactive"
+                    });}, label: Icon(Icons.remove_red_eye_outlined, color: Colors.blue,size: 14.sp,))
+                  )
+                  
                 ],
               ),
             ),
