@@ -5,6 +5,7 @@ import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
 import '../../features/inspections/presentation/screens/inspensions.dart';
 import '../../features/risks/presentation/screens/Risk_screen.dart';
+import '../../features/schedules/presentation/screens/schedules.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,55 +42,104 @@ class _HomeScreenState extends State<HomeScreen>
 
       backgroundColor: const Color(0xffF4F7FC),
 
-      appBar: AppBar(
-        elevation: 10,
+      appBar:AppBar(
+        elevation: 9,
         backgroundColor: Colors.blue.shade900,
         centerTitle: true,
 
         title: const Text(
-          "Compliance Management",
+          "Facilities Management",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
+
         surfaceTintColor: Colors.white,
         foregroundColor: Colors.white,
-        // leading: IconButton(onPressed: (){}, icon: Icon(Icons.menu, color: Colors.white,)),
+
         actions: [
-          Stack(
-            children: [
-              IconButton(onPressed: (){}, icon: Icon(Icons.notifications_active, color: Colors.white,fontWeight: FontWeight.bold,size: 30,)),
-              TextButton(onPressed: (){},
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.all(Radius.circular(10.r))
-                  ),
-                  child: Text('12',
-                    style: TextStyle(color: Colors.red, fontSize: 20,fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+
+                // Notification Icon
+                IconButton(
+                  onPressed: () {},
+
+                  icon: const Icon(
+                    Icons.notifications_active,
+                    color: Colors.white,
+                    size: 30,
                   ),
                 ),
-              )
-            ],
-          )
+
+                // Notification Badge
+                Positioned(
+                  right: 2,
+                  top: 2,
+
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+
+                    child: const Text(
+                      '12',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
 
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(80),
+
           child: Container(
+            height: 55,
+
             margin: const EdgeInsets.symmetric(
               horizontal: 12,
-              vertical: 8,
+              vertical: 10,
             ),
 
             decoration: BoxDecoration(
               color: Colors.blue.shade800,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(14),
             ),
 
             child: TabBar(
               controller: _tabController,
+
+              isScrollable: true,
+
+              tabAlignment: TabAlignment.start,
+
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+
+              unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
 
               indicator: BoxDecoration(
                 color: Colors.white,
@@ -104,9 +154,10 @@ class _HomeScreenState extends State<HomeScreen>
               dividerColor: Colors.transparent,
 
               tabs: const [
+
                 Tab(
                   icon: Icon(Icons.fact_check),
-                  text: 'Inspection',
+                  text: 'Schedules',
                 ),
 
                 Tab(
@@ -117,14 +168,17 @@ class _HomeScreenState extends State<HomeScreen>
                 Tab(
                   icon: Icon(Icons.warning_amber),
                   text: 'Risks',
-                ),Tab(
-                  icon: Icon(Icons.warning_amber),
+                ),
+
+                Tab(
+                  icon: Icon(Icons.report_problem),
                   text: 'Incidents',
                 ),
               ],
             ),
           ),
         ),
+
       ),
 
       body: Padding(
@@ -139,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                InspectionScreen(),
+                Schedules(),
+                // InspectionScreen(),
                 AssetScreen(),
                 RiskScreen(),
                 AllIncidents(),

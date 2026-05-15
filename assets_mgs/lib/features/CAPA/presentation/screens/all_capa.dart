@@ -105,7 +105,7 @@ class AllCapa extends StatelessWidget {
                   ),
                   Divider(),
                   SizedBox(
-                    height: 30.h,
+                    height: 36.h,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
