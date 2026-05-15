@@ -127,9 +127,9 @@ class LoginScreen extends StatelessWidget {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.off(()=>HomeBottomNav());
+                      Get.to(()=>HomeBottomNav());
                       // Get.off(()=>HomeScreen());
-                      // Get.off(()=>CapaTechnicianNavbar());
+                      // Get.to(()=>CapaTechnicianNavbar());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF0000BA),
@@ -165,7 +165,14 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+
                   ],
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Get.to(()=>CapaTechnicianNavbar());
+                  },
+                  child: Text('Technician'),
                 )
               ],
             ),

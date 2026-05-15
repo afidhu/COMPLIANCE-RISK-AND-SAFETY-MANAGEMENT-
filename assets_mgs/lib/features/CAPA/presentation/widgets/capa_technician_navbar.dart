@@ -42,10 +42,10 @@ class _CapaTechnicianNavbarState extends State<CapaTechnicianNavbar> {
             label: 'Home',
           ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt_outlined),
-            label: 'CAPA',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.list_alt_outlined),
+          //   label: 'CAPA',
+          // ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
