@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'asset_compliant.dart';
 
-class AssetScreen extends StatelessWidget {
-  AssetScreen({super.key});
+class AssetScreen extends StatefulWidget {
+ const AssetScreen({super.key});
 
+  @override
+  State<AssetScreen> createState() => _AssetScreenState();
+}
+
+class _AssetScreenState extends State<AssetScreen> {
   // Sample Asset Data
   final List<Map<String, dynamic>> assets = [
     {

@@ -72,8 +72,7 @@ class AllMitigations extends StatelessWidget {
           );
         },
       ),
-
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: 1==1? FloatingActionButton(
         backgroundColor: primaryColor,
 
         onPressed: () {
@@ -84,7 +83,10 @@ class AllMitigations extends StatelessWidget {
           Icons.add,
           color: Colors.white,
         ),
-      ),
+      ): null
+
+
+
     );
   }
 }

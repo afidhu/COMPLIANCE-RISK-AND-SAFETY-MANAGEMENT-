@@ -140,7 +140,7 @@ class AllCapa extends StatelessWidget {
         },
       ),
 
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: 1 ==1? FloatingActionButton(
         backgroundColor: primaryColor,
 
         onPressed: () {
@@ -151,7 +151,7 @@ class AllCapa extends StatelessWidget {
           Icons.add,
           color: Colors.white,
         ),
-      ),
+      ):null,
     );
 
   }

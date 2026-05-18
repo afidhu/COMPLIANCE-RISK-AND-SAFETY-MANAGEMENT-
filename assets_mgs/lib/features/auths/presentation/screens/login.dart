@@ -127,7 +127,21 @@ class LoginScreen extends StatelessWidget {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(()=>HomeBottomNav());
+                      if(emailController.text =='1'|| emailController.text == '2' ){
+                        Get.to(()=>HomeBottomNav());
+                      }
+                      else if(emailController.text =='3'){
+                        Get.to(()=>CapaTechnicianNavbar());
+                      }
+                      else{
+                        Get.defaultDialog(
+                          actions: [
+                            TextButton(onPressed: (){Get.back();}, child: Text('close'))
+                          ],
+                          content: Text('Enter credential')
+                        );
+                      }
+                      // Get.to(()=>HomeBottomNav());
                       // Get.off(()=>HomeScreen());
                       // Get.to(()=>CapaTechnicianNavbar());
                     },
@@ -168,12 +182,6 @@ class LoginScreen extends StatelessWidget {
 
                   ],
                 ),
-                GestureDetector(
-                  onTap: (){
-                    Get.to(()=>CapaTechnicianNavbar());
-                  },
-                  child: Text('Technician'),
-                )
               ],
             ),
           ),

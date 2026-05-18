@@ -18,16 +18,14 @@ class _HomeScreenState extends State<HomeScreen>
     with TickerProviderStateMixin {
 
   late final TabController _tabController;
-
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: 4, vsync: this);
-
-    _tabController.addListener(() {
-      setState(() {});
-    });
+    _tabController = TabController(
+      length: 4,
+      vsync: this,
+    );
   }
 
   @override
@@ -44,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen>
 
       appBar:AppBar(
         elevation: 9,
-        backgroundColor: Colors.blue.shade900,
+        // backgroundColor: Colors.blue.shade900,
+        backgroundColor: const Color(0xFF0000BA),
         centerTitle: true,
 
         title: const Text(
@@ -171,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
 
                 Tab(
-                  icon: Icon(Icons.report_problem),
+                  icon: Icon(Icons.health_and_safety_outlined),
                   text: 'Incidents',
                 ),
               ],
@@ -184,23 +183,17 @@ class _HomeScreenState extends State<HomeScreen>
       body: Padding(
         padding: const EdgeInsets.all(10),
 
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+        child: TabBarView(
+          controller: _tabController,
 
-          child: Container(
-            color: Colors.white,
+          physics: const BouncingScrollPhysics(),
 
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                Schedules(),
-                // InspectionScreen(),
-                AssetScreen(),
-                RiskScreen(),
-                AllIncidents(),
-              ],
-            ),
-          ),
+          children: const [
+            Schedules(),
+            AssetScreen(),
+            RiskScreen(),
+            AllIncidents(),
+          ],
         ),
       ),
       drawer: Drawer(

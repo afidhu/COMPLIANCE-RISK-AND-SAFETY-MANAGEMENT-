@@ -5,9 +5,14 @@ import 'package:get/get_core/src/get_main.dart';
 
 import 'add_risks.dart';
 
-class RiskScreen extends StatelessWidget {
-  RiskScreen({super.key});
+class RiskScreen extends StatefulWidget {
+const  RiskScreen({super.key});
 
+  @override
+  State<RiskScreen> createState() => _RiskScreenState();
+}
+
+class _RiskScreenState extends State<RiskScreen> {
   // Sample Risk Data
   final List<Map<String, dynamic>> risks = [
     {

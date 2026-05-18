@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
 import '../../features/inspections/presentation/screens/inspensions.dart';
+import '../../features/reports/presentation/screens/reports.dart';
 import '../../features/risks/presentation/screens/Risk_screen.dart';
+import '../../features/searchings/presentation/screens/all_searching.dart';
 import 'home_screen.dart';
 
 class HomeBottomNav extends StatefulWidget {
@@ -17,8 +19,8 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
 
   List pages = [
     HomeScreen(),
-    Scaffold(),
-    Scaffold(),
+    AllSearching(),
+    Reports(),
     // InspectionScreen(),
     // AssetScreen(),
     // RiskScreen(),
@@ -46,14 +48,16 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.fact_check),
+            icon: Icon(Icons.search_outlined),
+            label: 'Search',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.picture_as_pdf_sharp),
             label: 'Reports',
           ),
 
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.inventory),
-          //   label: 'Asset',
-          // ),
+
 
           // BottomNavigationBarItem(
           //   icon: Icon(Icons.warning),
