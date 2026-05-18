@@ -1,5 +1,9 @@
+import 'package:assets_mgs/features/reports/presentation/screens/risk_reports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'assets_report.dart';
+import 'incident_report.dart';
 
 class Reports extends StatefulWidget {
   const Reports({super.key});
@@ -171,64 +175,14 @@ class _ReportsState extends State<Reports>
         children: [
 
           /// INCIDENTS REPORT
-          Container(
-            margin: const EdgeInsets.all(16),
 
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-
-            child: const Center(
-              child: Text(
-                "Incidents Reports",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+        IncidentReport(),
 
           /// ASSETS REPORT
-          Container(
-            margin: const EdgeInsets.all(16),
-
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-
-            child: const Center(
-              child: Text(
-                "Assets Reports",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          AssetsReport(),
 
           /// RISKS REPORT
-          Container(
-            margin: const EdgeInsets.all(16),
-
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-
-            child: const Center(
-              child: Text(
-                "Risks Reports",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          RiskReports()
         ],
       ),
     );

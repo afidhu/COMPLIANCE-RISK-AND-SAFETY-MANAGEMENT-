@@ -41,21 +41,26 @@ class _HomeScreenState extends State<HomeScreen>
       backgroundColor: const Color(0xffF4F7FC),
 
       appBar:AppBar(
-        elevation: 9,
-        // backgroundColor: Colors.blue.shade900,
+        elevation: 0,
+
         backgroundColor: const Color(0xFF0000BA),
+
         centerTitle: true,
 
+        surfaceTintColor: Colors.transparent,
+
+        foregroundColor: Colors.white,
         title: const Text(
           "Facilities Management",
+
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
 
-        surfaceTintColor: Colors.white,
-        foregroundColor: Colors.white,
+
 
         actions: [
           Padding(
@@ -107,76 +112,112 @@ class _HomeScreenState extends State<HomeScreen>
         ],
 
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
 
-          child: Container(
-            height: 55,
+          preferredSize: const Size.fromHeight(100),
 
-            margin: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 10,
+          child: Padding(
+
+            padding: const EdgeInsets.only(
+              left: 14,
+              right: 14,
+              bottom: 16,
             ),
 
-            decoration: BoxDecoration(
-              color: Colors.blue.shade800,
-              borderRadius: BorderRadius.circular(14),
-            ),
+            child: Container(
 
-            child: TabBar(
-              controller: _tabController,
+              height: 75.h,
 
-              isScrollable: true,
+              decoration: BoxDecoration(
 
-              tabAlignment: TabAlignment.start,
+                color: Colors.white.withOpacity(0.15),
 
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+                borderRadius: BorderRadius.circular(18),
 
-              labelStyle: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
+                border: Border.all(
+                  color: Colors.white24,
+                ),
+
+                boxShadow: [
+
+                  BoxShadow(
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                    color: Colors.black.withOpacity(0.08),
+                  ),
+                ],
               ),
 
-              unselectedLabelStyle: const TextStyle(
-                fontWeight: FontWeight.w500,
+              child: TabBar(
+
+                controller: _tabController,
+
+                dividerColor: Colors.transparent,
+
+                indicatorSize: TabBarIndicatorSize.tab,
+
+                padding: const EdgeInsets.all(16),
+
+                splashBorderRadius:
+                BorderRadius.circular(14),
+
+                labelColor: const Color(0xFF0000BA),
+
+                unselectedLabelColor: Colors.white,
+
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                ),
+
+                unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13,
+                ),
+
+                indicator: BoxDecoration(
+
+                  color: Colors.white,
+
+                  borderRadius: BorderRadius.circular(14),
+
+                  boxShadow: [
+
+                    BoxShadow(
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                      color: Colors.black.withOpacity(0.08),
+                    ),
+                  ],
+                ),
+
+                tabs: const [
+
+                  Tab(
+                    icon: Icon(Icons.fact_check),
+                    text: 'Schedules',
+                  ),
+
+                  Tab(
+                    icon: Icon(Icons.inventory_2),
+                    text: 'Assets',
+                  ),
+
+                  Tab(
+                    icon: Icon(Icons.warning_amber),
+                    text: 'Risks',
+                  ),
+
+                  Tab(
+                    icon: Icon(Icons.health_and_safety_outlined),
+                    text: 'Incidents',
+                  ),
+                ],
               ),
-
-              indicator: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-
-              labelColor: Colors.blue.shade900,
-              unselectedLabelColor: Colors.white,
-
-              indicatorSize: TabBarIndicatorSize.tab,
-
-              dividerColor: Colors.transparent,
-
-              tabs: const [
-
-                Tab(
-                  icon: Icon(Icons.fact_check),
-                  text: 'Schedules',
-                ),
-
-                Tab(
-                  icon: Icon(Icons.inventory_2),
-                  text: 'Assets',
-                ),
-
-                Tab(
-                  icon: Icon(Icons.warning_amber),
-                  text: 'Risks',
-                ),
-
-                Tab(
-                  icon: Icon(Icons.health_and_safety_outlined),
-                  text: 'Incidents',
-                ),
-              ],
             ),
           ),
         ),
+
+
 
       ),
 
