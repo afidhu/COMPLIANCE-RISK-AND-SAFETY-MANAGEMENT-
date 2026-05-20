@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -37,30 +38,101 @@ class LoginScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Logo/Icon
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0000BA).withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.health_and_safety,
-                    size: 50,
-                    color: Color(0xFF0000BA),
-                  ),
-                ),
+                /// LOGO + TITLE SECTION
+                Column(
+                  children: [
 
-                const SizedBox(height: 20),
+                    /// LOGO CONTAINER
+                    Container(
 
-                // Title
-                const Text(
-                  "Facility Compliance System",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF111111),
-                  ),
-                  textAlign: TextAlign.center,
+                      height: 170,
+                      width: 170,
+
+                      decoration: BoxDecoration(
+
+                        shape: BoxShape.circle,
+
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.blue.shade50,
+                            Colors.white,
+                          ],
+                        ),
+
+                        boxShadow: [
+
+                          BoxShadow(
+                            color: Colors.blue.withOpacity(0.18),
+                            blurRadius: 30,
+                            spreadRadius: 5,
+                            offset: const Offset(0, 12),
+                          ),
+
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 15,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+
+                      child: Container(
+                        height: 190.h,
+                        width: 190.h,
+
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(0.2),
+                              blurRadius: 25,
+                              spreadRadius: 5,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+
+                        child: ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(20),
+                          child: Image.asset('images/logo.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 28),
+
+                    /// TITLE
+                    const Text(
+                      "Smart Facility Compliance Platform",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF111827),
+                        letterSpacing: 0.5,
+                        height: 1.3,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    /// SUBTITLE
+                    Text(
+                      "Manage assets, inspections, risks and compliance activities digitally",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey.shade600,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                  ],
                 ),
 
                 const SizedBox(height: 8),

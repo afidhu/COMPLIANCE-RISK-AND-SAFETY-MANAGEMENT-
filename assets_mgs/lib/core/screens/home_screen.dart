@@ -125,13 +125,13 @@ class _HomeScreenState extends State<HomeScreen>
 
             child: Container(
 
-              height: 75.h,
+              height: 70.h,
 
               decoration: BoxDecoration(
 
                 color: Colors.white.withOpacity(0.15),
 
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(15.r),
 
                 border: Border.all(
                   color: Colors.white24,
@@ -155,10 +155,10 @@ class _HomeScreenState extends State<HomeScreen>
 
                 indicatorSize: TabBarIndicatorSize.tab,
 
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(10),
 
                 splashBorderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(10),
 
                 labelColor: const Color(0xFF0000BA),
 
@@ -166,12 +166,12 @@ class _HomeScreenState extends State<HomeScreen>
 
                 labelStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontSize: 10,
                 ),
 
                 unselectedLabelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 13,
+                  fontSize: 10,
                 ),
 
                 indicator: BoxDecoration(

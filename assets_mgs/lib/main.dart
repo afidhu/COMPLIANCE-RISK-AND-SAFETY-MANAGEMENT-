@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'core/screens/home_bottom_nav.dart';
+import 'core/screens/splash_screen.dart';
 import 'features/assets/presentation/screens/asset_screen.dart';
 import 'features/auths/presentation/screens/login.dart';
 import 'features/inspections/presentation/screens/inspensions.dart';
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
             colorScheme: .fromSeed(seedColor: Colors.deepPurple),
           ),
           // home: HomeBottomNav()
-          home: LoginScreen(),
+          // home: LoginScreen(),
+          home: SplashScreen(),
           // home: InspectionScreen(),
           // home: AssetScreen(),
           // home: RiskScreen(),
