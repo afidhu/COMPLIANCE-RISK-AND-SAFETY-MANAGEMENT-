@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
 import '../../features/inspections/presentation/screens/inspensions.dart';
+import '../../features/notifications/presentation/screens/notifications.dart';
 import '../../features/risks/presentation/screens/Risk_screen.dart';
 import '../../features/schedules/presentation/screens/schedules.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenManager extends StatefulWidget {
+  const HomeScreenManager({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenManager> createState() => _HomeScreenManagerState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class _HomeScreenManagerState extends State<HomeScreenManager>
     with TickerProviderStateMixin {
 
   late final TabController _tabController;
+
+
+
   @override
-  void initState() {
+  void initState(){
     super.initState();
 
     _tabController = TabController(
-      length: 4,
+      length: 3,
       vsync: this,
     );
   }
@@ -96,12 +103,18 @@ class _HomeScreenState extends State<HomeScreen>
                       borderRadius: BorderRadius.circular(20),
                     ),
 
-                    child: const Text(
-                      '12',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: (){
+                        debugPrint("12");
+                        Get.to(()=>Notifications());
+                      },
+                      child: const Text(
+                        '12',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -190,18 +203,7 @@ class _HomeScreenState extends State<HomeScreen>
                   ],
                 ),
 
-                tabs: const [
-
-                  Tab(
-                    icon: Icon(Icons.fact_check),
-                    text: 'Schedules',
-                  ),
-
-                  Tab(
-                    icon: Icon(Icons.inventory_2),
-                    text: 'Assets',
-                  ),
-
+                tabs:  [
                   Tab(
                     icon: Icon(Icons.warning_amber),
                     text: 'Risks',
@@ -210,6 +212,11 @@ class _HomeScreenState extends State<HomeScreen>
                   Tab(
                     icon: Icon(Icons.health_and_safety_outlined),
                     text: 'Incidents',
+                  ),
+
+                  Tab(
+                    icon: Icon(Icons.inventory_2),
+                    text: 'Assets',
                   ),
                 ],
               ),
@@ -230,10 +237,9 @@ class _HomeScreenState extends State<HomeScreen>
           physics: const BouncingScrollPhysics(),
 
           children: const [
-            Schedules(),
-            AssetScreen(),
             RiskScreen(),
             AllIncidents(),
+            AssetScreen(),
           ],
         ),
       ),

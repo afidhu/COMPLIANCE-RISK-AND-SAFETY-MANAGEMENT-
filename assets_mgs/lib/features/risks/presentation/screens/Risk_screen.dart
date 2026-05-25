@@ -18,7 +18,7 @@ class _RiskScreenState extends State<RiskScreen> {
     {
       "id": 1,
       "asset_id": "FIRE-001",
-      "hazard": "Blocked emergency exit",
+      "hazard": "Lift knock",
       "risk_level": "High",
       "is_solved":false
     },

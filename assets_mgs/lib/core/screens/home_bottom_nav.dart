@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../features/assets/presentation/screens/asset_screen.dart';
-import '../../features/inspections/presentation/screens/inspensions.dart';
 import '../../features/reports/presentation/screens/reports.dart';
-import '../../features/risks/presentation/screens/Risk_screen.dart';
 import '../../features/searchings/presentation/screens/all_searching.dart';
-import 'home_screen.dart';
+import 'home_screen_inspector.dart';
+import 'home_screen_manager.dart';
 
 class HomeBottomNav extends StatefulWidget {
-  const HomeBottomNav({super.key});
+  final String userType;
+  const HomeBottomNav({super.key, required this.userType});
 
   @override
   State<HomeBottomNav> createState() => _HomeBottomNavState();
@@ -17,8 +16,10 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
 
   int currentIndex = 0;
 
-  List pages = [
-    HomeScreen(),
+
+  late List pages = [
+
+    widget.userType =="1"? HomeScreenInspector():HomeScreenManager(),
     AllSearching(),
     Reports(),
     // InspectionScreen(),
