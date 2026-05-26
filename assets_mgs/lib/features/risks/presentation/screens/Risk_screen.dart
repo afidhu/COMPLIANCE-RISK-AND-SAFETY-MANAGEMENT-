@@ -20,6 +20,7 @@ class _RiskScreenState extends State<RiskScreen> {
       "asset_id": "FIRE-001",
       "hazard": "Lift knock",
       "risk_level": "High",
+      "reported_by": "Asha",
       "is_solved":false
     },
     {
@@ -34,12 +35,15 @@ class _RiskScreenState extends State<RiskScreen> {
       "asset_id": "ELEC-003",
       "hazard": "Exposed electrical wires",
       "risk_level": "Critical",
+      "reported_by": "Alex",
+      "is_solved":false
     },
     {
       "id": 4,
       "asset_id": "BOILER-004",
       "hazard": "Pressure leakage detected",
       "risk_level": "High",
+      "reported_by": "Alex",
       "is_solved":false
     },
   ];
@@ -183,6 +187,7 @@ class _RiskScreenState extends State<RiskScreen> {
               "asset_id": "FIRE-001",
               "hazard": "Blocked emergency exit",
               "risk_level": "High",
+              "reported_by": "Alex",
               "is_solved":false
             },));
           },
