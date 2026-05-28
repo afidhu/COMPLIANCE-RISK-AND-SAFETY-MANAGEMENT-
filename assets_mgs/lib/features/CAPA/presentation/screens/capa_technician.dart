@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:popup_menu/popup_menu.dart';
 
+import '../../../notifications/presentation/screens/notifications.dart';
 import '../widgets/asset_capa.dart';
 
 class CapaTechnician extends StatefulWidget {
@@ -54,49 +57,84 @@ class _CapaTechnicianState extends State<CapaTechnician> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 10,
-        backgroundColor: Colors.blue.shade900,
+        elevation: 0,
+
+        backgroundColor: const Color(0xFF0000BA),
+
         centerTitle: true,
 
-        title: const Text(
-          "Compliance Management",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        surfaceTintColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+
         foregroundColor: Colors.white,
-        // leading: IconButton(onPressed: (){}, icon: Icon(Icons.menu, color: Colors.white,)),
+        title: const Text(
+          "Facilities Management",
+
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+
+
+
         actions: [
-          Stack(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.notifications_active,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  size: 30,
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+
+                // Notification Icon
+                IconButton(
+                  onPressed: () {},
+
+                  icon: const Icon(
+                    Icons.notifications_active,
+                    color: Colors.white,
+                    size: 30,
                   ),
-                  child: Text(
-                    '12',
-                    style: TextStyle(
+                ),
+
+                // Notification Badge
+                Positioned(
+                  right: 2,
+                  top: 2,
+
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+
+                    decoration: BoxDecoration(
                       color: Colors.red,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+
+                    child: GestureDetector(
+                      onTap: (){
+                        debugPrint("12");
+                        Get.to(()=>Notifications());
+                      },
+                      child: const Text(
+                        '12',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
+
+
+
       ),
       body: SafeArea(
         child: ListView.builder(

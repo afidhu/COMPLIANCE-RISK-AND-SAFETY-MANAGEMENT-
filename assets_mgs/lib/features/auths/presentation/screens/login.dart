@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/screens/home_bottom_nav.dart';
-import '../../../../core/screens/home_screen.dart';
+import '../../../../core/screens/home_screen_inspector.dart';
+import '../../../../core/screens/home_screen_manager.dart';
 import '../../../CAPA/presentation/widgets/capa_technician_navbar.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -198,9 +200,13 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: () {
-                      if(emailController.text =='1'|| emailController.text == '2' ){
-                        Get.to(()=>HomeBottomNav());
+                    onPressed: () async{
+                      // Obtain shared preferences.
+                      final SharedPreferences prefs = await SharedPreferences.getInstance();
+                      await prefs.setString('user', emailController.text);
+
+                      if(emailController.text =='1' || emailController.text =='2' ){
+                        Get.to(()=>HomeBottomNav(userType: emailController.text));
                       }
                       else if(emailController.text =='3'){
                         Get.to(()=>CapaTechnicianNavbar());

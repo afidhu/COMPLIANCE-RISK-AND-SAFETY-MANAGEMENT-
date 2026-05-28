@@ -204,6 +204,12 @@ class _RisksDetailsState extends State<RisksDetails>
                 value: widget.risk["risk_level"],
                 color: Colors.red,
               ),
+
+              buildTile(
+                title: "Reported by:",
+                value: widget.risk["reported_by"],
+                color: Colors.green,
+              ),
             ],
           ),
         ),
