@@ -1,0 +1,26 @@
+1. ELECTRICAL SYSTEM
+-Generator
+-Air conditioner
+-Distribution Board(breaker panel)
+-Electrical cables
+
+2. EXPLOSIVE / FIRE
+-Fire Extinguisher
+-Oxygen Gas Generators
+-Pipe Bombs
+
+3. BOILERS
+-Electric Boilers
+-Laboratory Steam Generator
+-Pressure Controllers
+-Feedwater Pumps
+
+4. PRESSURE VESSELS
+-air compressor
+-oxygen cylinder
+-Air Receivers
+
+5.LIFTS
+-Passenger Elevators
+-Dumbwaiters
+-Forklifts
