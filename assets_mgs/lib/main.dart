@@ -6,6 +6,7 @@ import 'core/screens/home_bottom_nav.dart';
 import 'core/screens/splash_screen.dart';
 import 'features/assets/presentation/screens/asset_screen.dart';
 import 'features/auths/presentation/screens/login.dart';
+import 'features/hazards/presentation/screens/hazards.dart';
 import 'features/inspections/presentation/screens/inspensions.dart';
 import 'features/risks/presentation/screens/Risk_screen.dart';
 
@@ -47,8 +48,9 @@ class MyApp extends StatelessWidget {
           ),
           // home: HomeBottomNav()
           // home: LoginScreen(),
-          home: SplashScreen(),
+          // home: SplashScreen(),
           // home: InspectionScreen(),
+          home: Hazards(),
           // home: AssetScreen(),
           // home: RiskScreen(),
         );

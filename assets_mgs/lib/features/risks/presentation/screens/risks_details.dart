@@ -5,15 +5,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../CAPA/presentation/screens/all_capa.dart';
+import 'Risk_screen.dart';
 
 class RisksDetails extends StatefulWidget {
 
-  final Map<String, dynamic> risk;
+  // final Map<String, dynamic> risk;
 
   const RisksDetails({
-    super.key,
-    required this.risk,
-  });
+    super.key,});
 
   @override
   State<RisksDetails> createState() => _RisksDetailsState();
@@ -64,8 +63,8 @@ class _RisksDetailsState extends State<RisksDetails>
 
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF5F7FA),
-
+      // backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: const Color(0xFF0000BA),
       appBar: AppBar(
         leadingWidth: 100,
         actions: [
@@ -137,7 +136,8 @@ class _RisksDetailsState extends State<RisksDetails>
         children: [
 
           /// RISK DETAILS
-          buildRiskDetails(),
+          // buildRiskDetails(),
+          RiskScreen(),
 
           /// MITIGATION
           AllMitigations(mitigations: [{
@@ -165,57 +165,57 @@ class _RisksDetailsState extends State<RisksDetails>
   }
 
   /// RISK DETAILS
-  Widget buildRiskDetails() {
-
-    return Padding(
-      padding: const EdgeInsets.all(16),
-
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
-        ),
-
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-
-          child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
-
-            children: [
-
-              buildTile(
-                title: "Risk ID",
-                value: "#${widget.risk["id"]}",
-              ),
-
-              buildTile(
-                title: "Asset ID",
-                value: widget.risk["asset_id"],
-              ),
-
-              buildTile(
-                title: "Hazard",
-                value: widget.risk["hazard"],
-              ),
-
-              buildTile(
-                title: "Risk Level",
-                value: widget.risk["risk_level"],
-                color: Colors.red,
-              ),
-
-              buildTile(
-                title: "Reported by:",
-                value: widget.risk["reported_by"],
-                color: Colors.green,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget buildRiskDetails() {
+  //
+  //   return Padding(
+  //     padding: const EdgeInsets.all(16),
+  //
+  //     child: Card(
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(18),
+  //       ),
+  //
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(18),
+  //
+  //         child: Column(
+  //           crossAxisAlignment:
+  //           CrossAxisAlignment.start,
+  //
+  //           children: [
+  //
+  //             buildTile(
+  //               title: "Risk ID",
+  //               value: "#${widget.risk["id"]}",
+  //             ),
+  //
+  //             buildTile(
+  //               title: "Asset ID",
+  //               value: widget.risk["asset_id"],
+  //             ),
+  //
+  //             buildTile(
+  //               title: "Hazard",
+  //               value: widget.risk["hazard"],
+  //             ),
+  //
+  //             buildTile(
+  //               title: "Risk Level",
+  //               value: widget.risk["risk_level"],
+  //               color: Colors.red,
+  //             ),
+  //
+  //             buildTile(
+  //               title: "Reported by:",
+  //               value: widget.risk["reported_by"],
+  //               color: Colors.green,
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
 
 
