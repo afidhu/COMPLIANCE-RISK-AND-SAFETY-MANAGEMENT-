@@ -327,7 +327,7 @@ class _HazardsState extends State<Hazards> {
                         onPressed: () {
                           Get.to(()=>RisksDetails());
                         },
-                        icon: Icon(Icons.arrow_forward),
+                        icon: Icon(Icons.arrow_forward, color: Colors.blue,size: 10.sp,),
                         iconAlignment: IconAlignment.end,
                         label:
                         Text(

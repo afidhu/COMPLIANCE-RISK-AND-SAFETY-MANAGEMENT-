@@ -2,16 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 Future<void> assetCompliant() async {
-
   final Color primaryColor = const Color(0xFF0D47A1);
 
+  final List<Map<String, String>> compliances = [
+    {
+      "compliance_id": "CMP-001",
+      "asset_id": "AST-001",
+      "compliance_name": "Electrical Safety Inspection",
+      "frequency": "Yearly",
+      "last_due": "2025-12-12",
+      "due_date": "2026-12-12",
+      "status": "Compliant",
+    },
+    {
+      "compliance_id": "CMP-002",
+      "asset_id": "AST-002",
+      "compliance_name": "Monthly Operational Test",
+      "frequency": "Monthly",
+      "last_due": "2026-05-01",
+      "due_date": "2026-06-01",
+      "status": "Pending",
+    },
+    {
+      "compliance_id": "CMP-003",
+      "asset_id": "AST-003",
+      "compliance_name": "Fuel System Inspection",
+      "frequency": "Yearly",
+      "last_due": "2025-10-15",
+      "due_date": "2026-10-15",
+      "status": "Compliant",
+    },
+    {
+      "compliance_id": "CMP-004",
+      "asset_id": "AST-004",
+      "compliance_name": "Emergency Backup Test",
+      "frequency": "Quarterly",
+      "last_due": "2026-01-10",
+      "due_date": "2026-04-10",
+      "status": "Overdue",
+    },
+    {
+      "compliance_id": "CMP-005",
+      "asset_id": "AST-005",
+      "compliance_name": "Maintenance Certification",
+      "frequency": "Yearly",
+      "last_due": "2025-08-20",
+      "due_date": "2026-08-20",
+      "status": "Pending",
+    },
+  ];
+
   await Get.bottomSheet(
-
     isScrollControlled: true,
-
     backgroundColor: Colors.transparent,
 
     Container(
+      height: Get.height * .85,
 
       padding: const EdgeInsets.all(20),
 
@@ -24,261 +70,375 @@ Future<void> assetCompliant() async {
         ),
       ),
 
-      child: SingleChildScrollView(
+      child: Column(
+        children: [
+          /// TOP INDICATOR
+          Center(
+            child: Container(
+              width: 70,
+              height: 5,
 
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-
-          children: [
-
-            /// TOP INDICATOR
-            Center(
-              child: Container(
-                width: 60,
-                height: 5,
-
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
+          ),
 
-            const SizedBox(height: 20),
+          const SizedBox(height: 20),
 
-            /// TITLE
-            Row(
-              children: [
+          /// HEADER
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 26,
 
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor:
-                  primaryColor.withOpacity(0.1),
+                backgroundColor:
+                primaryColor.withOpacity(0.1),
 
-                  child: Icon(
-                    Icons.verified,
-                    color: primaryColor,
-                    size: 28,
-                  ),
+                child: Icon(
+                  Icons.verified_user,
+                  color: primaryColor,
+                  size: 30,
                 ),
+              ),
 
-                const SizedBox(width: 14),
+              const SizedBox(width: 14),
 
-                Column(
+              Expanded(
+                child: Column(
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
 
                   children: [
-
                     Text(
-                      "Certification Details",
+                      "Generator Compliance",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: primaryColor,
                       ),
                     ),
 
                     Text(
-                      "Compliance Information",
+                      "${compliances.length} Compliance Records",
                       style: TextStyle(
-                        color: Colors.grey.shade700,
+                        color: Colors.grey.shade600,
                       ),
                     ),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
 
-            const SizedBox(height: 25),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
 
-            /// CERTIFICATE DETAILS
-            buildInfoTile(
-              icon: Icons.badge,
-              title: "Certificate ID",
-              value: "CERT-2026-001",
-              color: primaryColor,
-            ),
+                decoration: BoxDecoration(
+                  color: primaryColor.withOpacity(.1),
+                  borderRadius:
+                  BorderRadius.circular(12),
+                ),
 
-            buildInfoTile(
-              icon: Icons.precision_manufacturing,
-              title: "Asset ID",
-              value: "AST-001",
-              color: primaryColor,
-            ),
+                child: Text(
+                  "${compliances.length}",
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
+          ),
 
-            buildInfoTile(
-              icon: Icons.description,
-              title: "Certificate Name",
-              value: "Lift Safety Certificate",
-              color: primaryColor,
-            ),
+          const SizedBox(height: 25),
 
-            buildInfoTile(
-              icon: Icons.calendar_month,
-              title: "Expiry Date",
-              value: "12/12/2026",
-              color: primaryColor,
-            ),
+          /// LIST
+          Expanded(
+            child: ListView.builder(
+              itemCount: compliances.length,
 
-            buildInfoTile(
-              icon: Icons.verified_user,
-              title: "Compliance Status",
-              value: "Compliant",
-              color: Colors.green,
-            ),
+              itemBuilder: (context, index) {
+                final compliance =
+                compliances[index];
 
-            const SizedBox(height: 30),
+                Color statusColor;
 
-            /// ACTION BUTTONS
-            Row(
-              children: [
+                switch (compliance["status"]) {
+                  case "Compliant":
+                    statusColor = Colors.green;
+                    break;
 
-                Expanded(
-                  child: OutlinedButton.icon(
+                  case "Pending":
+                    statusColor = Colors.orange;
+                    break;
 
-                    onPressed: () {
-                      Get.back();
-                    },
+                  default:
+                    statusColor = Colors.red;
+                }
 
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: primaryColor,
-                      ),
+                return Container(
+                  margin: const EdgeInsets.only(
+                    bottom: 16,
+                  ),
 
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                      ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
 
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(14),
-                      ),
+                    borderRadius:
+                    BorderRadius.circular(18),
+
+                    border: Border.all(
+                      color:
+                      statusColor.withOpacity(.25),
                     ),
 
-                    icon: Icon(
-                      Icons.close,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black
+                            .withOpacity(.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+
+                  child: Padding(
+                    padding:
+                    const EdgeInsets.all(16),
+
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                compliance[
+                                "compliance_name"]!,
+                                style:
+                                const TextStyle(
+                                  fontWeight:
+                                  FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding:
+                              const EdgeInsets
+                                  .symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+
+                              decoration:
+                              BoxDecoration(
+                                color: statusColor
+                                    .withOpacity(.1),
+
+                                borderRadius:
+                                BorderRadius
+                                    .circular(
+                                    30),
+                              ),
+
+                              child: Text(
+                                compliance[
+                                "status"]!,
+                                style: TextStyle(
+                                  color:
+                                  statusColor,
+                                  fontWeight:
+                                  FontWeight
+                                      .bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        _rowItem(
+                          Icons.badge,
+                          "Compliance ID",
+                          compliance[
+                          "compliance_id"]!,
+                          primaryColor,
+                        ),
+
+                        _rowItem(
+                          Icons.inventory_2,
+                          "Asset ID",
+                          compliance[
+                          "asset_id"]!,
+                          primaryColor,
+                        ),
+
+                        _rowItem(
+                          Icons.repeat,
+                          "Frequency",
+                          compliance[
+                          "frequency"]!,
+                          primaryColor,
+                        ),
+
+                        _rowItem(
+                          Icons.history,
+                          "Last Due Date",
+                          compliance[
+                          "last_due"]!,
+                          primaryColor,
+                        ),
+
+                        _rowItem(
+                          Icons.calendar_month,
+                          "Due Date",
+                          compliance[
+                          "due_date"]!,
+                          primaryColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          /// BUTTONS
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    Get.back();
+                  },
+
+                  style:
+                  OutlinedButton.styleFrom(
+                    side: BorderSide(
                       color: primaryColor,
                     ),
 
-                    label: Text(
-                      "Close",
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    shape:
+                    RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(
+                          14),
+                    ),
+
+                    padding:
+                    const EdgeInsets.symmetric(
+                      vertical: 14,
+                    ),
+                  ),
+
+                  icon: Icon(
+                    Icons.close,
+                    color: primaryColor,
+                  ),
+
+                  label: Text(
+                    "Close",
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontWeight:
+                      FontWeight.bold,
                     ),
                   ),
                 ),
+              ),
 
-                const SizedBox(width: 14),
+              const SizedBox(width: 12),
 
-                Expanded(
-                  child: ElevatedButton.icon(
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () {},
 
-                    onPressed: () {},
+                  style:
+                  ElevatedButton.styleFrom(
+                    backgroundColor:
+                    primaryColor,
 
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
-
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                      ),
-
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(14),
-                      ),
+                    shape:
+                    RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(
+                          14),
                     ),
 
-                    icon: const Icon(
-                      Icons.download,
+                    padding:
+                    const EdgeInsets.symmetric(
+                      vertical: 14,
+                    ),
+                  ),
+
+                  icon: const Icon(
+                    Icons.download,
+                    color: Colors.white,
+                  ),
+
+                  label: const Text(
+                    "Export",
+                    style: TextStyle(
                       color: Colors.white,
-                    ),
-
-                    label: const Text(
-                      "Download",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      fontWeight:
+                      FontWeight.bold,
                     ),
                   ),
                 ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     ),
   );
 }
 
-/// REUSABLE INFO TILE
-Widget buildInfoTile({
-  required IconData icon,
-  required String title,
-  required String value,
-  required Color color,
-}) {
-
-  return Container(
-
-    margin: const EdgeInsets.only(bottom: 14),
-
-    padding: const EdgeInsets.all(14),
-
-    decoration: BoxDecoration(
-      color: Colors.grey.shade100,
-
-      borderRadius: BorderRadius.circular(14),
-    ),
+Widget _rowItem(
+    IconData icon,
+    String title,
+    String value,
+    Color color,
+    ) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10),
 
     child: Row(
-
       children: [
+        Icon(
+          icon,
+          size: 18,
+          color: color,
+        ),
 
-        CircleAvatar(
-          backgroundColor: color.withOpacity(0.1),
-          child: Icon(
-            icon,
-            color: color,
+        const SizedBox(width: 10),
+
+        SizedBox(
+          width: 120,
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
 
-        const SizedBox(width: 14),
-
         Expanded(
-          child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
-
-            children: [
-
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.grey.shade700,
-                  fontSize: 13,
-                ),
-              ),
-
-              const SizedBox(height: 4),
-
-              Text(
-                value,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: color,
-                ),
-              ),
-            ],
+          child: Text(
+            value,
+            style: const TextStyle(
+              color: Colors.black87,
+            ),
           ),
-        )
+        ),
       ],
     ),
   );

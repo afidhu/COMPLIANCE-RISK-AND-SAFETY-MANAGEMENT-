@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'asset_compliant.dart';
 
@@ -179,9 +180,10 @@ class _AssetScreenState extends State<AssetScreen> {
                           ),
                         ),
 
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_forward,
                           color: Colors.blue,
+                          size: 10.sp,
                         ),
                       )
                   ),
