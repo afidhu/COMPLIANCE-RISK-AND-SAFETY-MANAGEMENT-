@@ -47,10 +47,10 @@ class MyApp extends StatelessWidget {
             colorScheme: .fromSeed(seedColor: Colors.deepPurple),
           ),
           // home: HomeBottomNav()
-          // home: LoginScreen(),
+          home: LoginScreen(),
           // home: SplashScreen(),
           // home: InspectionScreen(),
-          home: Hazards(),
+          // home: Hazards(),
           // home: AssetScreen(),
           // home: RiskScreen(),
         );

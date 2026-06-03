@@ -115,7 +115,7 @@ class _AssetScreenState extends State<AssetScreen> {
                   child: Icon(
                     getAssetIcon(asset["type"]),
                     color: getAssetColor(asset["type"]),
-                    size: 28,
+                    size: 20,
                   ),
                 ),
 
@@ -157,21 +157,16 @@ class _AssetScreenState extends State<AssetScreen> {
                   ),
                 ),
 
-                // Asset ID Badge
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0000BA).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-
-
-                      TextButton.icon(
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 0,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0000BA).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TextButton.icon(
                         onPressed: () {
                           assetCompliant();
                         },
@@ -189,9 +184,7 @@ class _AssetScreenState extends State<AssetScreen> {
                           color: Colors.blue,
                         ),
                       )
-                    ],
                   ),
-                ),
               ],
             ),
           );

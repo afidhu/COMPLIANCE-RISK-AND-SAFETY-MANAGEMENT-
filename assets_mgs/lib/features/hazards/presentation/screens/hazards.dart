@@ -36,7 +36,7 @@ class _HazardsState extends State<Hazards> {
       "hazard_id": 2,
       "asset_id": "FIRE-002",
       "compliance_id": null,
-      "hazard_title": "Blocked Fire Exit",
+      "hazard_title": "Lift inspection overdue",
       "hazard_description":
       "Emergency exit blocked by stored materials.",
       "reported_by": "System",
@@ -83,7 +83,7 @@ class _HazardsState extends State<Hazards> {
         return Colors.blue;
 
       case "Closed":
-        return Colors.green;
+        return Colors.black.withOpacity(0.36);
 
       default:
         return Colors.grey;
@@ -118,11 +118,11 @@ class _HazardsState extends State<Hazards> {
 
       backgroundColor: const Color(0xFFF5F7FA),
 
-      appBar: AppBar(
-        title: const Text("Hazards Register"),
-        backgroundColor: const Color(0xFF0000BA),
-        foregroundColor: Colors.white,
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Hazards Register"),
+      //   backgroundColor: const Color(0xFF0000BA),
+      //   foregroundColor: Colors.white,
+      // ),
 
       body: ListView.builder(
 
@@ -225,46 +225,6 @@ class _HazardsState extends State<Hazards> {
                         ],
                       ),
                     ),
-
-                    Container(
-
-                      padding:
-                      const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical: 6,
-                      ),
-
-                      decoration: BoxDecoration(
-
-                        color: getStatusColor(
-                          hazard["status"],
-                        ).withOpacity(0.1),
-
-                        borderRadius:
-                        BorderRadius.circular(10),
-                      ),
-
-                      child: TextButton.icon(
-                        onPressed: () {
-                          Get.to(()=>RisksDetails());
-                        },
-                        icon: Icon(Icons.arrow_forward),
-                        iconAlignment: IconAlignment.end,
-                        label: 
-                         Text(
-                        
-                          hazard["status"],
-                        
-                          style: TextStyle(
-                            color: getStatusColor(
-                              hazard["status"],
-                            ),
-                            fontWeight:
-                            FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
 
@@ -343,6 +303,47 @@ class _HazardsState extends State<Hazards> {
                     Text(
                       "Created: ${hazard["created_at"]}",
                     ),
+
+                    Spacer(),
+                    Container(
+
+                      padding:
+                       EdgeInsets.symmetric(
+                        horizontal: 0,
+                        vertical: 6,
+                      ),
+
+                      decoration: BoxDecoration(
+
+                        color: getStatusColor(
+                          hazard["status"],
+                        ).withOpacity(0.1),
+
+                        borderRadius:
+                        BorderRadius.circular(8),
+                      ),
+
+                      child: TextButton.icon(
+                        onPressed: () {
+                          Get.to(()=>RisksDetails());
+                        },
+                        icon: Icon(Icons.arrow_forward),
+                        iconAlignment: IconAlignment.end,
+                        label:
+                        Text(
+
+                          hazard["status"],
+
+                          style: TextStyle(
+                            color: getStatusColor(
+                              hazard["status"],
+                            ),
+                            fontWeight:
+                            FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -355,8 +356,8 @@ class _HazardsState extends State<Hazards> {
         backgroundColor: const Color(0xFF0000BA),
         onPressed: () {
           /// Add Hazard
-          // Get.to(()=>RegisterHazards());
-          Get.to(()=>ComplianceScreen());
+          Get.to(()=>RegisterHazards());
+          // Get.to(()=>ComplianceScreen());
         },
         child: const Icon(
           Icons.add,

@@ -78,7 +78,7 @@ class _RisksDetailsState extends State<RisksDetails>
         elevation: 0,
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
-        title: const Text("Risk Details"),
+        title: const Text("Risk Assessment"),
         bottom: PreferredSize(
       preferredSize: const Size.fromHeight(75),
       child: Container(

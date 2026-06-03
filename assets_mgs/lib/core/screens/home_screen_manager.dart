@@ -179,12 +179,12 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
 
                 labelStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 10,
+                  fontSize: 12,
                 ),
 
                 unselectedLabelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 10,
+                  fontSize: 12,
                 ),
 
                 indicator: BoxDecoration(

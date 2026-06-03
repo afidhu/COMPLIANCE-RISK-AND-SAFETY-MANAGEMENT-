@@ -96,34 +96,34 @@ class _ComplianceScreenState extends State<ComplianceScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 8,
-        centerTitle: true,
-
-        // backgroundColor: Colors.blue.shade900,
-        foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF0000BA),
-        title: const Text(
-          "Facilities Compliance",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-
-        actions: [
-
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.search),
-          // ),
-
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   elevation: 8,
+      //   centerTitle: true,
+      //
+      //   // backgroundColor: Colors.blue.shade900,
+      //   foregroundColor: Colors.white,
+      //   backgroundColor: const Color(0xFF0000BA),
+      //   title: const Text(
+      //     "Facilities Compliance",
+      //     style: TextStyle(
+      //       fontWeight: FontWeight.bold,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      //
+      //   actions: [
+      //
+      //     // IconButton(
+      //     //   onPressed: () {},
+      //     //   icon: const Icon(Icons.search),
+      //     // ),
+      //
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: const Icon(Icons.more_vert),
+      //     ),
+      //   ],
+      // ),
 
       backgroundColor: const Color(0xFFF5F7FA),
 

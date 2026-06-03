@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
+import '../../features/compliances/presentation/screens/compliance_screen.dart';
+import '../../features/hazards/presentation/screens/hazards.dart';
 import '../../features/inspections/presentation/screens/inspensions.dart';
 import '../../features/notifications/presentation/screens/notifications.dart';
 import '../../features/risks/presentation/screens/Risk_screen.dart';
@@ -30,7 +32,7 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
     super.initState();
 
     _tabController = TabController(
-      length: 4,
+      length: 3,
       vsync: this,
     );
   }
@@ -45,11 +47,11 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xffF4F7FC),
-
+      // backgroundColor: const Color(0xffF4F7FC),
+      // backgroundColor: const Color(0xFF0000BA),
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar:AppBar(
         elevation: 0,
-
         backgroundColor: const Color(0xFF0000BA),
 
         centerTitle: true,
@@ -139,7 +141,7 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
             child: Container(
 
               height: 70.h,
-
+              width: double.infinity,
               decoration: BoxDecoration(
 
                 color: Colors.white.withOpacity(0.15),
@@ -179,12 +181,12 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
 
                 labelStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 10,
+                  fontSize: 12,
                 ),
 
                 unselectedLabelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 10,
+                  fontSize: 12,
                 ),
 
                 indicator: BoxDecoration(
@@ -206,13 +208,13 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
                 tabs:  [
                   Tab(
                     icon: Icon(Icons.warning_amber),
-                    text: 'Risks',
+                    text: 'Hazards',
                   ),
 
-                  Tab(
-                    icon: Icon(Icons.health_and_safety_outlined),
-                    text: 'Incidents',
-                  ),
+                  // Tab(
+                  //   icon: Icon(Icons.health_and_safety_outlined),
+                  //   text: 'Incidents',
+                  // ),
 
                    Tab(
                      icon: Icon(Icons.inventory_2),
@@ -220,7 +222,7 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
                    ),
                   Tab(
                     icon: Icon(Icons.calendar_month_outlined),
-                    text: 'Schedules',
+                    text: 'Compliance',
                   )
 
                 ],
@@ -228,8 +230,6 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
             ),
           ),
         ),
-
-
 
       ),
 
@@ -242,10 +242,12 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
           physics: const BouncingScrollPhysics(),
 
           children: const [
-            RiskScreen(),
-            AllIncidents(),
+            // RiskScreen(),
+            Hazards(),
+            // AllIncidents(),
             AssetScreen(),
-            Schedules(),
+            // Schedules(),
+            ComplianceScreen()
           ],
         ),
       ),
