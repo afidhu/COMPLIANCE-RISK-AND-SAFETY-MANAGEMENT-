@@ -40,7 +40,7 @@ class _HazardsState extends State<Hazards> {
       "hazard_description":
       "Emergency exit blocked by stored materials.",
       "reported_by": "System",
-      "status": "closed",
+      "status": "Closed",
       "created_at": "2026-05-21",
     },
 
@@ -83,7 +83,7 @@ class _HazardsState extends State<Hazards> {
         return Colors.blue;
 
       case "Closed":
-        return Colors.black.withOpacity(0.36);
+        return Colors.green;
 
       default:
         return Colors.grey;

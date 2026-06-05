@@ -21,7 +21,7 @@ Future<void> assetCompliant() async {
       "frequency": "Monthly",
       "last_due": "2026-05-01",
       "due_date": "2026-06-01",
-      "status": "Pending",
+      "status": "Due Soon",
     },
     {
       "compliance_id": "CMP-003",
@@ -48,7 +48,7 @@ Future<void> assetCompliant() async {
       "frequency": "Yearly",
       "last_due": "2025-08-20",
       "due_date": "2026-08-20",
-      "status": "Pending",
+      "status": "Due Soon",
     },
   ];
 
@@ -171,12 +171,14 @@ Future<void> assetCompliant() async {
                     statusColor = Colors.green;
                     break;
 
-                  case "Pending":
+                  case "Due Soon":
                     statusColor = Colors.orange;
                     break;
-
-                  default:
+                  case "Overdue":
                     statusColor = Colors.red;
+                    break;
+                  default:
+                    statusColor = Colors.grey;
                 }
 
                 return Container(

@@ -130,7 +130,7 @@ class AllCapa extends StatelessWidget {
                       "type": "Lift",
                       "location": "Block A",
                       "status": "Inactive"
-                    });}, label: Icon(Icons.remove_red_eye_outlined, color: Colors.blue,size: 14.sp,))
+                    });}, label: Icon(Icons.remove_red_eye_outlined, color: Colors.blue,size: 20.sp,))
                   )
                   
                 ],
