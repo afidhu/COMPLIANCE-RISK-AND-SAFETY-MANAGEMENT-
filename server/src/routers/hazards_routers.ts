@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { addRisks } from "../controllers/risks_controllers/add_risks.js";
+import { addHazard } from "../controllers/hazards_controllers/add_hazard.ts";
+
 
 
 const router = Router();
 
-router.get('risk/',addRisks)
+router.get('/',addHazard)
 
 export default router;

@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000; // This controls the backend server addre
 // Configure CORS options
 const corsOptions: cors.CorsOptions = {
   // This controls which frontend is allowed to connect
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', 
+  origin: process.env.PORT || 'http://localhost:3000', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 };
@@ -20,7 +20,12 @@ const corsOptions: cors.CorsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use('hazards/',hazards_routers)
+// Routes
+
+app.use('/hazards',hazards_routers)
+
+
+
 app.listen(port, () => {
     console.log(`Server Running at http://localhost:${port}`);
 });
