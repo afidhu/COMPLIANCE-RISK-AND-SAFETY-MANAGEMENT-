@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addHazard } from "../controllers/hazards_controllers/add_hazard.ts";
+import { addHazard } from "../controllers/hazards_controllers/crud_hazard.ts";
 
 
 

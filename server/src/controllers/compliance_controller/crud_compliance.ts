@@ -1,0 +1,76 @@
+
+import type { Request,Response } from "express";
+import { prisma } from "../../index.ts";
+
+
+// Controller function to add a new compliance
+export const addCompliance = async(req:Request, resp:Response)=>{
+    try {
+        const { complianceName, assetId, frequency, lastDueDate, dueDate } = req.body;
+        const newCompliance = await prisma.compliance.create({
+            data: {
+                complianceName,
+                assetId,
+                frequency,
+                lastDueDate,
+                dueDate
+            }
+        });
+        return resp.status(201).json(newCompliance);
+    } catch (error) {
+        console.error("Error adding compliance:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Controller function to get all compliances
+export const getCompliances = async(req:Request, resp:Response)=>{
+    try {
+        const compliances = await prisma.compliance.findMany();
+        return resp.status(200).json(compliances);
+    } catch (error) {
+        console.error("Error fetching compliances:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Controller function to get a compliance by ID
+export const getComplianceById = async(req:Request, resp:Response)=>{
+    try {
+        const { id } = req.params;
+        const compliance = await prisma.compliance.findUnique({
+            where: { complianceId: `${id}` }
+        });
+        if (!compliance) {
+            return resp.status(404).json({ message: "Compliance not found" });
+        }
+        return resp.status(200).json(compliance);
+    } catch (error) {
+        console.error("Error fetching compliance by ID:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Controller function to update a compliance
+export const updateCompliance = async(req:Request, resp:Response)=>{
+    try {
+        const { id } = req.params;
+        const { complianceName, assetId, frequency, lastDueDate, dueDate, status } = req.body;
+        const updatedCompliance = await prisma.compliance.update({
+            where: { complianceId: `${id}` },
+            data: {
+                complianceName,
+                assetId,
+                frequency,
+                lastDueDate,
+                dueDate,
+                status
+            }
+        });
+        return resp.status(200).json(updatedCompliance);
+    } catch (error) {
+        console.error("Error updating compliance:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
