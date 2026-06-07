@@ -54,9 +54,9 @@ export const getCapaById = async(req:Request, resp:Response)=>{
 // get CAPA actions by risk ID    
 export const getCapasByRiskId = async(req:Request, resp:Response)=>{
     try {
-        const { riskId } = req.params;
+        const { riskid } = req.params;
         const capas = await prisma.capaAction.findMany({
-            where: { riskId: `${riskId}` }
+            where: { riskId: `${riskid}` }
         });
         return resp.status(200).json(capas);
     } catch (error) {

@@ -56,9 +56,13 @@ export const getMitigationActionById = async(req:Request, resp:Response)=>{
 // get mitigation actions by risk ID    
 export const getMitigationActionsByRiskId = async(req:Request, resp:Response)=>{
     try {
-        const { riskId } = req.params;
+        const { riskid } = req.params;
         const mitigationActions = await prisma.mitigationAction.findMany({
-            where: { riskId: `${riskId}` }
+            where: { 
+                risk:{
+                    riskId: `${riskid}`
+                }
+             }
         });
         return resp.status(200).json(mitigationActions);
     } catch (error) {

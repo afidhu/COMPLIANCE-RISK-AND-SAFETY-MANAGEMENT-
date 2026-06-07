@@ -87,3 +87,21 @@ export const deleteCompliance = async(req:Request, resp:Response)=>{
         return resp.status(500).json({ message: "Internal server error" });
     }
 }   
+
+// get all compliance by asset ID
+export const getCompliancesByAssetId = async(req:Request, resp:Response)=>{
+    try {
+        const { assetid } = req.params;
+        const compliances = await prisma.compliance.findMany({
+            where: { 
+                asset: {
+                    assetId: `${assetid}`
+                }
+             }
+        });
+        return resp.status(200).json(compliances);
+    } catch (error) {
+        console.error("Error fetching compliances by asset ID:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
