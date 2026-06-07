@@ -74,3 +74,16 @@ export const updateCompliance = async(req:Request, resp:Response)=>{
     }
 }
 
+// Controller function to delete a compliance
+export const deleteCompliance = async(req:Request, resp:Response)=>{
+    try {
+        const { id } = req.params;
+        await prisma.compliance.delete({
+            where: { complianceId: `${id}` }
+        });
+        return resp.status(200).json({ message: "Compliance deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting compliance:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}   

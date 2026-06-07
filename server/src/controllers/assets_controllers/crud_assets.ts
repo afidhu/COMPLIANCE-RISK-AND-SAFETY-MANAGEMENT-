@@ -3,11 +3,12 @@ import { prisma } from "../../index.ts";
 
 export const addAsset = async(req:Request, resp:Response)=>{
     try {
-        const { assetName, location, createdById } = req.body;
+        const { assetName, location, assetType, createdById } = req.body;
        const newAsset = await prisma.asset.create({ 
         data: {
             assetName,
             location,
+            assetType,
             createdById,
         }
        })

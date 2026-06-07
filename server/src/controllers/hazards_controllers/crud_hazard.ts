@@ -17,8 +17,8 @@ export const addHazard = async(req:Request, resp:Response)=>{
             }
         })
         return resp.status(201).json(newHazard);
-    } catch (error) {
-        console.error("Error adding hazard:", error);
+    } catch (error: any) {
+        console.error("Error adding hazard:", error.message);
         return resp.status(500).json({ message: "Internal server error" });
     }
 }

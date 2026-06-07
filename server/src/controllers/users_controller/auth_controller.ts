@@ -1,5 +1,9 @@
 import type { Request,Response } from "express";
 import { prisma } from "../../index.ts";
+
+
+
+
 // register a new user
 export const registerUser = async(req:Request, resp:Response)=>{
     try {
