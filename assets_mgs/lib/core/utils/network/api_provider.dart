@@ -1,7 +1,7 @@
 
 
 class ApiProvider {
-  static const String baseUrl = 'http://172.18.8.145:5000';
+  static const String baseUrl = 'http://192.168.1.14:51213';
   static const String allMedicines = '$baseUrl/medicines/all';
   static const String addMedicines = '$baseUrl/medicines/add';
 
