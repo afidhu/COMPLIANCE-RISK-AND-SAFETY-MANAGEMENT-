@@ -90,9 +90,13 @@ export const deleteRisk = async(req:Request, resp:Response)=>{
 export const getRisksByHazardId = async(req:Request, resp:Response)=>{
     try {
         const { hazardId } = req.params;
+        console.log("Fetching risks for hazard ID:", hazardId);
         const risks = await prisma.risk.findMany({
             where: { hazardId: `${hazardId}` }
         });
+        if (risks.length === 0) {
+            return resp.status(404).json({ message: "No risks found for this hazard ID" });
+        }
         return resp.status(200).json(risks);
     } catch (error) {
         console.error("Error fetching risks by hazard ID:", error);

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../features/auths/presentation/screens/login.dart';
+import '../../features/hazards/presentation/bloc/hazards_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,6 +14,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<HazardsBloc>().add(GetHazardsEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

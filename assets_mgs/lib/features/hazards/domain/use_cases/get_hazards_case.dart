@@ -3,10 +3,10 @@
 import '../entities/hazards_entity.dart';
 import '../repository/hazard_repo.dart';
 
-class GetAllHazards {
+class GetHazardsCase {
   final HazardRepo hazardRepo;
 
-  GetAllHazards({required this.hazardRepo});
+  GetHazardsCase(this.hazardRepo);
 
   Future<List<HazardsEntity>> call(){
     return hazardRepo.getHazard();

@@ -1,12 +1,35 @@
 import 'package:equatable/equatable.dart';
 
 class HazardsEntity extends Equatable {
-  final String hazardId;
+  final String? hazardId;
+  final String? assetId;
+  final String? complianceId;
+  final String? hazardTitle;
+  final String? hazardDescription;
+  final String? reportedById;
+  final String? status;
+  final String? createdAt;
 
-  const HazardsEntity({required this.hazardId});
+  const HazardsEntity({
+    this.hazardId,
+    this.assetId,
+    this.complianceId,
+    this.hazardTitle,
+    this.hazardDescription,
+    this.reportedById,
+    this.status,
+    this.createdAt,
+  });
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [
+        hazardId,
+        assetId,
+        complianceId,
+        hazardTitle,
+        hazardDescription,
+        reportedById,
+        status,
+        createdAt,
+      ];
 }
-

@@ -1,5 +1,6 @@
 import 'package:assets_mgs/features/hazards/presentation/screens/register_hazards.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../compliances/presentation/screens/compliance_screen.dart';
 import '../../../risks/presentation/screens/Risk_screen.dart';
 import '../../../risks/presentation/screens/risks_details.dart';
+import '../bloc/hazards_bloc.dart';
 
 class Hazards extends StatefulWidget {
   const Hazards({super.key});
@@ -70,19 +72,17 @@ class _HazardsState extends State<Hazards> {
   ];
 
   Color getStatusColor(String status) {
-
     switch (status) {
-
-      case "Open":
+      case "OPEN":
         return Colors.orange;
 
       case "Critical":
         return Colors.red;
 
-      case "In Progress":
+      case "IN_PROGRESS":
         return Colors.blue;
 
-      case "Closed":
+      case "CLOSED":
         return Colors.green;
 
       default:
@@ -91,9 +91,7 @@ class _HazardsState extends State<Hazards> {
   }
 
   IconData getStatusIcon(String status) {
-
     switch (status) {
-
       case "Open":
         return Icons.warning_amber;
 
@@ -113,7 +111,6 @@ class _HazardsState extends State<Hazards> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
 
       backgroundColor: const Color(0xFFF5F7FA),
@@ -124,231 +121,244 @@ class _HazardsState extends State<Hazards> {
       //   foregroundColor: Colors.white,
       // ),
 
-      body: ListView.builder(
+      body: BlocBuilder<HazardsBloc, HazardsState>(
+        builder: (context, state) {
+          if(state is HazardsInitial){
+            return CircularProgressIndicator();
+          }
+          else if(state is HazardsError){
+            return Text(state.errorMessage.toString());
+          }
+          else if  (state is HazardsLoaded){
+            return ListView.builder(
 
-        padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
 
-        itemCount: hazards.length,
+              itemCount:state.hazards.length,
 
-        itemBuilder: (context, index) {
+              itemBuilder: (context, index) {
+                final hazard =state.hazards[index];
 
-          final hazard = hazards[index];
+                return Container(
 
-          return Container(
+                  margin: const EdgeInsets.only(bottom: 16),
 
-            margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(16),
 
-            padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
 
-            decoration: BoxDecoration(
+                    color: Colors.white,
 
-              color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
 
-              borderRadius: BorderRadius.circular(18),
+                    boxShadow: [
 
-              boxShadow: [
-
-                BoxShadow(
-                  blurRadius: 6,
-                  color: Colors.black.withOpacity(0.05),
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-
-            child: Column(
-
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-
-              children: [
-
-                Row(
-
-                  children: [
-
-                    Container(
-
-                      padding: const EdgeInsets.all(8),
-
-                      decoration: BoxDecoration(
-
-                        color: getStatusColor(
-                          hazard["status"],
-                        ).withOpacity(0.1),
-
-                        shape: BoxShape.circle,
+                      BoxShadow(
+                        blurRadius: 6,
+                        color: Colors.black.withOpacity(0.05),
+                        offset: const Offset(0, 3),
                       ),
+                    ],
+                  ),
 
-                      child: Icon(
+                  child: Column(
 
-                        getStatusIcon(
-                          hazard["status"],
-                        ),
+                    crossAxisAlignment:
+                    CrossAxisAlignment.start,
 
-                        color: getStatusColor(
-                          hazard["status"],
-                        ),
-                      ),
-                    ),
+                    children: [
 
-                    const SizedBox(width: 8),
-
-                    Expanded(
-
-                      child: Column(
-
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                      Row(
 
                         children: [
 
-                          Text(
+                          Container(
 
-                            hazard["hazard_title"],
+                            padding: const EdgeInsets.all(8),
 
-                            style: const TextStyle(
-                              fontWeight:
-                              FontWeight.bold,
-                              fontSize: 15,
+                            decoration: BoxDecoration(
+
+                              color: getStatusColor(
+                                hazard.status.toString(),
+                              ).withOpacity(0.1),
+
+                              shape: BoxShape.circle,
+                            ),
+
+                            child: Icon(
+
+                              getStatusIcon(
+                                hazard.status.toString(),
+                              ),
+
+                              color: getStatusColor(
+                                hazard.status.toString(),
+                              ),
                             ),
                           ),
 
-                          // const SizedBox(height: 4),
-                          //
-                          // Text(
-                          //   "Hazard ID: #${hazard["hazard_id"]}",
-                          //   style: const TextStyle(
-                          //     color: Colors.grey,
-                          //   ),
-                          // ),
+                          const SizedBox(width: 8),
+
+                          Expanded(
+
+                            child: Column(
+
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+
+                              children: [
+
+                                Text(
+
+                                  hazard.hazardTitle.toString(),
+
+                                  style: const TextStyle(
+                                    fontWeight:
+                                    FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+
+                                // const SizedBox(height: 4),
+                                //
+                                // Text(
+                                //   "Hazard ID: #${hazard["hazard_id"]}",
+                                //   style: const TextStyle(
+                                //     color: Colors.grey,
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
 
-                const SizedBox(height: 14),
+                      const SizedBox(height: 14),
 
-                Text(
-                  hazard["hazard_description"],
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-
-                const Divider(height: 24),
-
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.inventory_2,
-                      size: 1,
-                      color: Colors.blue,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      "Asset: ${hazard["asset_id"]}",
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 8),
-
-                // Row(
-                //   children: [
-                //     const Icon(
-                //       Icons.verified_user,
-                //       size: 18,
-                //       color: Colors.orange,
-                //     ),
-                //     const SizedBox(width: 6),
-                //
-                //     Expanded(
-                //       child: Text(
-                //         "Compliance: ${hazard["compliance_id"] ?? "Not Linked"}",
-                //       ),
-                //     ),
-                //   ],
-                // ),
-
-                const SizedBox(height: 8),
-
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.person,
-                      size: 18,
-                      color: Colors.green,
-                    ),
-                    const SizedBox(width: 6),
-
-                    Text(
-                      "Reported By: ${hazard["reported_by"]}",
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 8),
-
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_today,
-                      size: 18,
-                      color: Colors.purple,
-                    ),
-                    const SizedBox(width: 6),
-
-                    Text(
-                      "Created: ${hazard["created_at"]}",
-                    ),
-
-                    Spacer(),
-                    Container(
-
-                      padding:
-                       EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical: 6,
-                      ),
-
-                      decoration: BoxDecoration(
-
-                        color: getStatusColor(
-                          hazard["status"],
-                        ).withOpacity(0.1),
-
-                        borderRadius:
-                        BorderRadius.circular(8),
-                      ),
-
-                      child: TextButton.icon(
-                        onPressed: () {
-                          Get.to(()=>RisksDetails());
-                        },
-                        icon: Icon(Icons.arrow_forward, color: Colors.blue,size: 10.sp,),
-                        iconAlignment: IconAlignment.end,
-                        label:
-                        Text(
-
-                          hazard["status"],
-
-                          style: TextStyle(
-                            color: getStatusColor(
-                              hazard["status"],
-                            ),
-                            fontWeight:
-                            FontWeight.bold,
-                          ),
+                      Text(
+                        hazard.hazardDescription.toString(),
+                        style: const TextStyle(
+                          fontSize: 14,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
+
+                      const Divider(height: 24),
+
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.inventory_2,
+                            size: 1,
+                            color: Colors.blue,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "Asset: ${hazard.assetId}",
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // Row(
+                      //   children: [
+                      //     const Icon(
+                      //       Icons.verified_user,
+                      //       size: 18,
+                      //       color: Colors.orange,
+                      //     ),
+                      //     const SizedBox(width: 6),
+                      //
+                      //     Expanded(
+                      //       child: Text(
+                      //         "Compliance: ${hazard["compliance_id"] ?? "Not Linked"}",
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+
+                      const SizedBox(height: 8),
+
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.person,
+                            size: 18,
+                            color: Colors.green,
+                          ),
+                          const SizedBox(width: 6),
+
+                          Text(
+                            "Reported By: ${hazard.reportedById}",
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_today,
+                            size: 18,
+                            color: Colors.purple,
+                          ),
+                          const SizedBox(width: 6),
+
+                          Text(
+                            "Created: ${hazard.createdAt}",
+                          ),
+
+                          Spacer(),
+                          Container(
+
+                            padding:
+                            EdgeInsets.symmetric(
+                              horizontal: 0,
+                              vertical: 6,
+                            ),
+
+                            decoration: BoxDecoration(
+
+                              color: getStatusColor(
+                                hazard.status.toString(),
+                              ).withOpacity(0.1),
+
+                              borderRadius:
+                              BorderRadius.circular(8),
+                            ),
+
+                            child: TextButton.icon(
+                              onPressed: () {
+                                Get.to(() => RisksDetails());
+                              },
+                              icon: Icon(Icons.arrow_forward, color: Colors.blue,
+                                size: 10.sp,),
+                              iconAlignment: IconAlignment.end,
+                              label:
+                              Text(
+
+                                hazard.status.toString(),
+
+                                style: TextStyle(
+                                  color: getStatusColor(
+                                    hazard.status.toString(),
+                                  ),
+                                  fontWeight:
+                                  FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+          return SizedBox.shrink();
         },
       ),
 
@@ -356,7 +366,7 @@ class _HazardsState extends State<Hazards> {
         backgroundColor: const Color(0xFF0000BA),
         onPressed: () {
           /// Add Hazard
-          Get.to(()=>RegisterHazards());
+          Get.to(() => RegisterHazards());
           // Get.to(()=>ComplianceScreen());
         },
         child: const Icon(

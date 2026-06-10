@@ -4,3 +4,4 @@ part of 'hazards_bloc.dart';
 sealed class HazardsEvent {}
 
 class GetHazardsEvent extends HazardsEvent{}
+class AddHazardsEvent extends HazardsEvent{}

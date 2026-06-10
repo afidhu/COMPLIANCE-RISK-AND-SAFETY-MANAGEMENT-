@@ -38,7 +38,7 @@ export { prisma };
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors(corsOptions));
-
+app.use(cors());
 // Routes
 app.use('/auth', auth_routers);
 app.use('/hazards', hazards_routers);
