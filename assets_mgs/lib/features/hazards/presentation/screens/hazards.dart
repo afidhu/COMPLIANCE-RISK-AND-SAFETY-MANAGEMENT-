@@ -130,6 +130,7 @@ class _HazardsState extends State<Hazards> {
             return Text(state.errorMessage.toString());
           }
           else if  (state is HazardsLoaded){
+
             return ListView.builder(
 
               padding: const EdgeInsets.all(16),
@@ -138,7 +139,7 @@ class _HazardsState extends State<Hazards> {
 
               itemBuilder: (context, index) {
                 final hazard =state.hazards[index];
-
+                print('reportedBy: ${hazard}');
                 return Container(
 
                   margin: const EdgeInsets.only(bottom: 16),
@@ -253,7 +254,7 @@ class _HazardsState extends State<Hazards> {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            "Asset: ${hazard.assetId}",
+                            "Asset: ${hazard.asset?.assetName}",
                           ),
                         ],
                       ),
@@ -289,7 +290,7 @@ class _HazardsState extends State<Hazards> {
                           const SizedBox(width: 6),
 
                           Text(
-                            "Reported By: ${hazard.reportedById}",
+                            "Reported By:${hazard.reportedBy?.fullName} ",
                           ),
                         ],
                       ),

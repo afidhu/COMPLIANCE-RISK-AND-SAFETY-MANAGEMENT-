@@ -26,7 +26,12 @@ export const addHazard = async(req:Request, resp:Response)=>{
 // Controller function to get all hazards
 export const getHazards = async(req:Request, resp:Response)=>{
     try {
-        const hazards = await prisma.hazard.findMany();
+        const hazards = await prisma.hazard.findMany({
+            include: {
+                reportedBy:true,
+                asset:true
+            }
+        });
         return resp.status(200).json(hazards);
     } catch (error) {
         console.error("Error fetching hazards:", error);

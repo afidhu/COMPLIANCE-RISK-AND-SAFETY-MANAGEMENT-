@@ -1,3 +1,5 @@
+import '../../../assets/data/models/assets_model.dart';
+import '../../../auths/data/models/users_model.dart';
 import '../../domain/entities/hazards_entity.dart';
 
 /// hazardId : "cmq3us1wo0000oae2kxcu2yef"
@@ -13,9 +15,11 @@ class HazardModels  extends HazardsEntity{
   const HazardModels({
       super.hazardId,
       super.assetId,
+      super.asset,
       super.complianceId,
       super.hazardTitle,
       super.hazardDescription,
+      super.reportedBy,
       super.reportedById,
       super.status,
       super.createdAt,});
@@ -28,6 +32,8 @@ class HazardModels  extends HazardsEntity{
         hazardTitle:json['hazardTitle'],
         hazardDescription : json['hazardDescription'],
         reportedById : json['reportedById'],
+        reportedBy :json['reportedBy'] != null ? UsersModel.fromJson(json['reportedBy']) : null,
+        asset :json['asset'] != null ? AssetsModel.fromJson(json['asset']) : null,
         status : json['status'],
         createdAt : json['createdAt'],
     );
