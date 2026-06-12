@@ -15,6 +15,15 @@ class RiskRemoteData {
     }
   }
 
+  Future<Response> getAllRisk() async {
+    try {
+      return await dioClient.dio.get('/risks/get');
+    } catch (e) {
+      print('eror : ${e.toString()}');
+      throw Exception('Error at : $e');
+    }
+  }
+
   Future<Response> addRisk(dynamic risk) async {
     try {
       return await dioClient.dio.post('path', data: risk.toJson());

@@ -8,6 +8,8 @@ class GetRiskEvent extends RisksEvent{
 
   GetRiskEvent(this.hazardId);
 }
+class GetRiskAllEvent extends RisksEvent{}
+
 class AddRiskEvent extends RisksEvent{
   final RiskEntity risk;
 

@@ -11,6 +11,11 @@ import 'features/CAPA/data/repo_impl/capa_repo_impl.dart';
 import 'features/CAPA/domain/repository/capa_repo.dart';
 import 'features/CAPA/domain/use_cases/get_capa_case.dart';
 import 'features/CAPA/presentation/bloc/capa_bloc.dart';
+import 'features/Incidents/data/data_sources/incident_remote_data.dart';
+import 'features/Incidents/data/repo_impl/incident_repo_impl.dart';
+import 'features/Incidents/domain/repository/incident_repo.dart';
+import 'features/Incidents/domain/use_cases/get_incident_case.dart';
+import 'features/Incidents/presentation/bloc/incident_bloc.dart';
 import 'features/assets/data/data_sources/asset_remote_data.dart';
 import 'features/assets/data/repo_impl/assets_repo_impl.dart';
 import 'features/assets/domain/repository/assets_repo.dart';
@@ -34,6 +39,7 @@ import 'features/mitigations/presentation/bloc/mitigation_bloc.dart';
 import 'features/risks/data/data_sources/risk_remote_data.dart';
 import 'features/risks/data/repo_impl/risk_repo_impl.dart';
 import 'features/risks/domain/repository/risk_repo.dart';
+import 'features/risks/domain/use_cases/get_all_risk_case.dart';
 import 'features/risks/domain/use_cases/get_risk_case.dart';
 import 'features/risks/presentation/bloc/risks_bloc.dart';
 
@@ -45,6 +51,7 @@ void main() {
     RepositoryProvider<RiskRepo>(create: (_)=>RiskRepoImpl(RiskRemoteData()) ),
     RepositoryProvider<CapaRepo>(create: (_)=>CapaRepoImpl(RemoteCapaDataRemote()) ),
     RepositoryProvider<MitigationRepo>(create: (_)=>MitigationRepoImpl(MitigationRemoteData()) ),
+    RepositoryProvider<IncidentRepo>(create: (_)=>IncidentRepoImpl(IncidentRemoteData()) ),
 
      ],
 
@@ -52,9 +59,10 @@ void main() {
         BlocProvider<HazardsBloc>(create: (context)=>HazardsBloc(GetHazardsCase(context.read<HazardRepo>()) )),
         BlocProvider<AssetsBloc>(create: (context)=>AssetsBloc(GetAssetsCase(context.read<AssetsRepo>()) )),
         BlocProvider<ComplianceBloc>(create: (context)=>ComplianceBloc(GetComplianceCase(context.read<ComplianceRepo>()) )),
-        BlocProvider<RisksBloc>(create: (context)=>RisksBloc(GetRiskCase(context.read<RiskRepo>()) )),
+        BlocProvider<RisksBloc>(create: (context)=>RisksBloc(GetRiskCase(context.read<RiskRepo>()),GetAllRiskCase(context.read<RiskRepo>()), )),
         BlocProvider<CapaBloc>(create: (context)=>CapaBloc(GetCapaCase(context.read<CapaRepo>()) )),
         BlocProvider<MitigationBloc>(create: (context)=>MitigationBloc(GetMitigationCase(context.read<MitigationRepo>()) )),
+        BlocProvider<IncidentBloc>(create: (context)=>IncidentBloc(GetIncidentCase(context.read<IncidentRepo>()) )),
 
       ],
           child: ScreenUtilInit(

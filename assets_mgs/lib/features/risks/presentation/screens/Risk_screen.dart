@@ -65,6 +65,7 @@ class _RiskScreenState extends State<RiskScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    context.read<RisksBloc>().add(GetRiskAllEvent());
   }
 
   Color getRiskColor(String level) {

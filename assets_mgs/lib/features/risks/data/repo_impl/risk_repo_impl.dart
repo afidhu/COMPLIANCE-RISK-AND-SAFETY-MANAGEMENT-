@@ -41,4 +41,20 @@ class RiskRepoImpl implements RiskRepo  {
     }
   }
 
+  @override
+  Future<List<RiskEntity>> getAllRisk()  async{
+    try{
+      final response = await remoteData.getAllRisk();
+      if(response.statusCode == 200 || response.statusCode ==201){
+        List<dynamic> assetJson = response.data;
+        // print('ComplianceModel ${response.data}');
+        return assetJson.map((e)=>RisksModel.fromJson(e)).toList();
+      }
+      throw Exception('error to get risk');
+    } catch(e){
+      print('error at : $e');
+      throw Exception(' error $e');
+    }
+  }
+
 }

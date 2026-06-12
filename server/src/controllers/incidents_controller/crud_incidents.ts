@@ -27,7 +27,12 @@ export const addIncident = async(req:Request, resp:Response)=>{
 // get all incidents
 export const getIncidents = async(req:Request, resp:Response)=>{
     try {
-        const incidents = await prisma.incident.findMany();
+        const incidents = await prisma.incident.findMany({
+            include:{
+                asset:true,
+                risk:true,
+            }
+        });
         return resp.status(200).json(incidents);
     } catch (error) {
         console.error("Error fetching incidents:", error);

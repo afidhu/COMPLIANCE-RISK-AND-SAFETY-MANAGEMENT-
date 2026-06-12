@@ -7,7 +7,7 @@ class DioClient{
 
 
   final dio = Dio( BaseOptions(
-    baseUrl: 'http://192.168.1.14:51213',
+    baseUrl: ApiProvider.baseUrl,
     connectTimeout: Duration(seconds: 5),
     receiveTimeout: Duration(seconds: 3),
   ));
