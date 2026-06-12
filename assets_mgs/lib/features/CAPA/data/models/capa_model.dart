@@ -1,3 +1,5 @@
+import 'package:assets_mgs/features/auths/data/models/users_model.dart';
+
 import '../../domain/entities/capa_entity.dart';
 
 /// capaId : "cmq49slhn000202e2eqbo9grx"
@@ -16,6 +18,7 @@ class CapaModel extends CapaEntity {
       super.actionTitle,
       super.actionType,
       super.assignedToId,
+      super.assignedTo,
       super.dueDate,
       super.status,
       super.createdAt,});
@@ -30,6 +33,7 @@ class CapaModel extends CapaEntity {
         dueDate : json['dueDate'],
         status : json['status'],
         createdAt : json['createdAt'],
+        assignedTo:json['assignedTo'] != null ? UsersModel.fromJson(json['assignedTo']) : null,
     );
   }
 

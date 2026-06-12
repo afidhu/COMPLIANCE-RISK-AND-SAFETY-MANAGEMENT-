@@ -100,3 +100,26 @@ export const deleteCapa = async(req:Request, resp:Response)=>{
         return resp.status(500).json({ message: "Internal server error" });
     }
 }
+
+
+// get CAPA actions by hazard ID    
+export const getCapasByHazardId = async(req:Request, resp:Response)=>{
+    try {
+        const { hazardId } = req.params;
+        const capas = await prisma.capaAction.findMany({
+            where: { 
+                hazard:{
+                    hazardId: `${hazardId}`
+                }
+             },
+             include: {
+                assignedTo:true,
+                
+             }
+            });
+        return resp.status(200).json(capas);
+    } catch (error) {
+        console.error("Error fetching CAPA actions by hazard ID:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}

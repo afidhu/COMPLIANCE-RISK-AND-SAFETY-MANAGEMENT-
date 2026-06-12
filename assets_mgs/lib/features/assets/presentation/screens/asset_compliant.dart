@@ -1,56 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Future<void> assetCompliant() async {
+import '../../../compliances/domain/entities/compliance_entity.dart';
+
+Future<void> assetCompliant( List<ComplianceEntity> compliances) async {
   final Color primaryColor = const Color(0xFF0D47A1);
 
-  final List<Map<String, String>> compliances = [
-    {
-      "compliance_id": "CMP-001",
-      "asset_id": "AST-001",
-      "compliance_name": "Electrical Safety Inspection",
-      "frequency": "Yearly",
-      "last_due": "2025-12-12",
-      "due_date": "2026-12-12",
-      "status": "Compliant",
-    },
-    {
-      "compliance_id": "CMP-002",
-      "asset_id": "AST-002",
-      "compliance_name": "Monthly Operational Test",
-      "frequency": "Monthly",
-      "last_due": "2026-05-01",
-      "due_date": "2026-06-01",
-      "status": "Due Soon",
-    },
-    {
-      "compliance_id": "CMP-003",
-      "asset_id": "AST-003",
-      "compliance_name": "Fuel System Inspection",
-      "frequency": "Yearly",
-      "last_due": "2025-10-15",
-      "due_date": "2026-10-15",
-      "status": "Compliant",
-    },
-    {
-      "compliance_id": "CMP-004",
-      "asset_id": "AST-004",
-      "compliance_name": "Emergency Backup Test",
-      "frequency": "Quarterly",
-      "last_due": "2026-01-10",
-      "due_date": "2026-04-10",
-      "status": "Overdue",
-    },
-    {
-      "compliance_id": "CMP-005",
-      "asset_id": "AST-005",
-      "compliance_name": "Maintenance Certification",
-      "frequency": "Yearly",
-      "last_due": "2025-08-20",
-      "due_date": "2026-08-20",
-      "status": "Due Soon",
-    },
-  ];
+
+  // final List<Map<String, String>> compliance = [
+  //   {
+  //     "compliance_id": "CMP-001",
+  //     "asset_id": "AST-001",
+  //     "compliance_name": "Electrical Safety Inspection",
+  //     "frequency": "Yearly",
+  //     "last_due": "2025-12-12",
+  //     "due_date": "2026-12-12",
+  //     "status": "Compliant",
+  //   },
+  //   {
+  //     "compliance_id": "CMP-002",
+  //     "asset_id": "AST-002",
+  //     "compliance_name": "Monthly Operational Test",
+  //     "frequency": "Monthly",
+  //     "last_due": "2026-05-01",
+  //     "due_date": "2026-06-01",
+  //     "status": "Due Soon",
+  //   },
+  //   {
+  //     "compliance_id": "CMP-003",
+  //     "asset_id": "AST-003",
+  //     "compliance_name": "Fuel System Inspection",
+  //     "frequency": "Yearly",
+  //     "last_due": "2025-10-15",
+  //     "due_date": "2026-10-15",
+  //     "status": "Compliant",
+  //   },
+  //   {
+  //     "compliance_id": "CMP-004",
+  //     "asset_id": "AST-004",
+  //     "compliance_name": "Emergency Backup Test",
+  //     "frequency": "Quarterly",
+  //     "last_due": "2026-01-10",
+  //     "due_date": "2026-04-10",
+  //     "status": "Overdue",
+  //   },
+  //   {
+  //     "compliance_id": "CMP-005",
+  //     "asset_id": "AST-005",
+  //     "compliance_name": "Maintenance Certification",
+  //     "frequency": "Yearly",
+  //     "last_due": "2025-08-20",
+  //     "due_date": "2026-08-20",
+  //     "status": "Due Soon",
+  //   },
+  // ];
 
   await Get.bottomSheet(
     isScrollControlled: true,
@@ -161,12 +164,11 @@ Future<void> assetCompliant() async {
               itemCount: compliances.length,
 
               itemBuilder: (context, index) {
-                final compliance =
-                compliances[index];
+                final compliance = compliances[index];
 
                 Color statusColor;
 
-                switch (compliance["status"]) {
+                switch (compliance.status.toString()) {
                   case "Compliant":
                     statusColor = Colors.green;
                     break;
@@ -217,8 +219,7 @@ Future<void> assetCompliant() async {
                           children: [
                             Expanded(
                               child: Text(
-                                compliance[
-                                "compliance_name"]!,
+                                compliance.complianceName.toString(),
                                 style:
                                 const TextStyle(
                                   fontWeight:
@@ -248,8 +249,7 @@ Future<void> assetCompliant() async {
                               ),
 
                               child: Text(
-                                compliance[
-                                "status"]!,
+                                compliance.status.toString(),
                                 style: TextStyle(
                                   color:
                                   statusColor,
@@ -264,43 +264,40 @@ Future<void> assetCompliant() async {
 
                         const SizedBox(height: 15),
 
-                        _rowItem(
-                          Icons.badge,
-                          "Compliance ID",
-                          compliance[
-                          "compliance_id"]!,
-                          primaryColor,
-                        ),
+                        // _rowItem(
+                        //   Icons.badge,
+                        //   "Compliance ID",
+                        //   compliance[
+                        //   "compliance_id"]!,
+                        //   primaryColor,
+                        // ),
 
-                        _rowItem(
-                          Icons.inventory_2,
-                          "Asset ID",
-                          compliance[
-                          "asset_id"]!,
-                          primaryColor,
-                        ),
+                        // _rowItem(
+                        //   Icons.inventory_2,
+                        //   "Asset ID",
+                        //   compliance[
+                        //   "asset_id"]!,
+                        //   primaryColor,
+                        // ),
 
                         _rowItem(
                           Icons.repeat,
                           "Frequency",
-                          compliance[
-                          "frequency"]!,
+                          compliance.frequency.toString(),
                           primaryColor,
                         ),
 
                         _rowItem(
                           Icons.history,
                           "Last Due Date",
-                          compliance[
-                          "last_due"]!,
+                          compliance.lastDueDate.toString(),
                           primaryColor,
                         ),
 
                         _rowItem(
                           Icons.calendar_month,
                           "Due Date",
-                          compliance[
-                          "due_date"]!,
+                          compliance.dueDate.toString(),
                           primaryColor,
                         ),
                       ],

@@ -26,7 +26,9 @@ export const addCompliance = async(req:Request, resp:Response)=>{
 // Controller function to get all compliances
 export const getCompliances = async(req:Request, resp:Response)=>{
     try {
-        const compliances = await prisma.compliance.findMany();
+        const compliances = await prisma.compliance.findMany({
+                include: { asset: true }
+        });
         return resp.status(200).json(compliances);
     } catch (error) {
         console.error("Error fetching compliances:", error);

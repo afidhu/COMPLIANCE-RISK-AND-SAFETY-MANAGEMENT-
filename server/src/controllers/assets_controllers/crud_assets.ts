@@ -23,7 +23,11 @@ export const addAsset = async (req: Request, resp: Response) => {
 // Controller function to get all assets
 export const getAssets = async (req: Request, resp: Response) => {
     try {
-        const assets = await prisma.asset.findMany();
+        const assets = await prisma.asset.findMany({
+            include: {
+                compliances: true,
+            }
+        });
         return resp.status(200).json(assets);
     } catch (error) {
         console.error("Error fetching assets:", error);

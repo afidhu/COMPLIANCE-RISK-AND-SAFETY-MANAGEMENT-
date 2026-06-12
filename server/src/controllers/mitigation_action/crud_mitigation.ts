@@ -108,3 +108,21 @@ export const deleteMitigationAction = async(req:Request, resp:Response)=>{
         return resp.status(500).json({ message: "Internal server error" });
     }
 }
+
+// get all mitigation actions by hazard ID
+export const getMitigationActionsByHazardId = async(req:Request, resp:Response)=>{
+    try {
+        const { hazardId } = req.params;
+        const mitigationActions = await prisma.mitigationAction.findMany({
+            where: { 
+                hazard:{
+                    hazardId: `${hazardId}`
+                }
+             }
+        });
+        return resp.status(200).json(mitigationActions);
+    } catch (error) {
+        console.error("Error fetching mitigation actions by hazard ID:", error);
+        return resp.status(500).json({ message: "Internal server error" }); 
+    }
+}

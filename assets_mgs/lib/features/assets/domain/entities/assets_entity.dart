@@ -1,18 +1,20 @@
-
 import 'package:equatable/equatable.dart';
 
-class AssetsEntity extends Equatable{
- final String? assetId;
- final String? assetName;
- final String? assetType;
- final String? location;
- final dynamic serialNo;
- final String? status;
- final String? createdById;
- final String? createdAt;
- final String? updatedAt;
+import '../../../compliances/domain/entities/compliance_entity.dart';
 
- const AssetsEntity({
+class AssetsEntity extends Equatable {
+  final String? assetId;
+  final String? assetName;
+  final String? assetType;
+  final String? location;
+  final dynamic serialNo;
+  final String? status;
+  final String? createdById;
+  final List<ComplianceEntity>? compliance;
+  final String? createdAt;
+  final String? updatedAt;
+
+  const AssetsEntity({
     this.assetId,
     this.assetName,
     this.assetType,
@@ -21,17 +23,21 @@ class AssetsEntity extends Equatable{
     this.status,
     this.createdById,
     this.createdAt,
-    this.updatedAt,});
+    this.updatedAt,
+    this.compliance,
+  });
 
   @override
-  // TODO: implement props
-  List<Object?> get props =>[assetId,
- assetName,
- assetType,
- location,
- serialNo,
- status,
- createdById,
- createdAt,
- updatedAt];
+  List<Object?> get props => [
+        assetId,
+        assetName,
+        assetType,
+        location,
+        serialNo,
+        status,
+        createdById,
+        createdAt,
+        updatedAt,
+        compliance,
+      ];
 }

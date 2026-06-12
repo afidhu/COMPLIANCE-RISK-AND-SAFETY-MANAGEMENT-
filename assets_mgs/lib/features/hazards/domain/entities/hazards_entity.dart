@@ -32,12 +32,12 @@ class HazardsEntity extends Equatable {
   List<Object?> get props => [
         hazardId,
         assetId,
-    asset,
+        asset,
         complianceId,
         hazardTitle,
         hazardDescription,
+        reportedBy,
         reportedById,
-    reportedBy,
         status,
         createdAt,
       ];

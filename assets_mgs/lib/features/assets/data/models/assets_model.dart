@@ -1,3 +1,5 @@
+import 'package:assets_mgs/features/compliances/data/models/compliance.dart';
+
 import '../../domain/entities/assets_entity.dart';
 
 /// assetId : "cmq3rie760002rte2wd2llont"
@@ -11,48 +13,55 @@ import '../../domain/entities/assets_entity.dart';
 /// updatedAt : "2026-06-07T12:32:37.218Z"
 
 class AssetsModel extends AssetsEntity {
-const AssetsModel({
-      super.assetId,
-      super.assetName,
-      super.assetType,
-      super.location,
-      super.serialNo,
-      super.status,
-      super.createdById,
-      super.createdAt,
-      super.updatedAt,});
+  const AssetsModel({
+    super.assetId,
+    super.assetName,
+    super.assetType,
+    super.location,
+    super.serialNo,
+    super.status,
+    super.createdById,
+    super.createdAt,
+    super.updatedAt,
+    super.compliance,
+  });
 
   factory AssetsModel.fromJson(dynamic json) {
     return AssetsModel(
-        assetId :json['assetId'],
-        assetName : json['assetName'],
-        assetType : json['assetType'],
-        location : json['location'],
-        serialNo : json['serialNo'],
-        status : json['status'],
-        createdById : json['createdById'],
-        createdAt : json['createdAt'],
-        updatedAt : json['updatedAt'],
+      assetId: json['assetId'],
+      assetName: json['assetName'],
+      assetType: json['assetType'],
+      location: json['location'],
+      serialNo: json['serialNo'],
+      status: json['status'],
+      createdById: json['createdById'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+      compliance: json['compliances'] != null
+          ? (json['compliances'] as List)
+              .map((e) => ComplianceModel.fromJson(e))
+              .toList()
+          : null,
     );
-
   }
-
 
   Map<String, dynamic> toJson() {
-    // final map = <String, dynamic>{};
     return {
-      'assetId' : assetId,
-      'assetName' : assetName,
-      'assetType' : assetType,
+      'assetId': assetId,
+      'assetName': assetName,
+      'assetType': assetType,
       'location': location,
-      'serialNo' : serialNo,
-      'status' : status,
-      'createdById' : createdById,
-      'createdAt' : createdAt,
-      'updatedAt' : updatedAt
+      'serialNo': serialNo,
+      'status': status,
+      'createdById': createdById,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'compliances': compliance?.map((e) {
+        if (e is ComplianceModel) return e.toJson();
+        // If it's just a ComplianceEntity, we might need a way to convert it, 
+        // but usually in Data layer they are ComplianceModels.
+        return null; // Or handle appropriately
+      }).toList(),
     };
-
-    // return map;
   }
-
 }

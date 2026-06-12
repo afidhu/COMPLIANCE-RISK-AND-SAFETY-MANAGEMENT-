@@ -1,3 +1,4 @@
+import '../../../assets/data/models/assets_model.dart';
 import '../../domain/entities/compliance_entity.dart';
 
 /// complianceId : "cmq3skq8j00001ze2g2276chm"
@@ -11,7 +12,7 @@ import '../../domain/entities/compliance_entity.dart';
 /// updatedAt : "2026-06-07T13:02:25.747Z"
 
 class ComplianceModel extends ComplianceEntity {
-  ComplianceModel({
+ const ComplianceModel({
       super.complianceId,
       super.complianceName,
       super.assetId,
@@ -20,7 +21,9 @@ class ComplianceModel extends ComplianceEntity {
       super.dueDate,
       super.status,
       super.createdAt,
-      super.updatedAt,});
+      super.updatedAt,
+      super.asset
+ });
 
  factory ComplianceModel.fromJson(dynamic json) {
     return ComplianceModel(
@@ -33,6 +36,7 @@ class ComplianceModel extends ComplianceEntity {
         status : json['status'],
         createdAt : json['createdAt'],
         updatedAt : json['updatedAt'],
+        asset : json['asset'] != null ? AssetsModel.fromJson(json['asset']) : null,
     );
   }
   Map<String, dynamic> toJson() {

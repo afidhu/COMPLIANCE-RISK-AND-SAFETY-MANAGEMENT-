@@ -1,9 +1,25 @@
+import 'package:assets_mgs/features/assets/domain/use_cases/get_assets_case.dart';
+import 'package:assets_mgs/features/mitigations/data/repo_impl/mitigation_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 
 import 'core/screens/splash_screen.dart';
+import 'features/CAPA/data/data_sources/remote_capa_data_remote.dart';
+import 'features/CAPA/data/repo_impl/capa_repo_impl.dart';
+import 'features/CAPA/domain/repository/capa_repo.dart';
+import 'features/CAPA/domain/use_cases/get_capa_case.dart';
+import 'features/CAPA/presentation/bloc/capa_bloc.dart';
+import 'features/assets/data/data_sources/asset_remote_data.dart';
+import 'features/assets/data/repo_impl/assets_repo_impl.dart';
+import 'features/assets/domain/repository/assets_repo.dart';
+import 'features/assets/presentation/bloc/assets_bloc.dart';
+import 'features/compliances/data/data_sources/compliance_remote_data_source.dart';
+import 'features/compliances/data/repo_impl/compliance_repo_impl.dart';
+import 'features/compliances/domain/repository/compliance_repo.dart';
+import 'features/compliances/domain/use_cases/get_compliance_case.dart';
+import 'features/compliances/presentation/bloc/compliance_bloc.dart';
 import 'features/hazards/data/data_sources/remote_hazard_data_source.dart';
 import 'features/hazards/data/repo_impl/hazard_repo_impl.dart';
 import 'features/hazards/domain/repository/hazard_repo.dart';
@@ -11,14 +27,34 @@ import 'features/hazards/domain/use_cases/get_hazards_case.dart';
 import 'features/hazards/presentation/bloc/hazards_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/mitigations/data/data_sources/mitigation_remote_data.dart';
+import 'features/mitigations/domain/repository/mitigation_repo.dart';
+import 'features/mitigations/domain/use_cases/get_mitigation_case.dart';
+import 'features/mitigations/presentation/bloc/mitigation_bloc.dart';
+import 'features/risks/data/data_sources/risk_remote_data.dart';
+import 'features/risks/data/repo_impl/risk_repo_impl.dart';
+import 'features/risks/domain/repository/risk_repo.dart';
+import 'features/risks/domain/use_cases/get_risk_case.dart';
+import 'features/risks/presentation/bloc/risks_bloc.dart';
+
 void main() {
   runApp( MultiRepositoryProvider(providers: [
     RepositoryProvider<HazardRepo>(create: (_)=>HazardRepoImpl(RemoteHazardDataSource()) ),
+    RepositoryProvider<AssetsRepo>(create: (_)=>AssetsRepoImpl(RemoteAssetsDataSource()) ),
+    RepositoryProvider<ComplianceRepo>(create: (_)=>ComplianceRepoImpl(ComplianceRemoteDataSource()) ),
+    RepositoryProvider<RiskRepo>(create: (_)=>RiskRepoImpl(RiskRemoteData()) ),
+    RepositoryProvider<CapaRepo>(create: (_)=>CapaRepoImpl(RemoteCapaDataRemote()) ),
+    RepositoryProvider<MitigationRepo>(create: (_)=>MitigationRepoImpl(MitigationRemoteData()) ),
 
      ],
 
       child: MultiBlocProvider(providers: [
         BlocProvider<HazardsBloc>(create: (context)=>HazardsBloc(GetHazardsCase(context.read<HazardRepo>()) )),
+        BlocProvider<AssetsBloc>(create: (context)=>AssetsBloc(GetAssetsCase(context.read<AssetsRepo>()) )),
+        BlocProvider<ComplianceBloc>(create: (context)=>ComplianceBloc(GetComplianceCase(context.read<ComplianceRepo>()) )),
+        BlocProvider<RisksBloc>(create: (context)=>RisksBloc(GetRiskCase(context.read<RiskRepo>()) )),
+        BlocProvider<CapaBloc>(create: (context)=>CapaBloc(GetCapaCase(context.read<CapaRepo>()) )),
+        BlocProvider<MitigationBloc>(create: (context)=>MitigationBloc(GetMitigationCase(context.read<MitigationRepo>()) )),
 
       ],
           child: ScreenUtilInit(

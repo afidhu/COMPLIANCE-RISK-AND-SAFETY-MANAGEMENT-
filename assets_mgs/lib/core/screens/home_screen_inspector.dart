@@ -50,7 +50,7 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
       // backgroundColor: const Color(0xffF4F7FC),
       // backgroundColor: const Color(0xFF0000BA),
       backgroundColor: const Color(0xFFF5F7FA),
-      appBar:AppBar(
+      appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF0000BA),
 

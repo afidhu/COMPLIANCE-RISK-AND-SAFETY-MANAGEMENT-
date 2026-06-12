@@ -13,6 +13,7 @@ class RiskEntity extends Equatable {
   final String? status;
   final String? createdAt;
   final String? updatedAt;
+  // final AssetsEntity? updatedAt;
 
  const RiskEntity({
     this.riskId,

@@ -5,7 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../CAPA/presentation/bloc/capa_bloc.dart';
 import '../../../compliances/presentation/screens/compliance_screen.dart';
+import '../../../mitigations/presentation/bloc/mitigation_bloc.dart';
+import '../../../risks/presentation/bloc/risks_bloc.dart';
 import '../../../risks/presentation/screens/Risk_screen.dart';
 import '../../../risks/presentation/screens/risks_details.dart';
 import '../bloc/hazards_bloc.dart';
@@ -292,6 +295,37 @@ class _HazardsState extends State<Hazards> {
                           Text(
                             "Reported By:${hazard.reportedBy?.fullName} ",
                           ),
+                          Spacer(),
+                          TextButton(
+
+                            onPressed: () {
+                              // Risk Details
+
+                              assetDetails({
+
+                                "asset_id": "AST-001",
+
+                                "asset_name": "Passenger Lift",
+
+                                "asset_type": "Lift",
+
+                                "location": "Block A",
+
+                                "serial_no": "LFT-2026-001",
+
+                                "status": "Active",
+
+                                "created_by": "Admin",
+                              });
+                            },
+
+
+
+
+                            // label:Icon(Icons.remove_red_eye_outlined),
+
+                            child: Icon(Icons.remove_red_eye_outlined),
+                          ),
                         ],
                       ),
 
@@ -331,6 +365,10 @@ class _HazardsState extends State<Hazards> {
 
                             child: TextButton.icon(
                               onPressed: () {
+                                context.read<RisksBloc>().add(GetRiskEvent(hazard.hazardId!.trim().toString()));
+                                context.read<MitigationBloc>().add(GetMitigation(hazard.hazardId!.trim().toString()));
+                                context.read<CapaBloc>().add(GetCapaEvent(hazard.hazardId!.trim().toString()));
+
                                 Get.to(() => RisksDetails());
                               },
                               icon: Icon(Icons.arrow_forward, color: Colors.blue,
@@ -377,4 +415,124 @@ class _HazardsState extends State<Hazards> {
       ),
     );
   }
+  Future assetDetails(Map<String, dynamic> asset) async {
+    return Get.bottomSheet(
+
+      Container(
+
+        padding: const EdgeInsets.all(20),
+
+        decoration: const BoxDecoration(
+          color: Colors.white,
+
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(25),
+          ),
+        ),
+
+        child: Column(
+
+          mainAxisSize: MainAxisSize.min,
+
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+
+            const Center(
+              child: Text(
+                "Asset Details",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF0000BA),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            detailTile(
+              Icons.qr_code,
+              "Asset ID",
+              asset["asset_id"],
+            ),
+
+            detailTile(
+              Icons.inventory,
+              "Asset Name",
+              asset["asset_name"],
+            ),
+
+            detailTile(
+              Icons.category,
+              "Asset Type",
+              asset["asset_type"],
+            ),
+
+            detailTile(
+              Icons.location_on,
+              "Location",
+              asset["location"],
+            ),
+
+            detailTile(
+              Icons.confirmation_number,
+              "Serial No",
+              asset["serial_no"] ?? "N/A",
+            ),
+
+            detailTile(
+              Icons.verified,
+              "Status",
+              asset["status"],
+            ),
+
+            detailTile(
+              Icons.person,
+              "Created By",
+              asset["created_by"],
+            ),
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+
+      isScrollControlled: true,
+    );
+  }
+
+  Widget detailTile(IconData icon,
+      String title,
+      String value,) {
+    return Padding(
+
+      padding: const EdgeInsets.only(bottom: 14),
+
+      child: Row(
+
+        children: [
+
+          Icon(
+            icon,
+            color: const Color(0xFF0000BA),
+          ),
+
+          const SizedBox(width: 10),
+
+          Text(
+            "$title : ",
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          Expanded(
+            child: Text(value),
+          ),
+        ],
+      ),
+    );
+  }
+
 }

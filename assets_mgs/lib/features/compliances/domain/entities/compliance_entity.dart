@@ -2,6 +2,8 @@
 
 import 'package:equatable/equatable.dart';
 
+import '../../../assets/data/models/assets_model.dart';
+
 class ComplianceEntity extends Equatable {
   final String? complianceId;
   final String? complianceName;
@@ -12,6 +14,7 @@ class ComplianceEntity extends Equatable {
   final String? status;
   final String? createdAt;
   final String? updatedAt;
+  final AssetsModel? asset;
 
 
 const  ComplianceEntity({
@@ -23,7 +26,9 @@ const  ComplianceEntity({
     this.dueDate,
     this.status,
     this.createdAt,
-    this.updatedAt,});
+    this.updatedAt,
+  this.asset,
+});
 
   @override
   // TODO: implement props
@@ -35,6 +40,6 @@ const  ComplianceEntity({
   dueDate,
   status,
   createdAt,
-  updatedAt,];
+  updatedAt,asset];
 
 }

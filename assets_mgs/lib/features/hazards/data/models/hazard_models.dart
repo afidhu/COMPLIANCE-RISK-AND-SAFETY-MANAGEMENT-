@@ -33,8 +33,8 @@ class HazardModels  extends HazardsEntity{
         hazardDescription : json['hazardDescription'],
         reportedById : json['reportedById'],
         reportedBy :json['reportedBy'] != null ? UsersModel.fromJson(json['reportedBy']) : null,
-        asset :json['asset'] != null ? AssetsModel.fromJson(json['asset']) : null,
-        status : json['status'],
+       asset :json['asset'] != null ? AssetsModel.fromJson(json['asset']) : null,
+         status : json['status'],
         createdAt : json['createdAt'],
     );
   }

@@ -163,6 +163,8 @@ model Hazard {
   status             HazardStatus @default(OPEN)
 
   risks              Risk[]
+  mitigations        MitigationAction[]
+  capaActions        CapaAction[]
 
   createdAt          DateTime @default(now())
 }
@@ -220,6 +222,8 @@ model MitigationAction {
 
   riskId         String
   risk           Risk     @relation(fields: [riskId], references: [riskId])
+  hazardId        String @default("cmq3vb19g0002d5e2c24ittfn") // Temporary default value, replace with actual hazardId when creating mitigation actions
+  hazard         Hazard   @relation(fields: [hazardId], references: [hazardId])
 
   actionTitle    String
 
@@ -238,12 +242,15 @@ model CapaAction {
 
   riskId         String
   risk           Risk     @relation(fields: [riskId], references: [riskId])
+ 
+  hazardId        String @default("cmq3vb19g0002d5e2c24ittfn") // Temporary default value, replace with actual hazardId when creating CAPA actions
+  hazard         Hazard   @relation(fields: [hazardId], references: [hazardId])
 
   actionTitle    String
 
   actionType     CAPAType @default(CORRECTIVE)
 
-  assignedToId   String
+  assignedToId   String 
   assignedTo     User     @relation(fields: [assignedToId], references: [userId])
 
   dueDate        DateTime

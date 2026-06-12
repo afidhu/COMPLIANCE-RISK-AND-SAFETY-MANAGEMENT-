@@ -1,5 +1,6 @@
 
 
+import 'package:assets_mgs/features/auths/domain/entities/user_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class CapaEntity extends Equatable{
@@ -8,6 +9,7 @@ class CapaEntity extends Equatable{
  final String? actionTitle;
  final String? actionType;
  final String? assignedToId;
+ final UserEntity? assignedTo;
  final String? dueDate;
  final String? status;
  final String? createdAt;
@@ -18,6 +20,7 @@ const CapaEntity({
     this.actionTitle,
     this.actionType,
     this.assignedToId,
+    this.assignedTo,
     this.dueDate,
     this.status,
     this.createdAt,});
@@ -30,6 +33,7 @@ const CapaEntity({
  actionTitle,
  actionType,
  assignedToId,
+    assignedTo,
  dueDate,
  status,
  createdAt,
