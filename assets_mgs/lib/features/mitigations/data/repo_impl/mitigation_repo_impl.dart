@@ -17,7 +17,7 @@ class MitigationRepoImpl  implements MitigationRepo{
       final response = await mitigationRemoteData.getMitigation(hazardId);
       if(response.statusCode == 200 || response.statusCode ==201){
         List<dynamic> assetJson = response.data;
-        // print('ComplianceModel ${response.data}');
+        print('mitigationModel_ ${response.data}');
         return assetJson.map((e)=>MitigationModel.fromJson(e)).toList();
       }
       throw Exception('error to get mit');

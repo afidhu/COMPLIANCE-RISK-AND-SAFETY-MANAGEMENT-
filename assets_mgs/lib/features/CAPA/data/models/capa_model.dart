@@ -1,5 +1,6 @@
 import 'package:assets_mgs/features/auths/data/models/users_model.dart';
 
+import '../../../hazards/data/models/hazard_models.dart';
 import '../../domain/entities/capa_entity.dart';
 
 /// capaId : "cmq49slhn000202e2eqbo9grx"
@@ -21,6 +22,7 @@ class CapaModel extends CapaEntity {
       super.assignedTo,
       super.dueDate,
       super.status,
+      super.hazards,
       super.createdAt,});
 
  factory CapaModel.fromJson(dynamic json) {
@@ -34,6 +36,7 @@ class CapaModel extends CapaEntity {
         status : json['status'],
         createdAt : json['createdAt'],
         assignedTo:json['assignedTo'] != null ? UsersModel.fromJson(json['assignedTo']) : null,
+        hazards:json['hazard'] != null ? HazardModels.fromJson(json['hazard']) : null,
     );
   }
 

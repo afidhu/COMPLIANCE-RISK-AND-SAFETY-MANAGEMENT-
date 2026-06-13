@@ -68,18 +68,15 @@ export const getCapasByRiskId = async(req:Request, resp:Response)=>{
 // update a CAPA action
 export const updateCapa = async(req:Request, resp:Response)=>{
     try {
-        const { id } = req.params;
+        const { capaId } = req.params;
         const { riskId, actionTitle, assignedToId, dueDate, status } = req.body;
         const updatedCapa = await prisma.capaAction.update({
-            where: { capaId: `${id}` },
+            where: { capaId: `${capaId}` },
             data: {
-                riskId,
-                actionTitle,
-                assignedToId,
-                dueDate,
-                status
+                status:status,
             }
         });
+        console.log(updatedCapa)
         return resp.status(200).json(updatedCapa);
     } catch (error) {
         console.error("Error updating CAPA action:", error);
@@ -114,6 +111,36 @@ export const getCapasByHazardId = async(req:Request, resp:Response)=>{
              },
              include: {
                 assignedTo:true,
+                hazard:{
+                    include:{
+                        asset:true
+                    }
+                }
+             }
+            });
+        return resp.status(200).json(capas);
+    } catch (error) {
+        console.error("Error fetching CAPA actions by hazard ID:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+// get CAPA By Technician ID    
+export const getCapasByTechnicianId = async(req:Request, resp:Response)=>{
+    try {
+        const { userId } = req.params;
+        const capas = await prisma.capaAction.findMany({
+            where: { 
+                assignedToId :`${userId}`
+             },
+             include: {
+                assignedTo:true,
+                hazard:{
+                    include:{
+                        asset:true
+                    }
+                }
                 
              }
             });
@@ -123,3 +150,4 @@ export const getCapasByHazardId = async(req:Request, resp:Response)=>{
         return resp.status(500).json({ message: "Internal server error" });
     }
 }
+

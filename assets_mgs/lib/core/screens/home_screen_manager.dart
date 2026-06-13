@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
+import '../../features/hazards/presentation/screens/hazards.dart';
 import '../../features/inspections/presentation/screens/inspensions.dart';
 import '../../features/notifications/presentation/screens/notifications.dart';
 import '../../features/risks/presentation/screens/Risk_screen.dart';
@@ -206,7 +207,7 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
                 tabs:  [
                   Tab(
                     icon: Icon(Icons.warning_amber),
-                    text: 'Risks',
+                    text: 'Hazards',
                   ),
 
                   Tab(
@@ -237,7 +238,7 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
           physics: const BouncingScrollPhysics(),
 
           children: const [
-            RiskScreen(),
+            Hazards(),
             AllIncidents(),
             AssetScreen(),
           ],

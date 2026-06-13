@@ -24,14 +24,30 @@ class HazardRepoImpl implements HazardRepo {
   }
 
   @override
-  Future<HazardsEntity> addHazard(HazardsEntity hazard) async {
-    final response = await remoteHazardDataSource.addHazard(hazard);
-    if(response.statusCode == 201){
-      List <dynamic> jsonHazards = response.data;
-
-      return HazardModels.fromJson(jsonHazards);
+  Future<bool> addHazard(HazardsEntity hazard) async {
+    try{
+      final hazardModel = HazardModels(
+        hazardId: hazard.hazardId,
+        assetId: hazard.assetId,
+        asset: hazard.asset,
+        complianceId: hazard.complianceId,
+        hazardTitle: hazard.hazardTitle,
+        hazardDescription: hazard.hazardDescription,
+        reportedBy: hazard.reportedBy,
+        reportedById: hazard.reportedById,
+        status: hazard.status,
+        createdAt: hazard.createdAt,
+      );
+      final response = await remoteHazardDataSource.addHazard(hazardModel);
+      if(response.statusCode == 201){
+        print('ookkkkkk: ${response.data}');
+        return true;
+      }
+      return false;
+    } catch(e){
+      print('eeeeeeeee: $e');
+      throw Exception('error at $e');
     }
-    throw UnimplementedError();
   }
 
 

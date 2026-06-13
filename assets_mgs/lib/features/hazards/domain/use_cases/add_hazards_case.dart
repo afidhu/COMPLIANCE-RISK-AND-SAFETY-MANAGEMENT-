@@ -6,9 +6,9 @@ class AddHazardsCase {
 
   final HazardRepo hazardRepo;
 
-  AddHazardsCase({required this.hazardRepo});
+  AddHazardsCase( this.hazardRepo);
 
-  Future<HazardsEntity> call(HazardsEntity hazard) async{
-    return hazardRepo.addHazard(hazard);
+  Future<bool> call(HazardsEntity hazard) async{
+    return await hazardRepo.addHazard(hazard);
   }
 }

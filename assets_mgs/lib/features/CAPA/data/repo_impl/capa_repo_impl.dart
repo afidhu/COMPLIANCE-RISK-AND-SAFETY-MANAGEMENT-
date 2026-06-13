@@ -40,4 +40,39 @@ class CapaRepoImpl extends CapaRepo{
     }
   }
 
+  @override
+  Future<List<CapaEntity>> getCapaByTechnician(String userId)async {
+    try{
+      final response = await remoteCapaDataRemote.getCapaByTechnician(userId);
+      if(response.statusCode == 200 || response.statusCode ==201){
+        List<dynamic> assetJson = response.data;
+        // print('ComplianceModel ${response.data}');
+        return assetJson.map((e)=>CapaModel.fromJson(e)).toList();
+      }
+      throw Exception('error to get capa');
+    } catch(e){
+      print('error at : $e');
+      throw Exception(' error $e');
+    }
+  }
+
+  @override
+  Future<bool> updateCapaByTechnician({required String capaId, required CapaEntity capa}) async {
+    try{
+
+      final capaModel =CapaModel(
+        status: capa.status
+      );
+
+      final response = await remoteCapaDataRemote.updateCapaByTechnician(capaId, capaModel);
+      if(response.statusCode == 200 || response.statusCode ==201){
+       return true;
+      }
+      return  false;
+    } catch(e){
+      print('error at : $e');
+      throw Exception(' error $e');
+    }
+  }
+
 }

@@ -43,6 +43,7 @@ dependencies:
   popup_menu: ^2.1.0
   shared_preferences: ^2.5.5
   equatable: ^2.0.8
+  dropdown_search: ^7.0.0
 
 dev_dependencies:
   flutter_test:

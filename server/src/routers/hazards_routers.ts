@@ -11,4 +11,5 @@ router.put('/update/:id',updateHazard)
 router.delete('/delete/:id',deleteHazard)
 router.get('/get/:id',getHazardById)
 
+
 export default router;

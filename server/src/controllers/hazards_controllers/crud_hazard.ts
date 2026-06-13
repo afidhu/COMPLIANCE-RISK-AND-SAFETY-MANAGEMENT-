@@ -16,6 +16,8 @@ export const addHazard = async(req:Request, resp:Response)=>{
                 reportedById
             }
         })
+        console.log(newHazard);
+    
         return resp.status(201).json(newHazard);
     } catch (error: any) {
         console.error("Error adding hazard:", error.message);

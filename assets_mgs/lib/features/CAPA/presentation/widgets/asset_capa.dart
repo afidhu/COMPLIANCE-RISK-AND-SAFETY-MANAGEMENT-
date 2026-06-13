@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Future<void> assetCapa({required Map<String, dynamic> asset,}) async {
+import '../../../assets/domain/entities/assets_entity.dart';
+
+Future<void> assetCapa({required AssetsEntity? asset,}) async {
 
   final Color primaryColor = const Color(0xFF0000BA);
 
@@ -96,18 +98,18 @@ Future<void> assetCapa({required Map<String, dynamic> asset,}) async {
           const SizedBox(height: 25),
 
           /// ASSET ID
-          buildAssetTile(
-            icon: Icons.qr_code,
-            title: "Asset ID",
-            value: asset["id"].toString(),
-            color: primaryColor,
-          ),
+          // buildAssetTile(
+          //   icon: Icons.qr_code,
+          //   title: "Asset ID",
+          //   value: asset.toString(),
+          //   color: primaryColor,
+          // ),
 
           /// ASSET NAME
           buildAssetTile(
             icon: Icons.precision_manufacturing,
             title: "Asset Name",
-            value: asset["name"],
+            value: asset!.assetName.toString(),
             color: Colors.orange,
           ),
 
@@ -115,7 +117,7 @@ Future<void> assetCapa({required Map<String, dynamic> asset,}) async {
           buildAssetTile(
             icon: Icons.category,
             title: "Asset Type",
-            value: asset["type"],
+            value: asset.assetType.toString(),
             color: Colors.green,
           ),
 
@@ -123,7 +125,7 @@ Future<void> assetCapa({required Map<String, dynamic> asset,}) async {
           buildAssetTile(
             icon: Icons.location_on,
             title: "Location",
-            value: asset["location"],
+            value: asset.location.toString(),
             color: Colors.red,
           ),
 
@@ -131,7 +133,7 @@ Future<void> assetCapa({required Map<String, dynamic> asset,}) async {
           buildAssetTile(
             icon: Icons.verified,
             title: "Status",
-            value: asset["status"],
+            value: asset.status.toString(),
             color: Colors.blue,
           ),
 

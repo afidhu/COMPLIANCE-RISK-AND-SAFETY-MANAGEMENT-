@@ -7,6 +7,12 @@ final class HazardsInitial extends HazardsState {}
 
 // class HazardsInitial extends HazardsState{}
 class HazardsLoading extends HazardsState{}
+class HazardsAddedSuccess extends HazardsState{
+  final bool isAdded;
+
+  HazardsAddedSuccess(this.isAdded);
+
+}
 class HazardsError extends HazardsState{
   final String errorMessage;
 

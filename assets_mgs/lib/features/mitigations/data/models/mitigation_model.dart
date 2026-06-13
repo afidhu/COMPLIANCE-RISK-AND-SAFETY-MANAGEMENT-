@@ -1,3 +1,4 @@
+import '../../../hazards/data/models/hazard_models.dart';
 import '../../domain/entities/mitigation_entity.dart';
 
 /// mitigationId : "cmq49kde9000002e2s9aim2or"
@@ -16,6 +17,7 @@ class MitigationModel extends MitigationEntity {
       super.assignedToId,
       super.targetDate,
       super.status,
+      super.hazards,
       super.createdAt,});
 
  factory MitigationModel.fromJson(dynamic json) {
@@ -27,6 +29,7 @@ class MitigationModel extends MitigationEntity {
         targetDate : json['targetDate'],
         status : json['status'],
         createdAt : json['createdAt'],
+      hazards:json['hazard'] != null ? HazardModels.fromJson(json['hazard']) : null,
     );
   }
 

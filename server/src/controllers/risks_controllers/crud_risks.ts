@@ -10,7 +10,8 @@ export const addRisks = async(req:Request, resp:Response)=>{
             data: {
                 hazardId,
                 riskTitle,
-                riskDescription
+                riskDescription,
+                severity:req.body.severity
             }
         });
      

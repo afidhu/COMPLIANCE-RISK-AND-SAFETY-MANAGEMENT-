@@ -14,5 +14,13 @@ final class CapaInitial extends CapaState {}
   final String message;
 
   CapaMessage(this.message);
+ }
+
+ class UpdatedTechnicianCapaStatus extends CapaState {
+  final bool isUpdated;
+
+  UpdatedTechnicianCapaStatus(this.isUpdated);
+
 
  }
+

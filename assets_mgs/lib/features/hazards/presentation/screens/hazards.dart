@@ -10,6 +10,7 @@ import '../../../compliances/presentation/screens/compliance_screen.dart';
 import '../../../mitigations/presentation/bloc/mitigation_bloc.dart';
 import '../../../risks/presentation/bloc/risks_bloc.dart';
 import '../../../risks/presentation/screens/Risk_screen.dart';
+import '../../../risks/presentation/screens/add_risks.dart';
 import '../../../risks/presentation/screens/risks_details.dart';
 import '../bloc/hazards_bloc.dart';
 
@@ -23,56 +24,56 @@ class Hazards extends StatefulWidget {
 class _HazardsState extends State<Hazards> {
 
   /// SAMPLE HAZARD DATA
-  final List<Map<String, dynamic>> hazards = [
-
-    {
-      "hazard_id": 1,
-      "asset_id": "LIFT-001",
-      "compliance_id": "COMP-101",
-      "hazard_title": "Lift Door Malfunction",
-      "hazard_description":
-      "Lift doors are not closing properly and may trap passengers.",
-      "reported_by": "Inspector Juma",
-      "status": "Open",
-      "created_at": "2026-05-20",
-    },
-
-    {
-      "hazard_id": 2,
-      "asset_id": "FIRE-002",
-      "compliance_id": null,
-      "hazard_title": "Lift inspection overdue",
-      "hazard_description":
-      "Emergency exit blocked by stored materials.",
-      "reported_by": "System",
-      "status": "Closed",
-      "created_at": "2026-05-21",
-    },
-
-    {
-      "hazard_id": 3,
-      "asset_id": "ELEC-003",
-      "compliance_id": "COMP-104",
-      "hazard_title": "Exposed Electrical Wires",
-      "hazard_description":
-      "Live wires exposed near office entrance.",
-      "reported_by": "Alex",
-      "status": "In Progress",
-      "created_at": "2026-05-22",
-    },
-
-    {
-      "hazard_id": 4,
-      "asset_id": "BOILER-004",
-      "compliance_id": null,
-      "hazard_title": "Pressure Leakage",
-      "hazard_description":
-      "Boiler pressure valve leaking steam.",
-      "reported_by": "System",
-      "status": "Closed",
-      "created_at": "2026-05-24",
-    },
-  ];
+  // final List<Map<String, dynamic>> hazards = [
+  //
+  //   {
+  //     "hazard_id": 1,
+  //     "asset_id": "LIFT-001",
+  //     "compliance_id": "COMP-101",
+  //     "hazard_title": "Lift Door Malfunction",
+  //     "hazard_description":
+  //     "Lift doors are not closing properly and may trap passengers.",
+  //     "reported_by": "Inspector Juma",
+  //     "status": "Open",
+  //     "created_at": "2026-05-20",
+  //   },
+  //
+  //   {
+  //     "hazard_id": 2,
+  //     "asset_id": "FIRE-002",
+  //     "compliance_id": null,
+  //     "hazard_title": "Lift inspection overdue",
+  //     "hazard_description":
+  //     "Emergency exit blocked by stored materials.",
+  //     "reported_by": "System",
+  //     "status": "Closed",
+  //     "created_at": "2026-05-21",
+  //   },
+  //
+  //   {
+  //     "hazard_id": 3,
+  //     "asset_id": "ELEC-003",
+  //     "compliance_id": "COMP-104",
+  //     "hazard_title": "Exposed Electrical Wires",
+  //     "hazard_description":
+  //     "Live wires exposed near office entrance.",
+  //     "reported_by": "Alex",
+  //     "status": "In Progress",
+  //     "created_at": "2026-05-22",
+  //   },
+  //
+  //   {
+  //     "hazard_id": 4,
+  //     "asset_id": "BOILER-004",
+  //     "compliance_id": null,
+  //     "hazard_title": "Pressure Leakage",
+  //     "hazard_description":
+  //     "Boiler pressure valve leaking steam.",
+  //     "reported_by": "System",
+  //     "status": "Closed",
+  //     "created_at": "2026-05-24",
+  //   },
+  // ];
 
   Color getStatusColor(String status) {
     switch (status) {
@@ -111,6 +112,12 @@ class _HazardsState extends State<Hazards> {
         return Icons.info;
     }
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<HazardsBloc>().add(GetHazardsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +133,8 @@ class _HazardsState extends State<Hazards> {
 
       body: BlocBuilder<HazardsBloc, HazardsState>(
         builder: (context, state) {
-          if(state is HazardsInitial){
-            return CircularProgressIndicator();
+          if(state is HazardsLoading){
+            return Center(child: CircularProgressIndicator(),);
           }
           else if(state is HazardsError){
             return Text(state.errorMessage.toString());
@@ -368,8 +375,8 @@ class _HazardsState extends State<Hazards> {
                                 context.read<RisksBloc>().add(GetRiskEvent(hazard.hazardId!.trim().toString()));
                                 context.read<MitigationBloc>().add(GetMitigation(hazard.hazardId!.trim().toString()));
                                 context.read<CapaBloc>().add(GetCapaEvent(hazard.hazardId!.trim().toString()));
-
-                                Get.to(() => RisksDetails());
+                                AddRisks(hazardId: hazard.hazardId!.trim().toString(),);
+                                Get.to(() => RisksDetails(),arguments:hazard.hazardId!.trim().toString() );
                               },
                               icon: Icon(Icons.arrow_forward, color: Colors.blue,
                                 size: 10.sp,),

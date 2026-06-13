@@ -1,10 +1,12 @@
+import 'package:assets_mgs/features/CAPA/domain/entities/capa_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:popup_menu/popup_menu.dart';
 
 import '../../../notifications/presentation/screens/notifications.dart';
+import '../bloc/capa_bloc.dart';
 import '../widgets/asset_capa.dart';
 
 class CapaTechnician extends StatefulWidget {
@@ -17,41 +19,28 @@ class CapaTechnician extends StatefulWidget {
 class _CapaTechnicianState extends State<CapaTechnician> {
   final Color primaryColor = const Color(0xFF0000BA);
 
-  /// SAMPLE CAPA DATA
-  final List<Map<String, dynamic>> capas = [
-    {
-      "capa_id": "CAPA-001",
-      "risk_id": "RISK-001",
-      "corrective_action": "Repair lift motor immediately",
+  Color myColor(String staus) {
+    switch (staus) {
+      case 'Pending':
+        return Colors.orange;
+        break;
+      case 'Completed':
+        return Colors.green;
+      case 'In Progress':
+        return Colors.blue;
+      default:
+        return Colors.white;
+    }
+  }
 
-      "preventive_action": "Conduct monthly lift maintenance",
-
-      "deadline": "20/05/2026",
-      "status": "Pending",
-    },
-
-    {
-      "capa_id": "CAPA-002",
-      "risk_id": "RISK-002",
-      "corrective_action": "Replace exposed electrical cables",
-
-      "preventive_action": "Weekly electrical inspections",
-
-      "deadline": "25/05/2026",
-      "status": "In Progress",
-    },
-    {
-      "capa_id": "CAPA-002",
-      "risk_id": "RISK-002",
-      "corrective_action": "Replace exposed electrical cables",
-
-      "preventive_action": "Weekly electrical inspections",
-
-      "deadline": "25/05/2026",
-      "status": "Completed",
-    },
-  ];
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<CapaBloc>().add(
+      GetCapaByTechnicianEvent('cmq3r9t6n0000rte28j0zvojs'),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +65,12 @@ class _CapaTechnicianState extends State<CapaTechnician> {
           ),
         ),
 
-
-
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-
                 // Notification Icon
                 IconButton(
                   onPressed: () {},
@@ -113,9 +99,9 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                     ),
 
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         debugPrint("12");
-                        Get.to(()=>Notifications());
+                        Get.to(() => Notifications());
                       },
                       child: const Text(
                         '12',
@@ -132,184 +118,298 @@ class _CapaTechnicianState extends State<CapaTechnician> {
             ),
           ),
         ],
-
-
-
       ),
       body: SafeArea(
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16),
-
-          itemCount: capas.length,
-
-          itemBuilder: (context, index) {
-            final item = capas[index];
-
-          Color myColor(){
-              switch (item['status']) {
-                case 'Pending':
-                  return Colors.orange;
-                  break;
-                case 'Completed':
-                  return Colors.green;
-                case 'In Progress':
-                  return Colors.blue;
-                  default:
-                    return Colors.white;
-              }
-            }
-
-            return Card(
-              color: Colors.grey[200],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                      children: [
-                        Text(
-                          "CAPA #${item["capa_id"]}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: primaryColor,
-                            fontSize: 16,
-                          ),
-                        ),
-
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-
-                          decoration: BoxDecoration(
-                            color: Colors.orange.withOpacity(0.1),
-
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-
-                          child: GestureDetector(
-                            onTapDown: (TapDownDetails details) async {
-
-                              final selected = await showMenu(
-                                context: context,
-                                position: RelativeRect.fromLTRB(
-                                  details.globalPosition.dx,
-                                  details.globalPosition.dy,
-                                  0,
-                                  0,
-                                ),
-                                items: [
-                                  PopupMenuItem(
-                                    // labelTextStyle: WidgetStatePropertyAll(TextStyle(color: Colors.yellow)),
-                                    value: 'pending',
-                                    child: Text('Pending'),
-                                  ),
-                                  PopupMenuItem(
-                                    value: 'progress',
-                                    child: Text('In Progress'),
-                                  ),
-                                  PopupMenuItem(
-                                    value: 'completed',
-                                    child: Text('completed'),
-                                  ),
-                                ],
-                              );
-
-                              print(selected);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color:myColor(),
-                                borderRadius: BorderRadius.circular(20.r)
-
-                              ),
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                item['status'],
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                          )
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 14),
-
-                    buildTile(
-                      title: "Corrective Action",
-                      value: item["corrective_action"],
-                    ),
-                    Divider(),
-
-                    buildTile(
-                      title: "Preventive Action",
-                      value: item["preventive_action"],
-                    ),
-                    Divider(),
-                    SizedBox(
-                      // height: 45.h,
-                      child: Flexible(
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Technician:',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text('  Engineer Juma'),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Divider(),
-
-                    buildTile(title: "Deadline", value: item["deadline"]),
-
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: TextButton.icon(
-                        onPressed: () {
-                          assetCapa(
-                            asset: {
-                              "id": 1,
-                              "name": "Main Lift",
-                              "type": "Lift",
-                              "location": "Block A",
-                              "status": "Inactive",
-                            },
-                          );
-                        },
-                        label: Icon(
-                          Icons.remove_red_eye_outlined,
-                          color: Colors.blue,
-                          size: 25.sp,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+        child: RefreshIndicator(
+          onRefresh: ()async{
+            context.read<CapaBloc>().add(
+              GetCapaByTechnicianEvent(
+                  'cmq3r9t6n0000rte28j0zvojs'),
             );
           },
+          child: BlocBuilder<CapaBloc, CapaState>(
+            builder: (context, state) {
+              if (state is CapaLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is CapaMessage) {
+                return Center(child: Text(state.message.toString()));
+              } else if (state is CapaLoaded) {
+                if (state.capas.isEmpty) {
+                  return Center(child: Text('NO Task assigned to you'));
+                } else {
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16),
+
+                    itemCount: state.capas.length,
+
+                    itemBuilder: (context, index) {
+                      final item = state.capas[index];
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.06),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              /// HEADER
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: primaryColor.withOpacity(.1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.assignment_turned_in,
+                                      color: primaryColor,
+                                    ),
+                                  ),
+
+                                  const SizedBox(width: 12),
+
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item.actionTitle ?? "CAPA Task",
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 3),
+
+                                        Text(
+                                          "CAPA ID : ${item.capaId}",
+                                          style: TextStyle(
+                                            color: Colors.grey.shade600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  GestureDetector(
+                                    onTapDown: (details) async {
+                                      final selected = await showMenu<String>(
+                                        context: context,
+                                        position: RelativeRect.fromLTRB(
+                                          details.globalPosition.dx,
+                                          details.globalPosition.dy,
+                                          0,
+                                          0,
+                                        ),
+                                        items: const [
+                                          PopupMenuItem(
+                                            value: 'PENDING',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.pending_actions,
+                                                  color: Colors.orange,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text('Pending'),
+                                              ],
+                                            ),
+                                          ),
+
+                                          PopupMenuItem(
+                                            value: 'IN_PROGRESS',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.build_circle,
+                                                  color: Colors.blue,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text('In Progress'),
+                                              ],
+                                            ),
+                                          ),
+
+                                          PopupMenuItem(
+                                            value: 'COMPLETED',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.check_circle,
+                                                  color: Colors.green,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text('Completed'),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
+
+                                      if (selected != null) {
+                                        context.read<CapaBloc>().add(
+                                          UpdateCapaByTechnicianEvent(
+                                            capaId: item.capaId.toString(),
+                                            capa: CapaEntity(status: selected.trim().toString()),
+                                          ),
+                                        );
+                                      }
+                                    },
+
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 10,
+                                      ),
+
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue.shade50,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: Colors.blue),
+                                      ),
+
+                                      child: const Icon(
+                                        Icons.edit,
+                                        color: Colors.blue,
+                                        size: 22,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: 18),
+
+                              buildInfoRow(
+                                Icons.build,
+                                "Action Type",
+                                item.actionType.toString(),
+                              ),
+
+                              buildInfoRow(
+                                Icons.person,
+                                "Technician",
+                                item.assignedTo?.fullName ?? "N/A",
+                              ),
+
+                              buildInfoRow(
+                                Icons.calendar_month,
+                                "Deadline",
+                                item.dueDate.toString(),
+                              ),
+                              buildInfoRow(
+                              Icons.pending_actions_outlined,
+                              "Status: ${item.status}",
+                              '',
+                              ),
+
+                              const Divider(height: 25),
+
+                              const Text(
+                                "Corrective Action",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(14),
+
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  // color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+
+                                child: Text(item.actionTitle.toString()),
+                              ),
+
+                              const SizedBox(height: 18),
+
+                              SizedBox(
+                                width: double.infinity,
+
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: primaryColor,
+
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
+                                  ),
+
+                                  onPressed: () {
+                                    assetCapa(asset: item.hazards!.asset);
+                                  },
+
+                                  icon: const Icon(
+                                    Icons.remove_red_eye,
+                                    color: Colors.white,
+                                  ),
+
+                                  label: const Text(
+                                    "View Asset",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              }
+              return SizedBox.shrink();
+            },
+          ),
         ),
       ),
       drawer: Drawer(),
+    );
+  }
+
+  Widget buildInfoRow(IconData icon, String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: primaryColor),
+
+          const SizedBox(width: 10),
+
+          Text("$title: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+
+          Expanded(child: Text(value)),
+        ],
+      ),
     );
   }
 

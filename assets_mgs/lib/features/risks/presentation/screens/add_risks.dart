@@ -1,7 +1,14 @@
+import 'package:assets_mgs/features/risks/domain/entities/risk_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+
+import '../bloc/risks_bloc.dart';
 
 class AddRisks extends StatefulWidget {
-  const AddRisks({super.key});
+  final String hazardId;
+  const AddRisks({super.key, required this.hazardId});
 
   @override
   State<AddRisks> createState() => _AddRisksState();
@@ -11,11 +18,11 @@ class AddRisks extends StatefulWidget {
 class _AddRisksState extends State<AddRisks> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController assetIdController = TextEditingController();
+  // final TextEditingController assetIdController = TextEditingController();
   final TextEditingController riskNameController = TextEditingController();
-  final TextEditingController mitigationController = TextEditingController();
+  final TextEditingController riskDescription = TextEditingController();
 
-  String selectedRiskLevel = "High";
+  String selectedRiskLevel = "HIGH";
 
   final Color primaryColor = const Color(0xFF0D47A1);
 
@@ -60,14 +67,14 @@ class _AddRisksState extends State<AddRisks> {
                     const SizedBox(height: 20),
 
                     /// Asset ID
-                    buildTextField(
-                      controller: assetIdController,
-                      label: "Asset ID",
-                      hint: "Enter asset ID",
-                      icon: Icons.precision_manufacturing,
-                    ),
+                    // buildTextField(
+                    //   controller: assetIdController,
+                    //   label: "Asset ID",
+                    //   hint: "Enter asset ID",
+                    //   icon: Icons.precision_manufacturing,
+                    // ),
 
-                    const SizedBox(height: 16),
+                    // const SizedBox(height: 16),
 
                     /// Risk Name
                     buildTextField(
@@ -103,7 +110,7 @@ class _AddRisksState extends State<AddRisks> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      items: ["Low", "Medium", "High"]
+                      items: ["LOW", "MEDIUM", "HIGH"]
                           .map(
                             (level) => DropdownMenuItem(
                           value: level,
@@ -122,8 +129,8 @@ class _AddRisksState extends State<AddRisks> {
 
                     /// Mitigation Action
                     buildTextField(
-                      controller: mitigationController,
-                      label: "Mitigation Action",
+                      controller: riskDescription,
+                      label: "risk discription",
                       hint: "e.g. Close lift immediately",
                       icon: Icons.build_circle,
                       maxLines: 3,
@@ -144,12 +151,21 @@ class _AddRisksState extends State<AddRisks> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            context.read<RisksBloc>().add(AddRiskEvent(RiskEntity(
+                              hazardId:widget.hazardId,
+                              severity:selectedRiskLevel,
+                              riskTitle: riskNameController.text,
+                              riskDescription: riskDescription.text,
+                            )));
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text("Risk Added Successfully"),
                               ),
                             );
+                            context.read<RisksBloc>().add(GetRiskEvent(widget.hazardId));
+                            Get.back();
                           }
+
                         },
                         icon: const Icon(
                           Icons.save,

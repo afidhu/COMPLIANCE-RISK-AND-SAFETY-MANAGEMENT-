@@ -10,7 +10,7 @@ class MitigationRemoteData {
 
   Future<Response> getMitigation(String hazardId) async{
     try{
-      return await dioClient.dio.get('/capa/get-by-hazardid/$hazardId');
+      return await dioClient.dio.get('/mitigations/get-by-hazardid/$hazardId');
     } catch(e){
       print('eror : ${e.toString()}');
       throw Exception('Error at : $e');

@@ -118,11 +118,20 @@ export const getMitigationActionsByHazardId = async(req:Request, resp:Response)=
                 hazard:{
                     hazardId: `${hazardId}`
                 }
+             },
+             include:{
+                hazard:{
+                    include:{
+                        asset:true
+                    }
+                }
              }
         });
+
         return resp.status(200).json(mitigationActions);
     } catch (error) {
         console.error("Error fetching mitigation actions by hazard ID:", error);
         return resp.status(500).json({ message: "Internal server error" }); 
     }
 }
+

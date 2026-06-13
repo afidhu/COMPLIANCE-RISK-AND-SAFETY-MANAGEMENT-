@@ -26,27 +26,27 @@ class _RisksDetailsState extends State<RisksDetails>
   final Color primaryColor = const Color(0xFF0000BA);
 
   /// SAMPLE MITIGATION DATA
-  final List<Map<String, dynamic>> mitigations = [
-    {
-      "mitigation_id": 1,
-      "risk_id": 1,
-      "mitigation_name": "Close lift immediately",
-      "created_date": "12/05/2026"
-    },
-  ];
-
-  /// SAMPLE CAPA DATA
-  final List<Map<String, dynamic>> capas = [
-    {
-      "capa_id": 1,
-      "risk_id": 1,
-      "corrective_action": "Repair lift motor",
-      "preventive_action":
-      "Schedule monthly inspections",
-      "deadline": "20/05/2026",
-      "status": "Pending"
-    }
-  ];
+  // final List<Map<String, dynamic>> mitigations = [
+  //   {
+  //     "mitigation_id": 1,
+  //     "risk_id": 1,
+  //     "mitigation_name": "Close lift immediately",
+  //     "created_date": "12/05/2026"
+  //   },
+  // ];
+  //
+  // /// SAMPLE CAPA DATA
+  // final List<Map<String, dynamic>> capas = [
+  //   {
+  //     "capa_id": 1,
+  //     "risk_id": 1,
+  //     "corrective_action": "Repair lift motor",
+  //     "preventive_action":
+  //     "Schedule monthly inspections",
+  //     "deadline": "20/05/2026",
+  //     "status": "Pending"
+  //   }
+  // ];
 
   @override
   void initState() {
@@ -58,6 +58,7 @@ class _RisksDetailsState extends State<RisksDetails>
     );
   }
 
+  final String hazardId  = Get.arguments;
   @override
   Widget build(BuildContext context) {
 
@@ -137,7 +138,7 @@ class _RisksDetailsState extends State<RisksDetails>
 
           /// RISK DETAILS
           // buildRiskDetails(),
-          RiskScreen(),
+          RiskScreen(hazardId: Get.arguments),
 
           /// MITIGATION
           AllMitigations(mitigations: [{

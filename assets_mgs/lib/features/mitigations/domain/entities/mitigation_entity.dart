@@ -2,11 +2,14 @@
 
 import 'package:equatable/equatable.dart';
 
+import '../../../hazards/domain/entities/hazards_entity.dart';
+
 class MitigationEntity  extends Equatable{
   final String? mitigationId;
   final String? riskId;
   final String? actionTitle;
   final String? assignedToId;
+  final HazardsEntity? hazards;
   final String? targetDate;
   final String? status;
   final String? createdAt;
@@ -16,6 +19,7 @@ class MitigationEntity  extends Equatable{
     this.riskId,
     this.actionTitle,
     this.assignedToId,
+    this.hazards,
     this.targetDate,
     this.status,
     this.createdAt,});
@@ -27,6 +31,7 @@ class MitigationEntity  extends Equatable{
   actionTitle,
   assignedToId,
   targetDate,
+    hazards,
   status,
   createdAt];
 }

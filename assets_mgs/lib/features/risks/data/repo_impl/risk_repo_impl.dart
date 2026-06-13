@@ -14,13 +14,19 @@ class RiskRepoImpl implements RiskRepo  {
   @override
   Future<bool> addRisk(RiskEntity risk) async{
     try{
-      final resp = await remoteData.addRisk(risk);
+      final risksModel =RisksModel(
+        hazardId: risk.hazardId,
+        riskDescription: risk.riskDescription,
+        riskTitle: risk.riskTitle,
+        severity:risk.severity,
+      );
+      final resp = await remoteData.addRisk(risksModel);
       if(resp.statusCode ==201){
         return true;
       }
       return false;
     } catch(e) {
-      // TODO: implement addAsset
+      print(' ok_ok : $e');
       throw Exception('eror at :$e');
     }
   }
