@@ -19,8 +19,9 @@ import Incidents from './components/incidents/Incidents';
 import AddIncident from './components/incidents/AddIncident';
 import ViewIncident from './components/incidents/ViewIncident';
 import AddAssetCompliance from './components/compliances/AddAssetCompliance';
-import ViewAssetCompliance from './components/compliances/AddCompliance';
 import AddRisk from './components/risks/AddRisk';
+import AddMitigation from './components/mitigations/AddMitigation';
+import ViewAssetCompliance from './components/compliances/ViewAssetCompliance';
 
 
 function App() {
@@ -43,15 +44,17 @@ function App() {
         <Route path="/assets" element={<Assets />} />
         <Route path="/add-asset" element={<AddAsset />} />
         <Route path="/AddAssetCompliance" element={<AddAssetCompliance />} />
-        <Route path="/ViewAssetCompliance" element={<ViewAssetCompliance />} />
+        <Route path="/ViewAssetCompliance/:id" element={<ViewAssetCompliance />} />
         <Route path="/AddHazard" element={<AddHazards />} />
         <Route path="/Incidents" element={<Incidents />} /> 
         <Route path="/AddIncident" element={<AddIncident />} /> 
-        <Route path="/ViewIncident/:id" element={<ViewIncident />} /> 
+        <Route path="/ViewIncident/:id" element={<ViewIncident/>} /> 
         <Route path="/Hazards" element={<Hazards />} />
         <Route path="/Hazard/:id" element={<ViewHazard />} />
         <Route path="/risks" element={<Risks />} />
         <Route path="/AddRisk" element={<AddRisk />} />
+
+        <Route path="/AddMitigation" element={<AddMitigation />} />
         <Route path="/Technicians" element={<Technicians />} />
         {/* <Route path="/ViewAssetCertifications" element={<ViewAssetCertifications />} /> */}
         </Route>

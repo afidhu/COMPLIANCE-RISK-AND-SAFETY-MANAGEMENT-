@@ -198,7 +198,8 @@ export default function Assets() {
                 <td>
 
                   <div className="d-flex justify-content-center gap-2">
-
+                    
+                    <Link to={'/ViewAssetCompliance/1'} >
                     <button
                       className="btn btn-primary btn-sm"
                       style={{
@@ -209,6 +210,7 @@ export default function Assets() {
                     >
                       <i className="fa fa-eye"></i>
                     </button>
+                    </Link>
 
                     <button
                       className="btn btn-warning btn-sm text-white"

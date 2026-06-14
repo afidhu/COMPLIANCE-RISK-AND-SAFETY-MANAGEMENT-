@@ -108,6 +108,8 @@ export default function Incidents() {
               <td>
                 <div className="form-button-action">
 
+                  <Link to={'/ViewIncident/1'}>
+                  
                   <button
                     type="button"
                     className="btn btn-link btn-primary btn-lg"
@@ -115,6 +117,8 @@ export default function Incidents() {
                   >
                     <i className="fa fa-eye"></i>
                   </button>
+
+                  </Link>
 
                   <button
                     type="button"

@@ -138,6 +138,7 @@ export default function AddAssetCompliance() {
                   <input
                     type="date"
                     className="form-control"
+                     style={{colorScheme:'light'}}
                   />
                 </div>
               </div>
@@ -156,6 +157,7 @@ export default function AddAssetCompliance() {
                   <input
                     type="date"
                     className="form-control"
+                    style={{colorScheme:'light'}}
                   />
                 </div>
               </div>

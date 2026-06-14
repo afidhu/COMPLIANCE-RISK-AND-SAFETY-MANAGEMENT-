@@ -1,6 +1,7 @@
 import React from "react";
 import Technicians from "../technicians/Technicians";
 import AddRisk from "../risks/AddRisk";
+import AddMitigation from "../mitigations/AddMitigation";
 
 export default function ViewHazard() {
   return (
@@ -320,11 +321,11 @@ export default function ViewHazard() {
         <div className="modal-dialog modal-xl modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5 text-primary ms-5" id="staticBackdropLabel"><b>All Technicians</b></h1>
+              <h1 className="modal-title fs-5 text-primary ms-5" id="staticBackdropLabel"><b>Add Mitigation Action</b></h1>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
-   ..
+              <AddMitigation/>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
