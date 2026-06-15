@@ -1,6 +1,24 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export default function Risks() {
+
+  const [risks, setRisks] = useState([])
+
+
+  const fetchrisks = async () => {
+    try {
+      const response = await axios.get('http://localhost:51213/risks/get')
+
+      setRisks(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchrisks();
+  }, []);
   return (
     <div className="container-fluid py-4">
 

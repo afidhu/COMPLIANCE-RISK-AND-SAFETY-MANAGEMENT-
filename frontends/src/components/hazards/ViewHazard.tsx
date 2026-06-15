@@ -4,10 +4,12 @@ import AddRisk from "../risks/AddRisk";
 import AddMitigation from "../mitigations/AddMitigation";
 import { useLocation, useParams } from "react-router-dom";
 import AddCAPA from "../CAPA/AddCapa";
+import RiskHazard from "../risks/RiskHazard";
+import CapaHazard from "../CAPA/CapaHazard";
 
 export default function ViewHazard() {
 
-      const { hadazardId } = useParams<{ hadazardId?: string }>();
+      const { hazardId } = useParams<{ hazardId?: string }>();
        const { state } = useLocation();
   return (
     <div className="container-fluid px-3">
@@ -30,44 +32,7 @@ export default function ViewHazard() {
 
 
         {/* ================= RISKS ================= */}
-        <div className="card mb-4 border-0 shadow-sm">
-          <div className="card-header bg-primary text-white fw-bold">
-            Risks
-             <button type={'button'} style={{ float: 'right' }} className="btn btn-primary mb0" data-bs-toggle="modal" data-bs-target="#riskmodel">
-               <i className="fa fa-plus" ></i>Add Risk
-            </button>
-          </div>
-
-          <div className="card-body">
-            <table className="table table-striped align-middle">
-              <thead className="table-primary">
-                <tr>
-                  <th>Risk Title</th>
-                  <th>Likelihood</th>
-                  <th>Severity</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>Lift Sensor Failure</td>
-                  <td>
-                    <span className="badge bg-warning text-dark">
-                      Medium
-                    </span>
-                  </td>
-                  <td>
-                    <span className="badge bg-danger">High</span>
-                  </td>
-                  <td>
-                    Sensor not responding causing unsafe lift operation
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+          <RiskHazard hadazardId ={hazardId}/>
 
         {/* ================= MITIGATION ================= */}
         <div className="card mb-4 border-0 shadow-sm">
@@ -82,7 +47,7 @@ export default function ViewHazard() {
             <table className="table table-hover align-middle">
               <thead className="table-info">
                 <tr>
-                  <th>Action Title</th>
+                  <th>Action Title </th>
                   <th>Assigned To</th>
                   <th>Target Date</th>
                   <th>Status</th>
@@ -117,64 +82,7 @@ export default function ViewHazard() {
         </div>
 
         {/* ================= CAPA ================= */}
-        <div className="card mb-4 border-0 shadow-sm">
-          <div className="card-header bg-danger text-white fw-bold">
-            CAPA Actions (Corrective & Preventive)
-            {/* <!-- Button trigger modal --> */}
-            <button type={'button'} style={{ float: 'right' }} className="btn btn-primary mb0" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-              Assign <i className="fa fa-arrow-right" ></i>
-            </button>
-          </div>
-
-
-          <div className="card-body">
-            <table className="table table-striped align-middle">
-              <thead className="table-danger">
-                <tr>
-                  <th>Action Title</th>
-                  <th>Type</th>
-                  <th>Assigned To</th>
-                  <th>Due Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>Replace Faulty Sensor</td>
-                  <td>
-                    <span className="badge bg-danger">
-                      Corrective
-                    </span>
-                  </td>
-                  <td>Juma Technician</td>
-                  <td>2026-06-25</td>
-                  <td>
-                    <span className="badge bg-warning text-dark">
-                      Pending
-                    </span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Preventive Sensor Calibration</td>
-                  <td>
-                    <span className="badge bg-success">
-                      Preventive
-                    </span>
-                  </td>
-                  <td>Maintenance Team</td>
-                  <td>2026-06-28</td>
-                  <td>
-                    <span className="badge bg-primary">
-                      In Progress
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <CapaHazard hazardid={hazardId} hadazardTitle={state.hazardTitle} />
 
       </div>
 
@@ -189,7 +97,7 @@ export default function ViewHazard() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
-                <AddCAPA  hadazardId={hadazardId} hadazardTitle={state.hazardTitle} />
+                <AddCAPA  hazardid={hazardId} hadazardTitle={state.hazardTitle} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -211,7 +119,7 @@ export default function ViewHazard() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
-              <AddRisk   hadazardId ={hadazardId} hadazardTitle ={state.hazardTitle} />
+              <AddRisk   hadazardId ={hazardId} hadazardTitle ={state.hazardTitle} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -232,7 +140,7 @@ export default function ViewHazard() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
-              <AddMitigation hadazardId={hadazardId} hadazardTitle={state.hazardTitle}/>
+              <AddMitigation hadazardId={hazardId} hadazardTitle={state.hazardTitle}/>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

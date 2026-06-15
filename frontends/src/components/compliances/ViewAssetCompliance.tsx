@@ -76,7 +76,7 @@ export default function ViewAssetCompliance() {
                 </h5>
 
                 <h2 className="fw-bold text-primary">
-                  12
+                  {assetsCompliance.length}
                 </h2>
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function ViewAssetCompliance() {
                       })
 
 
-                      : <><tr><td><h1 className="text-danger" >No Assets Compliance</h1></td></tr></>
+                      : <><tr><td><h6 className="text-danger" >No Assets Compliance</h6></td></tr></>
                   }
 
                 </tbody>

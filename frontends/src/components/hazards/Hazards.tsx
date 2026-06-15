@@ -21,8 +21,8 @@ export default function Hazards() {
     fetchHazard();
   }, []);
 
-const goTo = async(hadazardId:any,hazardTitle:any, )=>{
-  navigation(`/Hazard/${hadazardId}`, { 
+const goTo = async(hazardId:any,hazardTitle:any)=>{
+  navigation(`/Hazard/${hazardId}`, { 
     state: { hazardTitle: hazardTitle}
   });
 }

@@ -5,13 +5,14 @@ import { prisma } from "../../index.ts";
 // add a new CAPA action
 export const addCapa = async(req:Request, resp:Response)=>{
     try {
-        const { riskId, actionTitle, assignedToId, dueDate } = req.body;
+        const {actionTitle, assignedToId, dueDate, hazardId} = req.body;
         const newCapa = await prisma.capaAction.create({
             data: {
-                riskId,
-                actionTitle,
-                assignedToId,
-                dueDate
+                
+                actionTitle:actionTitle,
+                assignedToId:assignedToId,
+                dueDate:dueDate,
+                hazardId:hazardId,
             }
         });
         console.log(newCapa)

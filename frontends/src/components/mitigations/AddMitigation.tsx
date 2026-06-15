@@ -1,5 +1,6 @@
 
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export default function AddMitigation({hadazardId,hadazardTitle}) {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function AddMitigation({hadazardId,hadazardTitle}) {
     status: "",
   });
 
+  const[mitigation ,setMitigation] = useState([])
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -26,6 +28,7 @@ export default function AddMitigation({hadazardId,hadazardTitle}) {
 
     alert("Mitigation Action Added Successfully");
   };
+
 
   return (
     <div className="container-fluid py-4">

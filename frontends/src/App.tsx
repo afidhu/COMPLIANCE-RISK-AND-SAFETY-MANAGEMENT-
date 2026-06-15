@@ -22,6 +22,8 @@ import AddAssetCompliance from './components/compliances/AddAssetCompliance';
 import AddRisk from './components/risks/AddRisk';
 import AddMitigation from './components/mitigations/AddMitigation';
 import ViewAssetCompliance from './components/compliances/ViewAssetCompliance';
+import Login from './components/auths/Login';
+import Register from './components/auths/Register';
 
 
 function App() {
@@ -50,7 +52,7 @@ function App() {
         <Route path="/AddIncident" element={<AddIncident />} /> 
         <Route path="/ViewIncident/:id" element={<ViewIncident/>} /> 
         <Route path="/Hazards" element={<Hazards />} />
-        <Route path="/Hazard/:hadazardId" element={<ViewHazard />} />
+        <Route path="/Hazard/:hazardId" element={<ViewHazard />} />
         <Route path="/risks" element={<Risks />} />
         {/* <Route path="/AddRisk" element={<AddRisk  />} /> */}
 
@@ -58,8 +60,9 @@ function App() {
         <Route path="/Technicians" element={<Technicians />} />
         {/* <Route path="/ViewAssetCertifications" element={<ViewAssetCertifications />} /> */}
         </Route>
-        {/* <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/contact" element={<Contact />} /> */}
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   )

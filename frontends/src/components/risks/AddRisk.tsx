@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 
-export default function AddRisk({hadazardId,hadazardTitle}) {
+export default function AddRisk({hadazardId,hadazardTitle}: any) {
 
   // 1. Initialize the risk form state
 const [riskData, setRiskData] = useState({
@@ -54,6 +54,7 @@ const addRiskHandle = async (e: React.FormEvent) => {
         likelihood: "",
         severity: "",
       });
+  window.location.reload()
     }
   } catch (error: any) {
     alert(`Failed to add risk: ${error.message}`);
@@ -69,7 +70,7 @@ const addRiskHandle = async (e: React.FormEvent) => {
       <div className="container-fluid py-4">
       <div className="card shadow border-0">
         
-        {/* Header */}
+        {/* Header */} 
         <div
           className="card-header text-white"
           style={{ background: "#1e66ff" }}
@@ -242,7 +243,7 @@ const addRiskHandle = async (e: React.FormEvent) => {
             <div className="d-flex justify-content-end gap-3 mt-5">
 
               <button
-                type="button"
+                type="submit"
                 className="btn btn-light px-4 py-2"
               >
                 <i className="fas fa-arrow-left me-2"></i>

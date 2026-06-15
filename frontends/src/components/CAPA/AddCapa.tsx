@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const AddCAPA: React.FC = ({hadazardId,hadazardTitle}) => {
+const AddCAPA: React.FC = ({hazardid,hadazardTitle}) => {
 //   const [riskId, setRiskId] = useState("");
   const [actionTitle, setActionTitle] = useState("");
   const [assignedToId, setAssignedToId] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [hazardId, sethazardId] = useState("");
 //   const [userId, setUserId] = useState("");
     const [technicians, setTechnicians] = useState([]);
 
@@ -40,11 +41,12 @@ const AddCAPA: React.FC = ({hadazardId,hadazardTitle}) => {
 
       const payload = {
        riskId: "cmq3vjm5j0003d5e28d8m32zt",
-        hazardId:hadazardId,
+        hazardId:hazardid,
         actionTitle,
         assignedToId:assignedToId,
         dueDate: new Date(dueDate).toISOString(),
       };
+      console.log('payload',payload)
 
       const response = await axios.post(
         "http://localhost:51213/capa/add",
@@ -58,6 +60,7 @@ const AddCAPA: React.FC = ({hadazardId,hadazardTitle}) => {
       setActionTitle("");
       setAssignedToId("");
       setDueDate("");
+      window.location.reload()
     } catch (error: any) {
       console.error(error);
       alert(
@@ -113,7 +116,7 @@ const AddCAPA: React.FC = ({hadazardId,hadazardTitle}) => {
             {/* Action Title */}
             <div className="mb-4">
               <label className="form-label fw-semibold">
-                Action Title
+                Action Title 
               </label>
 
               <div className="input-group">
@@ -158,7 +161,7 @@ const AddCAPA: React.FC = ({hadazardId,hadazardTitle}) => {
                       </option>
                       {
                         technicians.map((item)=>{
-                            return <option value={item.userId}>{item.userId}</option>
+                            return <option value={item.userId}>{item.fullName}</option>
                         })
                       }
 
