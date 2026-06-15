@@ -14,6 +14,8 @@ export const addRisks = async(req:Request, resp:Response)=>{
                 severity:req.body.severity
             }
         });
+        console.log(newRisk)
+        
      
         return resp.status(201).json(newRisk);
     } catch (error) {

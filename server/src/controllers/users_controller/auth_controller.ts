@@ -52,6 +52,24 @@ export const getUsers = async(req:Request, resp:Response)=>{
     }
 }
 
+//get all technician
+
+export const getTechnician = async(req:Request, resp:Response)=>{
+    try {
+        const users = await prisma.user.findMany({
+            where:{
+                role:{
+                    equals:'TECHNICIAN'
+                }
+            }
+        });
+        return resp.status(200).json(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
 // get a user by ID
 export const getUserById = async(req:Request, resp:Response)=>{
     try {

@@ -1,8 +1,32 @@
 
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Hazards() {
+
+  const navigation = useNavigate()
+  const[hazards, setHazards] = useState([])
+      const fetchHazard = async () => {
+    try {
+     const response = await axios.get('http://localhost:51213/hazards/get')
+    
+      setHazards(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+    useEffect(() => {
+    fetchHazard();
+  }, []);
+
+const goTo = async(hadazardId:any,hazardTitle:any, )=>{
+  navigation(`/Hazard/${hadazardId}`, { 
+    state: { hazardTitle: hazardTitle}
+  });
+}
+
   return (
     <div className="container-fluid px-3">
       <div className="page-inner">
@@ -60,7 +84,8 @@ export default function Hazards() {
                 
                 <thead style={{ background: "#1e66ff", color: "white" }}>
                   <tr>
-                    <th>Asset ID</th>
+                    <th>Asset Name</th>
+                    <th>Location</th>
                  
                     <th>Hazard Title</th>
                     <th>Description</th>
@@ -72,22 +97,25 @@ export default function Hazards() {
 
                 <tbody>
 
-                  {/* ROW 1 */}
-                  <tr>
-                    <td>AST-001</td>
-                    <td>Lift Door Failure</td>
-                    <td>Lift door not closing properly causing safety risk</td>
-                    <td>System</td>
+                 {
+                  hazards.length > 0 ? 
+                  hazards.map((item,index)=>{
+                    return                   <tr>
+                    <td>{item.asset.assetName}</td>
+                    <td> {item.asset.location}</td>
+                    <td> {item.hazardTitle}</td>
+                    <td> {item.hazardDescription} </td>
+                    <td>{item.status} </td>
                     <td>
-                      <span className="badge bg-danger">Critical</span>
+                      <span className="badge bg-danger"> {item.reportedBy.fullName}</span>
                     </td>
                     <td>
 
-                      <Link to={'/Hazard/1'}>
-                      <button className="btn btn-link text-primary">
+                      
+                      <button  onClick={()=>goTo(item.hazardId,item.hazardTitle)} className="btn btn-link text-primary">
                         <i className="fa fa-eye"></i>
                       </button>
-                      </Link>
+                    
                     
 
                       <button className="btn btn-link text-warning">
@@ -96,6 +124,11 @@ export default function Hazards() {
                      
                     </td>
                   </tr>
+                  })
+                  :
+                   <><tr><td><h1>No have Found</h1></td></tr></>
+                 }
+
 
                   
                 </tbody>

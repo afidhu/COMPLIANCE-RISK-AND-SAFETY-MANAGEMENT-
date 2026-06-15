@@ -43,18 +43,18 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/assets" element={<Assets />} />
         <Route path="/add-asset" element={<AddAsset />} />
-        <Route path="/AddAssetCompliance" element={<AddAssetCompliance />} />
-        <Route path="/ViewAssetCompliance/:id" element={<ViewAssetCompliance />} />
+        <Route path="/AddAssetCompliance/:assetId/:assetName" element={<AddAssetCompliance />} />
+        <Route path="/ViewAssetCompliance/:assetId" element={<ViewAssetCompliance />} />
         <Route path="/AddHazard" element={<AddHazards />} />
         <Route path="/Incidents" element={<Incidents />} /> 
         <Route path="/AddIncident" element={<AddIncident />} /> 
         <Route path="/ViewIncident/:id" element={<ViewIncident/>} /> 
         <Route path="/Hazards" element={<Hazards />} />
-        <Route path="/Hazard/:id" element={<ViewHazard />} />
+        <Route path="/Hazard/:hadazardId" element={<ViewHazard />} />
         <Route path="/risks" element={<Risks />} />
-        <Route path="/AddRisk" element={<AddRisk />} />
+        {/* <Route path="/AddRisk" element={<AddRisk  />} /> */}
 
-        <Route path="/AddMitigation" element={<AddMitigation />} />
+        {/* <Route path="/AddMitigation" element={<AddMitigation />} /> */}
         <Route path="/Technicians" element={<Technicians />} />
         {/* <Route path="/ViewAssetCertifications" element={<ViewAssetCertifications />} /> */}
         </Route>

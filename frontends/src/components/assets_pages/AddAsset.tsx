@@ -1,6 +1,68 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 export default function AddAsset() {
+  const [formData, setFormData] = useState({
+    assetName: "",
+    assetType: "",
+    location: "",
+    serialNo: "",
+    createdById:"cmq3rfv800001rte2k6ioz6ut",
+    // status: "",
+  });
+
+  const[ isClicked,setIsClicked]=useState(false)
+  const[ isAdded,setIsAdded]=useState(false)
+  const[ assetId,setassetId]=useState('')
+  const[ assetName,setassetName]=useState('')
+
+
+const addAssetHandle = async (e: React.FormEvent) => {
+  e.preventDefault();
+   setIsClicked(true)
+
+  try {
+    const response = await axios.post(
+      "http://localhost:51213/assets/add",
+      formData
+    );
+
+    console.log(response.data);
+
+    if(response.status ==201){
+      setassetId(response.data.assetId)
+      setassetName(response.data.assetName)
+      setIsClicked(false)
+      setIsAdded(true)
+      alert(`Asset added successfully :${ response.status}`);
+    }
+    // setIsClicked(false)
+    setIsAdded(false)
+
+    // reset input
+  
+
+  } catch (error:any) {
+   setTimeout(()=>{
+    alert(`Asset added Fail :${error.message}`);
+     setIsClicked(false)
+   },400)
+    setIsAdded(false)
+    console.error(error);
+  }
+};
+
+const handleInputChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
   return (
     <div className="container">
       {/* ADD ASSET FORM */}
@@ -37,26 +99,7 @@ export default function AddAsset() {
         {/* BODY */}
         <div className="card-body p-4">
 
-          <form>
-
-            {/* ASSET ID */}
-            <div className="mb-4">
-              <label className="form-label fw-semibold">
-                Asset ID
-              </label>
-
-              <div className="input-group">
-                <span className="input-group-text bg-light border-end-0">
-                  <i className="fas fa-hashtag text-primary"></i>
-                </span>
-
-                <input
-                  type="text"
-                  className="form-control border-start-0 py-3"
-                  placeholder="Enter asset ID"
-                />
-              </div>
-            </div>
+          <form onSubmit={addAssetHandle} typeof="POST" >
 
             {/* ASSET NAME */}
             <div className="mb-4">
@@ -73,6 +116,10 @@ export default function AddAsset() {
                   type="text"
                   className="form-control border-start-0 py-3"
                   placeholder="Enter asset name"
+                  name={'assetName'}
+                  value={formData.assetName}
+                  onChange={handleInputChange}
+                 
                 />
               </div>
             </div>
@@ -91,15 +138,19 @@ export default function AddAsset() {
                 <select
                   className="form-select border-start-0 py-3"
                   defaultValue=""
+                  name={'assetType'}
+                  value={formData.assetType}
+                  onChange={handleInputChange}
                 >
                   <option value="" disabled>
                     Select asset type
                   </option>
 
-                  <option>Elevator</option>
-                  <option>Generator</option>
-                  <option>Fire Equipment</option>
-                  <option>Electrical</option>
+                  <option value={'ELECTRICAL_DEVICE'} >Electrical</option>
+                  <option value={'BOILER'} >Boilers</option>
+                  <option value={'LIFT'} >Lift</option>
+                  <option value={'PRESSURE_VESSEL'} >Pressues vessel</option>
+                  <option value={'EXPLOSIVES'}>Explosives</option>
                 </select>
               </div>
             </div>
@@ -119,6 +170,31 @@ export default function AddAsset() {
                   type="text"
                   className="form-control border-start-0 py-3"
                   placeholder="Enter asset location"
+                  name={'location'}
+                  value={formData.location}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            {/* ASSET SeriaNo */}
+            <div className="mb-4">
+              <label className="form-label fw-semibold">
+              Serial No
+              </label>
+
+              <div className="input-group">
+                <span className="input-group-text bg-light border-end-0">
+                  <i className="fas fa-hashtag text-primary"></i>
+                </span>
+
+                <input
+                  type="text"
+                  className="form-control border-start-0 py-3"
+                  placeholder="Enter asset serial No"
+                  name={'serialNo'}
+                  value={formData.serialNo}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -161,13 +237,28 @@ export default function AddAsset() {
                 Back
               </a>
 
-              <Link to={'/AddAssetCompliance'}
+{
+  isClicked ?    <><div className="spinner-border" role="status">
+  <span className="sr-only">Loading...</span>
+</div></> :<div  className="btn text-white px-4 py-2 rounded-3 fw-semibold"
+                style={{ background: "#1e66ff" }}>
+
+                  <button  type="submit" className="btn btn-primary" value={'Save'} style={{ background: "#1e66ff" }}>
+                    Save
+                  </button>
+
+              </div>
+}
+              {assetId.length >0? <Link to={`/AddAssetCompliance/${assetId}/${assetName}`}
                 className="btn text-white px-4 py-2 rounded-3 fw-semibold"
                 style={{ background: "#1e66ff" }}
               >
                 Save & Next
                 <i className="fas fa-arrow-right ms-2"></i>
-              </Link>
+              </Link> :null
+              } 
+
+              
 
             </div>
 

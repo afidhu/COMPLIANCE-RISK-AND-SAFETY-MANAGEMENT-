@@ -14,6 +14,7 @@ export const addCapa = async(req:Request, resp:Response)=>{
                 dueDate
             }
         });
+        console.log(newCapa)
         return resp.status(201).json(newCapa);
     } catch (error) {
         console.error("Error adding CAPA:", error);

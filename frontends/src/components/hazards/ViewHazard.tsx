@@ -2,8 +2,13 @@ import React from "react";
 import Technicians from "../technicians/Technicians";
 import AddRisk from "../risks/AddRisk";
 import AddMitigation from "../mitigations/AddMitigation";
+import { useLocation, useParams } from "react-router-dom";
+import AddCAPA from "../CAPA/AddCapa";
 
 export default function ViewHazard() {
+
+      const { hadazardId } = useParams<{ hadazardId?: string }>();
+       const { state } = useLocation();
   return (
     <div className="container-fluid px-3">
 
@@ -18,7 +23,7 @@ export default function ViewHazard() {
               borderRadius: "10px",
             }}
           >
-            <h3 className="mb-1 fw-bold">Lift Sensor Failure</h3>
+            <h3 className="mb-1 fw-bold">{state.hazardTitle}</h3>
             <small>Hazard Detail Overview</small>
           </div>
         </div>
@@ -184,105 +189,7 @@ export default function ViewHazard() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
-              <Technicians />
-
-              <form>
-
-                <div className="card border-0 shadow-sm rounded-4">
-
-                  <div
-                    className="card-header text-white py-3"
-                    style={{ backgroundColor: "#1e66ff" }}
-                  >
-                    <h5 className="mb-0 fw-bold">
-                      Corrective Action (CAPA)
-                    </h5>
-                  </div>
-
-                  <div className="card-body p-4">
-
-                    {/* Corrective Action Title */}
-                    <div className="mb-4">
-
-                      <label className="form-label fw-semibold">
-                        Corrective Action Title
-                      </label>
-
-                      <div className="input-group">
-
-                        <span className="input-group-text bg-light">
-                          <i
-                            className="fas fa-tools"
-                            style={{ color: "#1e66ff" }}
-                          ></i>
-                        </span>
-
-                        <input
-                          type="text"
-                          className="form-control py-3"
-                          placeholder="Enter corrective action title"
-                        />
-
-                      </div>
-
-                    </div>
-
-                    {/* Due Date */}
-                    <div className="mb-4">
-
-                      <label className="form-label fw-semibold">
-                        Due Date
-                      </label>
-
-                      <div className="input-group">
-
-                        <span className="input-group-text bg-light">
-                          <i
-                            className="fas fa-calendar-alt"
-                            style={{ color: "#1e66ff" }}
-                          ></i>
-                        </span>
-
-                        <input
-                          type="date"
-                          className="form-control py-3"
-                          style={{
-                            colorScheme: "light", /* Forces browser UI elements to stay dark/visible */
-                          }}
-                        />
-
-
-
-                      </div>
-
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="d-flex justify-content-end gap-3 mt-4">
-
-                      <button
-                        type="reset"
-                        className="btn btn-light px-4 py-2 fw-semibold"
-                      >
-                        Clear
-                      </button>
-
-                      <button
-                        type="submit"
-                        className="btn text-white px-4 py-2 fw-semibold"
-                        style={{ backgroundColor: "#1e66ff" }}
-                      >
-                        <i className="fas fa-save me-2"></i>
-                        Save Action
-                      </button>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </form>
+                <AddCAPA  hadazardId={hadazardId} hadazardTitle={state.hazardTitle} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -304,7 +211,7 @@ export default function ViewHazard() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
-              <AddRisk/>
+              <AddRisk   hadazardId ={hadazardId} hadazardTitle ={state.hazardTitle} />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -325,7 +232,7 @@ export default function ViewHazard() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
-              <AddMitigation/>
+              <AddMitigation hadazardId={hadazardId} hadazardTitle={state.hazardTitle}/>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

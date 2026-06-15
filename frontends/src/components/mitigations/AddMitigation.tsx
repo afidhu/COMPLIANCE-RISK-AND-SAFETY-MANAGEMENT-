@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
 
-export default function AddMitigation() {
+export default function AddMitigation({hadazardId,hadazardTitle}) {
   const [formData, setFormData] = useState({
-    risk_id: "",
+    hadazardId: hadazardId,
     action_title: "",
     assigned_to: "",
     target_date: "",
@@ -58,7 +58,7 @@ export default function AddMitigation() {
                 {/* Risk ID */}
                 <div className="mb-4">
                   <label className="form-label fw-semibold">
-                    Risk ID
+                  hadazard Name
                   </label>
 
                   <div className="input-group">
@@ -69,12 +69,12 @@ export default function AddMitigation() {
 
                     <input
                       type="text"
-                      name="risk_id"
-                      value={formData.risk_id}
+                      name="hadazardId"
+                      value={hadazardTitle}
+                      readOnly
                       onChange={handleChange}
                       className="form-control"
-                      placeholder="Enter Risk ID"
-                      required
+                     
                     />
 
                   </div>

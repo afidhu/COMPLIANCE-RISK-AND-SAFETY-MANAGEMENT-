@@ -1,8 +1,37 @@
 
 
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 export default function ViewAssetCompliance() {
+
+  const { assetId } = useParams();
+  const { state } = useLocation();
+  console.log('state', state, 'id', assetId)
+
+  // Destructure the name from the state object safely
+  const { assetName } = state || {};
+
+  const [assetsCompliance, setAssetsCompliance] = useState([])
+
+  const fetchAssetsCompliance = async () => {
+    try {
+      const response = await axios.get(`http://localhost:51213/compliance/get-by-assetid/${assetId}`)
+
+      // console.log(response.data);
+      setAssetsCompliance(response.data);
+      console.log('assetsCompliance,', assetsCompliance)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAssetsCompliance();
+  }, []);
+
+
   return (
     <div className="container">
       <div className="page-inner">
@@ -16,11 +45,11 @@ export default function ViewAssetCompliance() {
 
               <div>
                 <h2 className="fw-bold text-primary mb-1">
-                  Main Lift (AST-001)
+                  Asset: {assetName}
                 </h2>
 
                 <p className="text-muted mb-0">
-                  Building A • Lift Asset
+                  Location:{state.location} • {/*{state.assetType}*/}
                 </p>
               </div>
 
@@ -92,13 +121,12 @@ export default function ViewAssetCompliance() {
               Compliance Register
             </h4>
 
-            <a
-              href="#"
+            <Link to={'/AddAssetCompliance'}
               className="btn btn-primary"
             >
               <i className="fas fa-plus me-2"></i>
               Add Compliance
-            </a>
+            </Link>
 
           </div>
 
@@ -118,79 +146,42 @@ export default function ViewAssetCompliance() {
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
-
                 </thead>
 
                 <tbody>
 
-                  <tr>
-                    <td>Annual Lift Inspection</td>
-                    <td>Annual</td>
-                    <td>01-Jan-2026</td>
-                    <td>01-Jan-2027</td>
+                  {
+                    assetsCompliance.length > 0 ?
+                      assetsCompliance.map((item,index)=>{
+                        return <>
+                        <tr>
+                          <td> {item.complianceName} </td>
+                          <td> {item.frequency} </td>
+                          <td> {item.lastDueDate} </td>
+                          <td> {item.dueDate} </td>
 
-                    <td>
-                      <span className="badge bg-success">
-                        Compliant
-                      </span>
-                    </td>
+                          <td>
+                            <span className="badge bg-success">
+                              {item.status}
+                            </span>
+                          </td>
 
-                    <td>
-                      <button className="btn btn-link btn-primary">
-                        <i className="fa fa-eye"></i>
-                      </button>
+                          <td>
+                            <button className="btn btn-link btn-primary">
+                              <i className="fa fa-eye"></i>
+                            </button>
 
-                      <button className="btn btn-link btn-warning">
-                        <i className="fa fa-pen"></i>
-                      </button>
-                    </td>
-                  </tr>
+                            <button className="btn btn-link btn-warning">
+                              <i className="fa fa-pen"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </>
+                      })
 
-                  <tr>
-                    <td>Quarterly Safety Check</td>
-                    <td>Quarterly</td>
-                    <td>01-Apr-2026</td>
-                    <td>01-Jul-2026</td>
 
-                    <td>
-                      <span className="badge bg-warning text-dark">
-                        Due Soon
-                      </span>
-                    </td>
-
-                    <td>
-                      <button className="btn btn-link btn-primary">
-                        <i className="fa fa-eye"></i>
-                      </button>
-
-                      <button className="btn btn-link btn-warning">
-                        <i className="fa fa-pen"></i>
-                      </button>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Emergency Brake Test</td>
-                    <td>Monthly</td>
-                    <td>01-May-2026</td>
-                    <td>01-Jun-2026</td>
-
-                    <td>
-                      <span className="badge bg-danger">
-                        Overdue
-                      </span>
-                    </td>
-
-                    <td>
-                      <button className="btn btn-link btn-primary">
-                        <i className="fa fa-eye"></i>
-                      </button>
-
-                      <button className="btn btn-link btn-warning">
-                        <i className="fa fa-pen"></i>
-                      </button>
-                    </td>
-                  </tr>
+                      : <><tr><td><h1 className="text-danger" >No Assets Compliance</h1></td></tr></>
+                  }
 
                 </tbody>
 

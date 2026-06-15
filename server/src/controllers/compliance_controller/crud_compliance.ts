@@ -12,10 +12,11 @@ export const addCompliance = async(req:Request, resp:Response)=>{
                 complianceName,
                 assetId,
                 frequency,
-                lastDueDate,
-                dueDate
+                lastDueDate: lastDueDate ? new Date(lastDueDate) : null, 
+                dueDate: new Date(dueDate),
             }
         });
+        console.log(newCompliance)
         return resp.status(201).json(newCompliance);
     } catch (error) {
         console.error("Error adding compliance:", error);

@@ -13,6 +13,7 @@ export const addAsset = async (req: Request, resp: Response) => {
                 createdById,
             }
         })
+        console.log(newAsset)
         return resp.status(201).json(newAsset);
     } catch (error) {
         console.error("Error adding asset:", error);

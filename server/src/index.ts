@@ -21,12 +21,16 @@ const app: Application = express();
 const port = process.env.PORT || 3000; // This controls the backend server address
 
 // Configure CORS options
-const corsOptions: cors.CorsOptions = {
-  // This controls which frontend is allowed to connect
-  origin: process.env.PORT || 'http://localhost:3000', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-};
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // React Vite
+      "http://localhost:3000", // React CRA (if used)
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // Initialize Prisma Client with PostgreSQL adapter
 const connectionString = `${process.env.DATABASE_URL}`;
@@ -37,12 +41,7 @@ export { prisma };
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-app.use(cors(corsOptions));
-app.use(cors());
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
+
 // Routes
 app.use('/auth', auth_routers);
 app.use('/hazards', hazards_routers);
