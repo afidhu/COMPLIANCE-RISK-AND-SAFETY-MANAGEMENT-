@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default function AddAssetCompliance() {
@@ -9,12 +9,13 @@ export default function AddAssetCompliance() {
   const { assetId } = useParams<{ assetId?: string }>();
   const { assetName } = useParams<{ assetName?: string }>();
 
+  const navigate =useNavigate()
  
   console.log('assetId:',assetId, 'assetName',assetName)
 
   const [formData, setFormData] = useState({
     complianceName: "",
-    assetId: "cmqby5byj0002n8e2qvhwd1uf",
+    assetId:assetId,
     frequency: "",
     lastDueDate: "",
     dueDate: "",
@@ -47,7 +48,6 @@ const addComplianceHandle = async (e: React.FormEvent) => {
       // optional: store returned id if backend sends it
       // setComplianceId(response.data.complianceId);
     }
-
     // reset form after success
     setFormData({
       complianceName: "",
@@ -56,6 +56,11 @@ const addComplianceHandle = async (e: React.FormEvent) => {
       lastDueDate: "",
       dueDate: "",
     });
+    //navigate to
+
+  // navigate(`/ViewAssetCompliance/${assetId}`, { 
+  //   state: { assetName: assetName, location:location }
+  // });
 
     setTimeout(() => {
       setIsAdded(false);
