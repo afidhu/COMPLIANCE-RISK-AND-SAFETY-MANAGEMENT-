@@ -46,7 +46,7 @@ const Register = () => {
       await axios.post(
         "http://localhost:51213/auth/register/",
         {
-          full_name,
+          fullName:full_name,
           email,
           role,
           phone,
@@ -60,7 +60,7 @@ const Register = () => {
       );
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/dashboard");
       }, 1500);
     } catch (err: any) {
       setError(
@@ -183,10 +183,12 @@ const Register = () => {
                     setRole(e.target.value)
                   }
                 >
-                  <option>Inspector</option>
-                  <option>Safety Officer</option>
-                  <option>Technician</option>
-                  <option>Admin</option>
+                
+                  <option  value={'ESTATE_MANAGER'} >Estate menager</option>
+                  <option  value={'INSPECTOR'} >Inspector</option>
+                  <option  value={'SAFETY_OFFICER'} > Safety Officer </option>
+                  <option  value={'TECHNICIAN'} >Technician</option>
+                  <option  value={'STAFF_MEMBER'} >Staff member</option>
                 </select>
               </div>
 

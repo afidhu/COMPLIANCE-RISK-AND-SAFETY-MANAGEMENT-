@@ -1,6 +1,20 @@
+import { use, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "./AuthContext";
 
 
 export default function NavBar() {
+
+    const navigation = useNavigate()
+const context = useContext(UserContext);
+// Destructure properties from your specific API response user object
+  const { user } = context;
+
+  const logOut = async()=>{
+    localStorage.removeItem('user')
+    navigation('/Login')
+  }
+
     return (
         <div>
             <nav className="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
@@ -233,7 +247,7 @@ export default function NavBar() {
                                 </div>
                                 <span className="profile-username">
                                     <span className="op-7">Hi,</span>
-                                    <span className="fw-bold">Hizrian</span>
+                                    <span className="fw-bold">{user?.fullName}</span>
                                 </span>
                             </a>
                             <ul className="dropdown-menu dropdown-user animated fadeIn">
@@ -244,8 +258,8 @@ export default function NavBar() {
                                                 <img src="assets/img/profile.jpg" alt="image profile" className="avatar-img rounded" />
                                             </div>
                                             <div className="u-text">
-                                                <h4>Hizrian</h4>
-                                                <p className="text-muted">hello@example.com</p>
+                                                <h4>{user?.fullName}</h4>
+                                                <p className="text-muted">{user?.email}</p>
                                                 <a href="profile.html" className="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                             </div>
                                         </div>
@@ -258,7 +272,7 @@ export default function NavBar() {
                                         <div className="dropdown-divider"></div>
                                         <a className="dropdown-item" href="#">Account Setting</a>
                                         <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">Logout</a>
+                                        <a onClick={logOut} className="dropdown-item" href="#">Logout</a>
                                     </li>
                                 </div>
                             </ul>

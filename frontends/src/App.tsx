@@ -24,11 +24,18 @@ import AddMitigation from './components/mitigations/AddMitigation';
 import ViewAssetCompliance from './components/compliances/ViewAssetCompliance';
 import Login from './components/auths/Login';
 import Register from './components/auths/Register';
+import { getInitialUser, UserContext } from './components/includes/AuthContext';
 
 
 function App() {
-
+ // Define reactive state for the user using the initial values from local storage
+  const [user, setUser] = useState(getInitialUser);
   return (
+    
+       // Provide both the current user and the setter function to the application
+    <UserContext.Provider value={{ user, setUser }}>
+   
+  
   <BrowserRouter>
       {/* Navigation */}
       {/* <nav>
@@ -65,6 +72,7 @@ function App() {
         <Route path="/Register" element={<Register />} />
       </Routes>
     </BrowserRouter>
+     </UserContext.Provider>
   )
 }
 

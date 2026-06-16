@@ -16,6 +16,7 @@ export const registerUser = async(req:Request, resp:Response)=>{
             phone
         }
        });
+       console.log(newUser)
        return resp.status(201).json(newUser);
     } catch (error) {
         console.error("Error registering user:", error);
@@ -30,9 +31,11 @@ export const loginUser = async(req:Request, resp:Response)=>{
         const user = await prisma.user.findUnique({
             where: { email: `${email}` }
         });
+         console.log(user)
         if (!user) {
             return resp.status(404).json({ message: "User not found" });
         }
+        console.log(user)
         return resp.status(200).json(user);
     } catch (error) {
         console.error("Error logging in user:", error);

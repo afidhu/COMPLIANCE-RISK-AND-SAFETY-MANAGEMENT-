@@ -1,7 +1,8 @@
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../includes/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,42 +14,47 @@ const Login = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+const { setUser } = useContext(UserContext);
 
-    setError("");
-    setSuccess("");
+const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const response = await axios.post(
-        "http://localhost:51213/auth/login/",
-        {
-          email,
-          password,
-        }
-      );
+    const response = await axios.post(
+      "http://localhost:51213/auth/login/",
+      { email, password }
+    );
 
-      setSuccess("Login successful");
+    setSuccess("Login successful");
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data)
-      );
+    // 2. Save to localStorage to persist across page reloads
+    localStorage.setItem(
+      "user",
+      JSON.stringify(response.data)
+    );
 
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1000);
-    } catch (err: any) {
-      setError(
-        err?.response?.data?.message ||
-          "Invalid credentials"
-      );
-    } finally {
-      setLoading(false);
+    // 3. IMMEDIATELY update your context state so the whole app knows the user is logged in
+    if (setUser) {
+      setUser(response.data);
     }
-  };
+
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1000);
+    
+  } catch (err: any) {
+    alert(`error:${err.message}`);
+    setError(
+      err?.response?.data?.message || "Invalid credentials"
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div
@@ -138,7 +144,7 @@ const Login = () => {
               />
             </div>
 
-            <button
+            <button type="submit"
               className="btn btn-primary btn-lg w-100"
               disabled={loading}
             >
