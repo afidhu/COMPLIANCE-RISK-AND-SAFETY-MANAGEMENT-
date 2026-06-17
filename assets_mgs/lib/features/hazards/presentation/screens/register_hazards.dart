@@ -275,8 +275,8 @@ class _RegisterHazardsState extends State<RegisterHazards> {
                           Text("Hazard Registered"),
                         ),
                       );
-                      context.read<HazardsBloc>().add(GetHazardsEvent());
-                      Get.back();
+
+                      // Get.back();
                     }
                   },
 

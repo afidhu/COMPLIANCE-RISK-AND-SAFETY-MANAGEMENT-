@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,14 +13,6 @@ class AllCapa extends StatelessWidget {
   const AllCapa({super.key, required this.capas});
 
   final Color primaryColor = const Color(0xFF0000BA);
-
-  /// SAMPLE MITIGATION DATA
-  ///  {
-  //       "mitigation_id": 1,
-  //       "risk_id": 1,
-  //       "mitigation_name": "Close lift immediately",
-  //       "created_date": "12/05/2026"
-  //     },
 
   @override
   Widget build(BuildContext context) {
@@ -47,107 +40,135 @@ class AllCapa extends StatelessWidget {
 
             final item =state.capas[index];
 
-            return Card(
-
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+            return Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 14,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-              child: Padding(
-                padding: const EdgeInsets.all(16),
+                  /// TOP ROW (STATUS + MENU STYLE CHIP)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
 
-                child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
-
-                  children: [
-
-                    Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
-
-                      children: [
-                        //
-                        // Text(
-                        //   "CAPA #${item["capa_id"]}",
-                        //   style: TextStyle(
-                        //     fontWeight: FontWeight.bold,
-                        //     color: primaryColor,
-                        //     fontSize: 16,
-                        //   ),
-                        // ),
-
-                        Container(
-                          padding:
-                          const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-
-                          decoration: BoxDecoration(
-                            color: Colors.orange
-                                .withOpacity(0.1),
-
-                            borderRadius:
-                            BorderRadius.circular(20),
-                          ),
-
-                          child: Text(
-                            item.status.toString(),
-                            style: const TextStyle(
-                              color: Colors.orange,
-                              fontWeight:
-                              FontWeight.bold,
-                            ),
+                      /// STATUS CHIP
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Text(
+                          item.status.toString(),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.orange,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
 
-                    const SizedBox(height: 14),
+                      /// OPTIONAL ICON (instead of empty space)
+                      Icon(
+                        Icons.more_horiz,
+                        color: Colors.grey.shade500,
+                      ),
+                    ],
+                  ),
 
-                    buildTile(
-                      title: "Corrective Action",
-                      value:
-                      item.actionTitle.toString(),
-                    ),
-                    Divider(),
+                  const SizedBox(height: 14),
 
-                    buildTile(
-                      title: "Action Type",
-                      value:
-                      item.actionType.toString(),
+                  /// ACTION TITLE (MAIN FOCUS)
+                  Text(
+                    item.actionTitle.toString(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Divider(),
-                    SizedBox(
-                      height: 36.h,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Technician:',textAlign: TextAlign.left,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                          Text(item.assignedTo!.fullName.toString()),
-                        ],
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  /// ACTION TYPE (SUB INFO)
+                  Text(
+                    item.actionType.toString(),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  Divider(color: Colors.grey.shade200),
+
+                  const SizedBox(height: 10),
+
+                  /// TECHNICIAN
+                  _infoRow(
+                    icon: Icons.person_outline,
+                    label: "Technician",
+                    value: item.assignedTo?.fullName.toString() ?? "-",
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  /// DEADLINE
+                  _infoRow(
+                    icon: Icons.calendar_month_outlined,
+                    label: "Deadline",
+                    value: dateFormater(item.dueDate.toString()),
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  /// ACTION BUTTON
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        assetCapa(asset: item.hazards!.asset);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF0000BA),
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.visibility_outlined,
+                        size: 18,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        "View Asset",
+                        style: TextStyle(fontSize: 13),
                       ),
                     ),
-                    Divider(),
-
-                    buildTile(
-                      title: "Deadline",
-                      value: item.dueDate.toString(),
-                    ),
-
-                    Align(
-                        alignment: Alignment.bottomRight,
-                        child: TextButton.icon(onPressed: (){
-                          assetCapa(
-                              asset:item.hazards!.asset
-                          );
-                          }, label: Icon(Icons.remove_red_eye_outlined, color: Colors.blue,size: 20.sp,))
-                    )
-
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },
@@ -174,41 +195,44 @@ class AllCapa extends StatelessWidget {
 
   }
   /// REUSABLE TILE
-  Widget buildTile({
-    required String title,
+  Widget _infoRow({
+    required IconData icon,
+    required String label,
     required String value,
-    Color color = Colors.black,
   }) {
+    return Row(
+      children: [
+        Icon(icon, size: 18, color: Colors.grey.shade600),
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 18),
+        const SizedBox(width: 10),
 
-      child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade500,
+                ),
+              ),
 
-        children: [
+              const SizedBox(height: 2),
 
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 14,
-            ),
+              Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
-
-          const SizedBox(height: 6),
-
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

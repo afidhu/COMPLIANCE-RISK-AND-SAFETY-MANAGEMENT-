@@ -93,7 +93,7 @@ export default function ViewHazard() {
         <div className="modal-dialog modal-xl modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5 text-primary ms-5" id="staticBackdropLabel"><b>All Technicians</b></h1>
+              <h1 className="modal-title fs-5 text-primary ms-5" id="staticBackdropLabel"><b>Add CAPA for <u style={{color:"red"}} >{state.hazardTitle}</u></b></h1>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">
@@ -115,7 +115,7 @@ export default function ViewHazard() {
         <div className="modal-dialog modal-xl modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5 text-primary ms-5" id="staticBackdropLabel"><b>All Technicians</b></h1>
+              <h1 className="modal-title fs-5 text-primary ms-5" id="staticBackdropLabel"><b> Add risks for <u>{state.hazardTitle}</u></b></h1>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body w-100">

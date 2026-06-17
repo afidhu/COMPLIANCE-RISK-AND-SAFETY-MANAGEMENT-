@@ -41,122 +41,77 @@ class _ReportsState extends State<Reports>
       backgroundColor: const Color(0xffF4F7FC),
 
       appBar: AppBar(
-
         leading: const SizedBox.shrink(),
-
         elevation: 0,
-
         backgroundColor: const Color(0xFF0000BA),
-
         centerTitle: true,
-
         title: const Text(
           "Facilities Reports",
-
           style: TextStyle(
             color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            fontSize: 16, // smaller title (FIX)
           ),
         ),
-
         surfaceTintColor: Colors.transparent,
-
         foregroundColor: Colors.white,
 
         bottom: PreferredSize(
-
-          preferredSize: const Size.fromHeight(90),
-
+          preferredSize: const Size.fromHeight(80),
           child: Padding(
-
             padding: const EdgeInsets.only(
-              left: 14,
-              right: 14,
-              bottom: 16,
+              left: 12,
+              right: 12,
+              bottom: 10,
             ),
-
             child: Container(
-
-              height: 75.h,
-
+              height: 55, // FIX: reduced from 75.h → avoids overflow
               decoration: BoxDecoration(
-
                 color: Colors.white.withOpacity(0.15),
-
-                borderRadius: BorderRadius.circular(18),
-
-                border: Border.all(
-                  color: Colors.white24,
-                ),
-
-                boxShadow: [
-
-                  BoxShadow(
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                    color: Colors.black.withOpacity(0.08),
-                  ),
-                ],
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: Colors.white24),
               ),
 
               child: TabBar(
-
                 controller: _tabController,
-
                 dividerColor: Colors.transparent,
-
                 indicatorSize: TabBarIndicatorSize.tab,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 6,
+                ),
 
-                padding: const EdgeInsets.all(16),
-
-                splashBorderRadius:
-                BorderRadius.circular(14),
+                splashBorderRadius: BorderRadius.circular(12),
 
                 labelColor: const Color(0xFF0000BA),
-
                 unselectedLabelColor: Colors.white,
 
                 labelStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 11, // FIX smaller text
                 ),
 
                 unselectedLabelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 13,
+                  fontSize: 11, // FIX smaller text
                 ),
 
                 indicator: BoxDecoration(
-
                   color: Colors.white,
-
-                  borderRadius: BorderRadius.circular(14),
-
-                  boxShadow: [
-
-                    BoxShadow(
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                      color: Colors.black.withOpacity(0.08),
-                    ),
-                  ],
+                  borderRadius: BorderRadius.circular(12),
                 ),
 
                 tabs: const [
-
                   Tab(
-                    icon: Icon(Icons.report_problem),
+                    icon: Icon(Icons.report_problem, size: 18), // FIX
                     text: "Incidents",
                   ),
-
                   Tab(
-                    icon: Icon(Icons.inventory_2),
+                    icon: Icon(Icons.inventory_2, size: 18), // FIX
                     text: "Assets",
                   ),
-
                   Tab(
-                    icon: Icon(Icons.warning_amber),
+                    icon: Icon(Icons.warning_amber, size: 18), // FIX
                     text: "Risks",
                   ),
                 ],

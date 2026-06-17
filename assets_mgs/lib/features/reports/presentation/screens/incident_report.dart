@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:flutter/material.dart';
 
 class IncidentReport extends StatefulWidget {
@@ -268,7 +269,7 @@ class _IncidentReportState extends State<IncidentReport> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            incident["date_reported"],
+                            dateFormater(incident["date_reported"])
                           ),
                         ),
                       ],

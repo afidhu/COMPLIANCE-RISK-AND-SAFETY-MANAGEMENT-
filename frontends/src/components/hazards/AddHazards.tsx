@@ -1,9 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../includes/AuthContext";
 
 export default function AddHazards() {
 
+  const context = useContext(UserContext);
+// Destructure properties from your specific API response user object
+  const { user } = context;
     const navigation = useNavigate()
   // 1. Initialize the hazard form state
   const [hazardData, setHazardData] = useState({
@@ -12,7 +16,7 @@ export default function AddHazards() {
     hazardTitle: "",
     hazardDescription: "",
     status: "OPEN",
-    reportedById: "cmq3r9t6n0000rte28j0zvojs",
+    reportedById: user?.userId ??''
   });
   console.log('hazardData', hazardData.assetId)
 
@@ -249,7 +253,7 @@ export default function AddHazards() {
                   </div>
 
                   {/* REPORTED BY */}
-                  <div className="mb-4">
+                  {/* <div className="mb-4">
                     <label className="form-label fw-semibold">
                       Reported By
                     </label>
@@ -268,7 +272,7 @@ export default function AddHazards() {
                         <option value="inspector">Inspector</option>
                       </select>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* STATUS */}
                   {/* <div className="mb-4">

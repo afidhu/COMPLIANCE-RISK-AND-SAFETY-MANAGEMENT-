@@ -43,8 +43,8 @@ const Register = () => {
     try {
       setLoading(true);
 
-      await axios.post(
-        "http://localhost:51213/auth/register/",
+     const response =  await axios.post(
+       "http://localhost:51213/auth/register/",
         {
           fullName:full_name,
           email,
@@ -58,6 +58,10 @@ const Register = () => {
       setSuccess(
         "Account created successfully"
       );
+         localStorage.setItem(
+      "user",
+      JSON.stringify(response.data)
+    );
 
       setTimeout(() => {
         navigate("/dashboard");

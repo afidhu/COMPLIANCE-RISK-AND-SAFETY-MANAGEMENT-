@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:assets_mgs/features/CAPA/domain/entities/capa_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -122,10 +123,10 @@ class _CapaTechnicianState extends State<CapaTechnician> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: ()async{
-            context.read<CapaBloc>().add(
-              GetCapaByTechnicianEvent(
-                  'cmq3r9t6n0000rte28j0zvojs'),
-            );
+            // context.read<CapaBloc>().add(
+            //   GetCapaByTechnicianEvent(
+            //       'cmq3r9t6n0000rte28j0zvojs'),
+            // );
           },
           child: BlocBuilder<CapaBloc, CapaState>(
             builder: (context, state) {
@@ -138,6 +139,8 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                   return Center(child: Text('NO Task assigned to you'));
                 } else {
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+
                     padding: const EdgeInsets.all(16),
 
                     itemCount: state.capas.length,
@@ -261,14 +264,15 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                         ],
                                       );
 
-                                      if (selected != null) {
-                                        context.read<CapaBloc>().add(
+                                      if (selected != null)  {
+                                       context.read<CapaBloc>().add(
                                           UpdateCapaByTechnicianEvent(
                                             capaId: item.capaId.toString(),
                                             capa: CapaEntity(status: selected.trim().toString()),
                                           ),
                                         );
-                                      }
+                                     // return context.read<CapaBloc>().add(GetCapaByTechnicianEvent(item.assignedTo!.userId.toString()));
+                                                                          }
                                     },
 
                                     child: Container(
@@ -310,7 +314,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                               buildInfoRow(
                                 Icons.calendar_month,
                                 "Deadline",
-                                item.dueDate.toString(),
+                                dateFormater( item.dueDate.toString().toString()),
                               ),
                               buildInfoRow(
                               Icons.pending_actions_outlined,

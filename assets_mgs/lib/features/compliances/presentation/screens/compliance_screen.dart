@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,48 +16,6 @@ class ComplianceScreen extends StatefulWidget {
 }
 
 class _ComplianceScreenState extends State<ComplianceScreen> {
-
-  // final List<Map<String, dynamic>> compliances = [
-  //   {
-  //     "compliance_id": 1,
-  //     "asset_id": "FIRE-001",
-  //     "compliance_name": "Fire Extinguisher Inspection",
-  //     "frequency": "Monthly",
-  //     "last_due_date": "2026-04-01",
-  //     "due_date": "2026-05-01",
-  //     "status": "Compliant",
-  //   },
-  //
-  //   {
-  //     "compliance_id": 2,
-  //     "asset_id": "LIFT-002",
-  //     "compliance_name": "Lift Safety Inspection",
-  //     "frequency": "Quarterly",
-  //     "last_due_date": "2026-01-15",
-  //     "due_date": "2026-04-15",
-  //     "status": "Overdue",
-  //   },
-  //
-  //   {
-  //     "compliance_id": 3,
-  //     "asset_id": "BOILER-003",
-  //     "compliance_name": "Boiler Certification",
-  //     "frequency": "Yearly",
-  //     "last_due_date": "2025-06-01",
-  //     "due_date": "2026-06-01",
-  //     "status": "Due Soon",
-  //   },
-  //
-  //   {
-  //     "compliance_id": 4,
-  //     "asset_id": "ELEC-004",
-  //     "compliance_name": "Electrical Inspection",
-  //     "frequency": "Monthly",
-  //     "last_due_date": "2026-04-10",
-  //     "due_date": "2026-05-10",
-  //     "status": "Compliant",
-  //   },
-  // ];
 
   Color getStatusColor(String status) {
     switch (status) {
@@ -99,35 +58,6 @@ class _ComplianceScreenState extends State<ComplianceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 8,
-      //   centerTitle: true,
-      //
-      //   // backgroundColor: Colors.blue.shade900,
-      //   foregroundColor: Colors.white,
-      //   backgroundColor: const Color(0xFF0000BA),
-      //   title: const Text(
-      //     "Facilities Compliance",
-      //     style: TextStyle(
-      //       fontWeight: FontWeight.bold,
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      //
-      //   actions: [
-      //
-      //     // IconButton(
-      //     //   onPressed: () {},
-      //     //   icon: const Icon(Icons.search),
-      //     // ),
-      //
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: const Icon(Icons.more_vert),
-      //     ),
-      //   ],
-      // ),
-
       backgroundColor: const Color(0xFFF5F7FA),
 
       body: BlocBuilder<ComplianceBloc, ComplianceState>(
@@ -149,221 +79,191 @@ class _ComplianceScreenState extends State<ComplianceScreen> {
               final compliance = state.compliance[index];
 
               return Container(
-
                 margin: const EdgeInsets.only(bottom: 16),
-
-                padding: const EdgeInsets.all(16),
-
                 decoration: BoxDecoration(
-
                   color: Colors.white,
-
-                  borderRadius: BorderRadius.circular(18),
-
+                  borderRadius: BorderRadius.circular(16),
                   boxShadow: [
-
                     BoxShadow(
-                      blurRadius: 6,
-                      color: Colors.black.withOpacity(0.05),
-                      offset: const Offset(0, 3),
+                      color: Colors.black.withOpacity(0.06),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
 
-                child: Column(
+                      /// HEADER
+                      Row(
+                        children: [
 
-                  children: [
-
-                    Row(
-
-                      children: [
-
-                        Container(
-
-                          padding: const EdgeInsets.all(10),
-
-                          decoration: BoxDecoration(
-                            color: getStatusColor(
-                              compliance.status.toString(),
-                            ).withOpacity(0.1),
-
-                            shape: BoxShape.circle,
-                          ),
-
-                          child: Icon(
-
-                            getStatusIcon(
-                              compliance.status.toString(),
+                          /// ICON
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: getStatusColor(
+                                compliance.status.toString(),
+                              ).withOpacity(0.12),
+                              shape: BoxShape.circle,
                             ),
-
-                            color: getStatusColor(
-                              compliance.status.toString(),
-                            ),
-
-                            size: 20.sp,
-                          ),
-                        ),
-
-                        const SizedBox(width: 10),
-
-                        Expanded(
-
-                          child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-
-                            children: [
-
-                              Text(
-
-                                compliance.complianceName.toString(),
-
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            child: Icon(
+                              getStatusIcon(
+                                compliance.status.toString(),
                               ),
-
-                              SizedBox(height: 4.h),
-
-                              Text(
-                                "Asset: ${compliance.asset!.assetName}",
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        Container(
-
-                          padding:
-                          EdgeInsets.symmetric(
-                            horizontal: 6.w,
-                            vertical: 5,
-                          ),
-
-                          decoration: BoxDecoration(
-
-                            color: getStatusColor(
-                              compliance.status.toString(),
-                            ).withOpacity(0.1),
-
-                            borderRadius:
-                            BorderRadius.circular(20),
-                          ),
-
-                          child: Text(
-
-                            compliance.status.toString(),
-
-                            style: TextStyle(
                               color: getStatusColor(
                                 compliance.status.toString(),
                               ),
-                              fontWeight: FontWeight.bold,
+                              size: 20,
+                            ),
+                          ),
+
+                          const SizedBox(width: 10),
+
+                          /// TITLE + ASSET
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+
+                                Text(
+                                  compliance.complianceName.toString(),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+
+                                const SizedBox(height: 4),
+
+                                Text(
+                                  "Asset: ${compliance.asset?.assetName ?? 'N/A'}",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          /// STATUS CHIP
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: getStatusColor(
+                                compliance.status.toString(),
+                              ).withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              compliance.status.toString(),
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: getStatusColor(
+                                  compliance.status.toString(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 14),
+
+                      Divider(color: Colors.grey.shade200),
+
+                      const SizedBox(height: 10),
+
+                      /// FREQUENCY
+                      Row(
+                        children: [
+                          const Icon(Icons.repeat, size: 18, color: Colors.blue),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              "Frequency: ${compliance.frequency}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      /// LAST DUE DATE
+                      Row(
+                        children: [
+                          const Icon(Icons.history, size: 18, color: Colors.orange),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              "Last Due: ${dateFormater(compliance.lastDueDate.toString())}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      /// NEXT DUE DATE
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_month, size: 18, color: Colors.red),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              "Next Due: ${dateFormater(compliance.dueDate.toString())}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      /// BUTTON
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton.icon(
+                          iconAlignment: IconAlignment.end,
+                          onPressed: () {
+                            /// Open Compliance Details
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward,
+                            color: Color(0xFF0000BA),
+                            size: 18,
+                          ),
+                          label: const Text(
+                            "View",
+                            style: TextStyle(
+                              color: Color(0xFF0000BA),
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    const Divider(),
-
-                    const SizedBox(height: 10),
-
-                    Row(
-                      children: [
-
-                        const Icon(
-                          Icons.repeat,
-                          size: 18,
-                          color: Colors.blue,
-                        ),
-
-                        const SizedBox(width: 8),
-
-                        Text(
-                          "Frequency: ${compliance.frequency}",
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    Row(
-                      children: [
-
-                        const Icon(
-                          Icons.history,
-                          size: 18,
-                          color: Colors.orange,
-                        ),
-
-                        const SizedBox(width: 8),
-
-                        Expanded(
-                          child: Text(
-                            "Last Due Date: ${compliance.lastDueDate}",
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    Row(
-                      children: [
-
-                        const Icon(
-                          Icons.calendar_month,
-                          size: 18,
-                          color: Colors.red,
-                        ),
-
-                        const SizedBox(width: 8),
-
-                        Expanded(
-                          child: Text(
-                            "Next Due Date: ${compliance.dueDate}",
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    Align(
-
-                      alignment: Alignment.centerRight,
-
-                      child: TextButton.icon(
-
-                        onPressed: () {
-
-                          /// Open Compliance Details
-                        },
-
-                        iconAlignment: IconAlignment.end,
-
-                        label: const Text(
-                          "View Details",
-                          style: TextStyle(
-                            color: Color(0xFF0000BA),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        icon: const Icon(
-                          Icons.arrow_forward,
-                          color: Color(0xFF0000BA),
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

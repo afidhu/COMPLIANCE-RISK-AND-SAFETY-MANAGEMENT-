@@ -15,33 +15,6 @@ class _AllIncidentsState extends State<AllIncidents> {
 
   final Color primaryColor = const Color(0xFF0D47A1);
 
-  /// SAMPLE DATA
-  // final List<Map<String, dynamic>> incidents = [
-  //
-  //   {
-  //     "asset_id": "AST-001",
-  //     "incident_type": "Lift Malfunction",
-  //     "description": "Lift stopped suddenly between floors",
-  //     "date_reported": "12/05/2026",
-  //     "status": "High"
-  //   },
-  //
-  //   {
-  //     "asset_id": "AST-002",
-  //     "incident_type": "Fire Outbreak",
-  //     "description": "Small electrical fire detected",
-  //     "date_reported": "10/05/2026",
-  //     "status": "Critical"
-  //   },
-  //
-  //   {
-  //     "asset_id": "AST-003",
-  //     "incident_type": "Water Leakage",
-  //     "description": "Pipe leakage near boiler room",
-  //     "date_reported": "08/05/2026",
-  //     "status": "Medium"
-  //   },
-  // ];
   @override
   void initState() {
     // TODO: implement initState

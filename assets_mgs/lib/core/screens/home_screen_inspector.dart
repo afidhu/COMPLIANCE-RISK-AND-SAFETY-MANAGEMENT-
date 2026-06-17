@@ -53,68 +53,65 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF0000BA),
-
-        centerTitle: true,
-
         surfaceTintColor: Colors.transparent,
-
         foregroundColor: Colors.white,
-        title: const Text(
-          "Facilities Management",
+        centerTitle: false,
 
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+        /// 👇 makes appBar compact like Xender
+        toolbarHeight: 60,
+
+        titleSpacing: 0,
+
+        title: const Padding(
+          padding: EdgeInsets.only(top: 2),
+          child: Text(
+            "Facilities Management",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 16, // smaller like Xender
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
 
-
-
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.only(right: 8),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-
-                // Notification Icon
                 IconButton(
                   onPressed: () {},
-
                   icon: const Icon(
                     Icons.notifications_active,
                     color: Colors.white,
-                    size: 30,
+                    size: 22, // reduced size (clean like Xender)
                   ),
                 ),
 
-                // Notification Badge
                 Positioned(
-                  right: 2,
-                  top: 2,
-
+                  right: 6,
+                  top: 6,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
+                      horizontal: 5,
                       vertical: 2,
                     ),
-
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(20),
                     ),
-
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         debugPrint("12");
-                        Get.to(()=>Notifications());
+                        Get.to(() => Notifications());
                       },
                       child: const Text(
                         '12',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -127,110 +124,69 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
         ],
 
         bottom: PreferredSize(
-
-          preferredSize: const Size.fromHeight(100),
-
+          preferredSize: const Size.fromHeight(60),
           child: Padding(
-
             padding: const EdgeInsets.only(
-              left: 14,
-              right: 14,
-              bottom: 16,
+              left: 10,
+              right: 10,
+              bottom: 8,
             ),
-
             child: Container(
-
-              height: 70.h,
+              height: 30.h, // 🔥 very small
               width: double.infinity,
               decoration: BoxDecoration(
-
-                color: Colors.white.withOpacity(0.15),
-
-                borderRadius: BorderRadius.circular(15.r),
-
-                border: Border.all(
-                  color: Colors.white24,
-                ),
-
-                boxShadow: [
-
-                  BoxShadow(
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                    color: Colors.black.withOpacity(0.08),
-                  ),
-                ],
+                color: Colors.white.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.white24),
               ),
 
               child: TabBar(
-
                 controller: _tabController,
-
                 dividerColor: Colors.transparent,
 
                 indicatorSize: TabBarIndicatorSize.tab,
-
-                padding: const EdgeInsets.all(10),
-
-                splashBorderRadius:
-                BorderRadius.circular(10),
+                splashBorderRadius: BorderRadius.circular(10),
 
                 labelColor: const Color(0xFF0000BA),
-
                 unselectedLabelColor: Colors.white,
 
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
+                labelPadding: EdgeInsets.zero, // 🔥 removes extra spacing
 
-                unselectedLabelStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 10, // smaller text
+                ),
+                unselectedLabelStyle:  TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 6.sp,
                 ),
 
                 indicator: BoxDecoration(
-
                   color: Colors.white,
-
-                  borderRadius: BorderRadius.circular(14),
-
-                  boxShadow: [
-
-                    BoxShadow(
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                      color: Colors.black.withOpacity(0.08),
-                    ),
-                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
 
-                tabs:  [
+                tabs: const [
                   Tab(
-                    icon: Icon(Icons.warning_amber),
+                    icon: Icon(Icons.warning_amber, size: 14),
                     text: 'Hazards',
+                    height: 34, // 🔥 reduces tab height
                   ),
-
-                  // Tab(
-                  //   icon: Icon(Icons.health_and_safety_outlined),
-                  //   text: 'Incidents',
-                  // ),
-
-                   Tab(
-                     icon: Icon(Icons.inventory_2),
-                     text: 'Assets',
-                   ),
                   Tab(
-                    icon: Icon(Icons.calendar_month_outlined),
+                    icon: Icon(Icons.inventory_2, size: 14),
+                    text: 'Assets',
+                    height: 34,
+                  ),
+                  Tab(
+                    icon: Icon(Icons.calendar_month_outlined, size: 14),
                     text: 'Compliance',
-                  )
-
+                    height: 34,
+                  ),
                 ],
               ),
             ),
           ),
         ),
-
       ),
 
       body: Padding(

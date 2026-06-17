@@ -134,12 +134,6 @@ class _RiskScreenState extends State<RiskScreen> {
 
       backgroundColor: const Color(0xFFF5F7FA),
 
-      // appBar: AppBar(
-      //   title: const Text("Risk Register"),
-      //   backgroundColor: const Color(0xFF0000BA),
-      //   foregroundColor: Colors.white,
-      // ),
-
       body: RefreshIndicator(
         onRefresh: () async{
           context.read<RisksBloc>().add(GetRiskEvent(widget.hazardId));
@@ -168,271 +162,190 @@ class _RiskScreenState extends State<RiskScreen> {
 
 
                     return Container(
-
                       margin: const EdgeInsets.only(bottom: 16),
-
-                      padding: const EdgeInsets.all(16),
-
                       decoration: BoxDecoration(
-
                         color: Colors.white,
-
-                        borderRadius: BorderRadius.circular(18),
-
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
-
                           BoxShadow(
-                            blurRadius: 6,
-                            color: Colors.black.withOpacity(0.05),
-                            offset: const Offset(0, 3),
+                            color: Colors.black.withOpacity(0.06),
+                            blurRadius: 14,
+                            offset: const Offset(0, 6),
                           ),
                         ],
                       ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-                      child: Column(
+                            /// ================= HEADER =================
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
 
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-
-                        children: [
-
-                          Row(
-
-                            children: [
-
-                              Container(
-
-                                padding: const EdgeInsets.all(12),
-
-                                decoration: BoxDecoration(
-
-                                  color: getRiskColor(
-                                    risk.riskLevel.toString(),
-                                  ).withOpacity(0.1),
-
-                                  shape: BoxShape.circle,
-                                ),
-
-                                child: Icon(
-
-                                  getRiskIcon(
-                                    risk.riskLevel.toString(),
-                                  ),
-
-                                  color: getRiskColor(
-                                    risk.riskLevel.toString(),
-                                  ),
-                                ),
-                              ),
-
-                              const SizedBox(width: 12),
-
-                              Expanded(
-
-                                child: Column(
-
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-
-                                  children: [
-
-                                    Text(
-
-                                      risk.riskTitle.toString(),
-
-                                      style: const TextStyle(
-                                        fontWeight:
-                                        FontWeight.bold,
-                                        fontSize: 17,
-                                      ),
-                                    ),
-
-                                    // const SizedBox(height: 4),
-                                    //
-                                    // Text(
-                                    //   "Risk ID: #${risk["risk_id"]}",
-                                    //   style: const TextStyle(
-                                    //     color: Colors.grey,
-                                    //   ),
-                                    // ),
-                                  ],
-                                ),
-                              ),
-
-                              Container(
-
-                                padding:
-                                const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-
-                                decoration: BoxDecoration(
-
-                                  color: getRiskColor(
-                                    risk.riskLevel.toString(),
-                                  ).withOpacity(0.1),
-
-                                  borderRadius:
-                                  BorderRadius.circular(20),
-                                ),
-
-                                child: Text(
-
-                                  risk.riskLevel.toString(),
-
-                                  style: TextStyle(
+                                /// ICON
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
                                     color: getRiskColor(
                                       risk.riskLevel.toString(),
-                                    ),
-                                    fontWeight:
-                                    FontWeight.bold,
+                                    ).withOpacity(0.12),
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  child: Icon(
+                                    getRiskIcon(risk.riskLevel.toString()),
+                                    color: getRiskColor(risk.riskLevel.toString()),
+                                    size: 22,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
 
-                          const Divider(height: 25),
+                                const SizedBox(width: 12),
 
-                          Row(
-                            children: [
+                                /// TITLE
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        risk.riskTitle.toString(),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
 
-                              const Icon(
-                                Icons.warning_amber,
-                                size: 18,
-                                color: Colors.orange,
-                              ),
+                                      const SizedBox(height: 6),
 
-                              // const SizedBox(width: 6),
-                              //
-                              // Text(
-                              //   "Hazard ID: ${risk["hazard_id"]}",
-                              // ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 10),
-
-                          Row(
-                            children: [
-
-                              const Icon(
-                                Icons.analytics,
-                                size: 18,
-                                color: Colors.blue,
-                              ),
-
-                              const SizedBox(width: 6),
-
-                              Text(
-                                "Likelihood: ${risk.likelihood}",
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 10),
-
-                          Row(
-                            children: [
-
-                              const Icon(
-                                Icons.priority_high,
-                                size: 18,
-                                color: Colors.red,
-                              ),
-
-                              const SizedBox(width: 6),
-
-                              Text(
-                                "Severity: ${risk.severity}",
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 15),
-
-                          Row(
-
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-
-                            children: [
-
-                              Container(
-
-                                padding:
-                                const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 6,
-                                ),
-
-                                decoration: BoxDecoration(
-
-                                  color: getStatusColor(
-                                    risk.status.toString(),
-                                  ).withOpacity(0.1),
-
-                                  borderRadius:
-                                  BorderRadius.circular(20),
-                                ),
-
-                                child: Text(
-
-                                  risk.status.toString(),
-
-                                  style: TextStyle(
-                                    color: getStatusColor(
-                                      risk.status.toString(),
-                                    ),
-                                    fontWeight:
-                                    FontWeight.bold,
+                                      Text(
+                                        "Risk Details Overview",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey.shade600,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
 
-                              // TextButton.icon(
-                              //
-                              //   onPressed: () {
-                              //     // Risk Details
-                              //
-                              //     assetDetails({
-                              //
-                              //       "asset_id": "AST-001",
-                              //
-                              //       "asset_name": "Passenger Lift",
-                              //
-                              //       "asset_type": "Lift",
-                              //
-                              //       "location": "Block A",
-                              //
-                              //       "serial_no": "LFT-2026-001",
-                              //
-                              //       "status": "Active",
-                              //
-                              //       "created_by": "Admin",
-                              //     });
-                              //   },
-                              //
-                              //   iconAlignment:
-                              //   IconAlignment.end,
-                              //
-                              //   label: const Text(
-                              //     "Details",
-                              //     style: TextStyle(
-                              //       color: Color(0xFF0000BA),
-                              //       fontWeight: FontWeight.bold,
-                              //     ),
-                              //   ),
-                              //
-                              //   icon: const Icon(
-                              //     Icons.arrow_forward,
-                              //     color: Color(0xFF0000BA),
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ],
+                                /// RISK LEVEL CHIP
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: getRiskColor(
+                                      risk.riskLevel.toString(),
+                                    ).withOpacity(0.12),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    risk.riskLevel.toString(),
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: getRiskColor(
+                                        risk.riskLevel.toString(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 14),
+
+                            Divider(color: Colors.grey.shade200, thickness: 1),
+
+                            const SizedBox(height: 14),
+
+                            /// ================= BODY INFO =================
+                            _infoRow(
+                              Icons.analytics_outlined,
+                              "Likelihood",
+                              risk.likelihood.toString(),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            _infoRow(
+                              Icons.priority_high,
+                              "Severity",
+                              risk.severity.toString(),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            _infoRow(
+                              Icons.warning_amber_rounded,
+                              "Status",
+                              risk.status.toString(),
+                              valueColor: getStatusColor(risk.status.toString()),
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            /// ================= FOOTER =================
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+
+                                /// SMALL TAG (optional clean badge feel)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade100,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    "Risk ID #${risk.riskTitle.toString().hashCode}",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                  ),
+                                ),
+
+                                /// ACTION BUTTON (modern style)
+                                ElevatedButton(
+                                  onPressed: () {
+                                    assetDetails({
+                                      "asset_id": "AST-001",
+                                      "asset_name": "Passenger Lift",
+                                      "asset_type": "Lift",
+                                      "location": "Block A",
+                                      "serial_no": "LFT-2026-001",
+                                      "status": "Active",
+                                      "created_by": "Admin",
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF0000BA),
+                                    elevation: 0,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 14,
+                                      vertical: 10,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "View",
+                                    style: TextStyle(fontSize: 12, color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -460,6 +373,7 @@ class _RiskScreenState extends State<RiskScreen> {
       ),
     );
   }
+
 
   Future assetDetails(Map<String, dynamic> asset) async {
     return Get.bottomSheet(
@@ -581,6 +495,44 @@ class _RiskScreenState extends State<RiskScreen> {
     );
   }
 
+
+
+
+  Widget _infoRow(
+      IconData icon,
+      String label,
+      String value, {
+        Color? valueColor,
+      }) {
+    return Row(
+      children: [
+        Icon(icon, size: 18, color: Colors.grey.shade700),
+        const SizedBox(width: 8),
+
+        Text(
+          "$label: ",
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.grey.shade700,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+        Expanded(
+          child: Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: valueColor ?? Colors.black87,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
 //   Future<void> assetCapas({
 //     required Map<String, dynamic> asset,

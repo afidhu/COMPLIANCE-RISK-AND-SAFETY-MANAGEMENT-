@@ -19,15 +19,12 @@ class HazardsBloc extends Bloc<HazardsEvent, HazardsState> {
 
     on<GetHazardsEvent>(_getHazard) ;
     on<AddHazardsEvent>(_addHazard) ;
-
   }
-
 
   FutureOr<void> _getHazard(GetHazardsEvent event, Emitter<HazardsState> emit) async {
     emit(HazardsLoading());
     try {
       final hazard = await _getHazardsCase.call();
-      print('hazard; ${hazard.first}');
       emit(HazardsLoaded(hazards: hazard));
     } catch(e){
       emit(HazardsError('errorMessage : $e'));
@@ -39,13 +36,15 @@ class HazardsBloc extends Bloc<HazardsEvent, HazardsState> {
 
   FutureOr<void> _addHazard(AddHazardsEvent event, Emitter<HazardsState> emit) async{
     try {
-      print("HazardsAddedSuccess: ${event.hazardsEntity.status}");
       final status = await _addHazardsCase.call(event.hazardsEntity);
 
       if(status == true){
-        print('HazardsAddedSuccess; $status');
+        // print('HazardsAddedSuccess; $status');
+        emit(HazardsAddedSuccess(true ));
+        final hazard = await _getHazardsCase.call();
+        emit(HazardsLoaded(hazards: hazard));
+        Get.back();
       }
-      emit(HazardsAddedSuccess(true ));
     } catch(e){
       emit(HazardsError('errorMessage : $e'));
     }

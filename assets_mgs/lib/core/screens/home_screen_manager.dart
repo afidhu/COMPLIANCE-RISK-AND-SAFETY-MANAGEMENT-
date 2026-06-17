@@ -48,72 +48,61 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
 
       backgroundColor: const Color(0xffF4F7FC),
 
-      appBar:AppBar(
+      appBar: AppBar(
         elevation: 0,
-
         backgroundColor: const Color(0xFF0000BA),
-
         centerTitle: true,
-
         surfaceTintColor: Colors.transparent,
-
         foregroundColor: Colors.white,
+
         title: const Text(
           "Facilities Management",
-
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 16, // 🔥 smaller to prevent overflow
           ),
         ),
 
-
-
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.only(right: 8),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
 
-                // Notification Icon
                 IconButton(
                   onPressed: () {},
-
                   icon: const Icon(
                     Icons.notifications_active,
                     color: Colors.white,
-                    size: 30,
+                    size: 24, // 🔥 reduced size
                   ),
                 ),
 
-                // Notification Badge
                 Positioned(
-                  right: 2,
-                  top: 2,
-
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
-                    ),
-
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-
-                    child: GestureDetector(
-                      onTap: (){
-                        debugPrint("12");
-                        Get.to(()=>Notifications());
-                      },
+                  right: 4,
+                  top: 4,
+                  child: GestureDetector(
+                    onTap: () {
+                      debugPrint("12");
+                      Get.to(() => Notifications());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: const Text(
                         '12',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 10, // 🔥 smaller badge text
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -126,97 +115,60 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
         ],
 
         bottom: PreferredSize(
-
-          preferredSize: const Size.fromHeight(100),
+          preferredSize: const Size.fromHeight(80),
 
           child: Padding(
-
             padding: const EdgeInsets.only(
-              left: 14,
-              right: 14,
-              bottom: 16,
+              left: 12,
+              right: 12,
+              bottom: 12,
             ),
 
             child: Container(
-
-              height: 70.h,
+              height: 55, // 🔥 reduced height (fix overflow)
 
               decoration: BoxDecoration(
-
                 color: Colors.white.withOpacity(0.15),
-
-                borderRadius: BorderRadius.circular(15.r),
-
-                border: Border.all(
-                  color: Colors.white24,
-                ),
-
-                boxShadow: [
-
-                  BoxShadow(
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                    color: Colors.black.withOpacity(0.08),
-                  ),
-                ],
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white24),
               ),
 
               child: TabBar(
-
                 controller: _tabController,
-
                 dividerColor: Colors.transparent,
 
                 indicatorSize: TabBarIndicatorSize.tab,
-
-                padding: const EdgeInsets.all(10),
-
-                splashBorderRadius:
-                BorderRadius.circular(10),
+                padding: const EdgeInsets.all(6),
 
                 labelColor: const Color(0xFF0000BA),
-
                 unselectedLabelColor: Colors.white,
 
                 labelStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
+                  fontSize: 10, // 🔥 smaller text
                 ),
 
                 unselectedLabelStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 12,
+                  fontSize: 10,
                 ),
 
                 indicator: BoxDecoration(
-
                   color: Colors.white,
-
-                  borderRadius: BorderRadius.circular(14),
-
-                  boxShadow: [
-
-                    BoxShadow(
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                      color: Colors.black.withOpacity(0.08),
-                    ),
-                  ],
+                  borderRadius: BorderRadius.circular(10),
                 ),
 
-                tabs:  [
+                tabs: const [
                   Tab(
-                    icon: Icon(Icons.warning_amber),
+                    icon: Icon(Icons.warning_amber, size: 18),
                     text: 'Hazards',
                   ),
-
                   Tab(
-                    icon: Icon(Icons.health_and_safety_outlined),
+                    icon: Icon(Icons.health_and_safety_outlined, size: 18),
                     text: 'Incidents',
                   ),
-
                   Tab(
-                    icon: Icon(Icons.inventory_2),
+                    icon: Icon(Icons.inventory_2, size: 18),
                     text: 'Assets',
                   ),
                 ],
@@ -224,9 +176,6 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
             ),
           ),
         ),
-
-
-
       ),
 
       body: Padding(
