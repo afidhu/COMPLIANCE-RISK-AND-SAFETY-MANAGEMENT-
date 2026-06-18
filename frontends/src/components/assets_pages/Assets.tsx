@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { dateFormater } from '../utils/DateFormater';
 
 export default function Assets() {
 
@@ -28,6 +30,9 @@ const goTo = async(assetId:any,assetName:any,assetType:any,location:any )=>{
     state: { assetName: assetName, assetType:assetType, location:location }
   });
 }
+
+
+
 
   return (
     <div>
@@ -171,6 +176,7 @@ const goTo = async(assetId:any,assetName:any,assetType:any,location:any )=>{
 
                     {
                       assets.map((item,index)=>{
+                      var formattedDate= dateFormater(item.createdAt)
                         return <> 
                          <tr>
                       <td className="fw-semibold">
@@ -223,7 +229,7 @@ const goTo = async(assetId:any,assetName:any,assetType:any,location:any )=>{
                         </span>
                       </td>
 
-                      <td>{item.createdAt}</td>
+                      <td>{formattedDate}</td>
 
                       <td>
 

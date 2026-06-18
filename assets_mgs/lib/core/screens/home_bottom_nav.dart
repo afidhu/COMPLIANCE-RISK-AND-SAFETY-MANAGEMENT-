@@ -17,9 +17,10 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
   int currentIndex = 0;
 
 
+
   late List pages = [
 
-    widget.userType =="1"? HomeScreenInspector():HomeScreenManager(),
+    widget.userType =="INSPECTOR"? HomeScreenInspector():HomeScreenManager(),
     AllSearching(),
     Reports(),
     // InspectionScreen(),

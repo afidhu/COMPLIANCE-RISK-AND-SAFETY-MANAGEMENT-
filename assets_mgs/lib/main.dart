@@ -22,6 +22,11 @@ import 'features/assets/data/data_sources/asset_remote_data.dart';
 import 'features/assets/data/repo_impl/assets_repo_impl.dart';
 import 'features/assets/domain/repository/assets_repo.dart';
 import 'features/assets/presentation/bloc/assets_bloc.dart';
+import 'features/auths/data/data_sources/auth_remote_data.dart';
+import 'features/auths/data/repo_impl/auth_repo_impl.dart';
+import 'features/auths/domain/repository/auth_repo.dart';
+import 'features/auths/domain/use_cases/login_case.dart';
+import 'features/auths/presentation/bloc/auth_bloc.dart';
 import 'features/compliances/data/data_sources/compliance_remote_data_source.dart';
 import 'features/compliances/data/repo_impl/compliance_repo_impl.dart';
 import 'features/compliances/domain/repository/compliance_repo.dart';
@@ -56,6 +61,7 @@ void main() {
     RepositoryProvider<CapaRepo>(create: (_)=>CapaRepoImpl(RemoteCapaDataRemote()) ),
     RepositoryProvider<MitigationRepo>(create: (_)=>MitigationRepoImpl(MitigationRemoteData()) ),
     RepositoryProvider<IncidentRepo>(create: (_)=>IncidentRepoImpl(IncidentRemoteData()) ),
+    RepositoryProvider<AuthRepo>(create: (_)=>AuthRepoImpl(AuthRemoteData()) ),
 
      ],
 
@@ -67,6 +73,7 @@ void main() {
         BlocProvider<CapaBloc>(create: (context)=>CapaBloc(GetCapaCase(context.read<CapaRepo>()),GetCapaByTechnician((context.read<CapaRepo>())), UpdateCapaTechnicianCase((context.read<CapaRepo>())), )),
         BlocProvider<MitigationBloc>(create: (context)=>MitigationBloc(GetMitigationCase(context.read<MitigationRepo>()) )),
         BlocProvider<IncidentBloc>(create: (context)=>IncidentBloc(GetIncidentCase(context.read<IncidentRepo>()) )),
+        BlocProvider<AuthBloc>(create: (context)=>AuthBloc(LoginCase(context.read<AuthRepo>()) )),
 
       ],
           child: ScreenUtilInit(

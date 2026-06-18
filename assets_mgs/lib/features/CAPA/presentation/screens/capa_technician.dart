@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:popup_menu/popup_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../notifications/presentation/screens/notifications.dart';
 import '../bloc/capa_bloc.dart';
@@ -38,11 +39,16 @@ class _CapaTechnicianState extends State<CapaTechnician> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<CapaBloc>().add(
-      GetCapaByTechnicianEvent('cmq3r9t6n0000rte28j0zvojs'),
-    );
+    getTechnicianId();
   }
 
+  void getTechnicianId ()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+   final userId = prefs.getString('userId');
+    context.read<CapaBloc>().add(
+      GetCapaByTechnicianEvent(userId.toString()),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -396,7 +402,9 @@ class _CapaTechnicianState extends State<CapaTechnician> {
           ),
         ),
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: OutlinedButton(onPressed: (){}, child: Text('Logout')),
+      ),
     );
   }
 

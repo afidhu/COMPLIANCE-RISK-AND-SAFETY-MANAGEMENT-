@@ -48,4 +48,19 @@ class UsersModel extends UserEntity{
     // return map;
   }
 
+
+
+  factory UsersModel.fromEntity( UserEntity user){
+   return UsersModel(
+       userId: user.userId,
+     fullName: user.fullName,
+       email: user.email,
+       role: user.role,
+       phone: user.phone,
+       status: user.status,
+       createdAt: user.createdAt,
+       updatedAt: user.updatedAt,
+   );
+  }
+
 }

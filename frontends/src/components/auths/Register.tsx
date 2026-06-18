@@ -36,6 +36,7 @@ const Register = () => {
     e: React.FormEvent
   ) => {
     e.preventDefault();
+    console.log(role)
 
     setError("");
     setSuccess("");
@@ -182,12 +183,13 @@ const Register = () => {
 
                 <select
                   className="form-select"
+                  required
                   value={role}
                   onChange={(e) =>
                     setRole(e.target.value)
                   }
                 >
-                
+                 <option  value={'ESTATE_MANAGER'} > ---select---</option>
                   <option  value={'ESTATE_MANAGER'} >Estate menager</option>
                   <option  value={'INSPECTOR'} >Inspector</option>
                   <option  value={'SAFETY_OFFICER'} > Safety Officer </option>

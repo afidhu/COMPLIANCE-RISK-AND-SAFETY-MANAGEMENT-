@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { dateFormater } from '../utils/DateFormater';
 
 export default function CapaHazard({hazardid,hadazardTitle}:any) {
 
@@ -53,6 +54,8 @@ console.log('CAPA',response.data)
             {
                 capa.length>0?
                 capa.map((item,index)=>{
+                  var dateformated =dateFormater(item.createdAt)
+                  var dateformateDue =dateFormater(item.dueDate)
                     return <>
                     <tr>
                   <td>  {item.actionTitle} </td>
@@ -66,10 +69,10 @@ console.log('CAPA',response.data)
 
                     <td>
                     <span className="badge bg-danger">
-                        {item.dueDate} 
+                        {dateformateDue} 
                     </span>
                   </td>
-                   <td> {item.createdAt} 2026-06-25</td>
+                   <td> {dateformated}</td>
                 </tr></>
                 })
                  :

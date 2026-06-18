@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/entities/capa_entity.dart';
 import '../../domain/use_cases/get_capa_by_technician.dart';
@@ -51,12 +52,14 @@ class CapaBloc extends Bloc<CapaEvent, CapaState> {
   }
 
   FutureOr<bool> _updateCapaByTechnician(UpdateCapaByTechnicianEvent event, Emitter<CapaState> emit) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final technicianId = await prefs.getString('userId');
     try{
       final isUpdated = await _updateCapaTechnicianCase.call(capaId: event.capaId, capa: event.capa);
       print('bloc_capaStatus: $isUpdated');
 
       if(isUpdated){
-        final capa = await _capaByTechnician.call('cmq3r9t6n0000rte28j0zvojs');
+        final capa = await _capaByTechnician.call(technicianId.toString());
         emit(CapaLoaded(capa));
         return true;
       }
