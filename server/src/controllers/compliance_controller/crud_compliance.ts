@@ -6,7 +6,7 @@ import { prisma } from "../../index.ts";
 // Controller function to add a new compliance
 export const addCompliance = async(req:Request, resp:Response)=>{
     try {
-        const { complianceName, assetId, frequency, lastDueDate, dueDate } = req.body;
+        const { complianceName, assetId, frequency, lastDueDate, dueDate,status } = req.body;
         const newCompliance = await prisma.compliance.create({
             data: {
                 complianceName,
@@ -14,6 +14,7 @@ export const addCompliance = async(req:Request, resp:Response)=>{
                 frequency,
                 lastDueDate: lastDueDate ? new Date(lastDueDate) : null, 
                 dueDate: new Date(dueDate),
+                status:status,
             }
         });
         console.log(newCompliance)

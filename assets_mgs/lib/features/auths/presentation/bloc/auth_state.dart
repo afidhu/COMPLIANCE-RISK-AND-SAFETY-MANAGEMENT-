@@ -24,6 +24,10 @@ class IsClickedAuthButton extends AuthState{
 
   IsClickedAuthButton({this.isClicked =false});
 
+}
 
+class AuthLogoutMessage extends AuthState {
+  final String message;
 
+  AuthLogoutMessage(this.message);
 }

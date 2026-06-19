@@ -1,3 +1,4 @@
+import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 import '../../features/reports/presentation/screens/reports.dart';
 import '../../features/searchings/presentation/screens/all_searching.dart';
@@ -66,6 +67,9 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
           //   label: 'Risk',
           // ),
         ],
+      ),
+      drawer: Drawer(
+        child: LogoutButton()
       ),
     );
   }

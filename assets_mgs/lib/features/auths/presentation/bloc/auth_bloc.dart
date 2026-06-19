@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._loginCase) : super(AuthInitial()) {
     on<RegisterUserEvent>(_registerUser);
     on<LoginUserEvent>(_loginUser);
+    // on<LogoutUserEvent>(_logoutUser);
   }
 
 
@@ -54,4 +55,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthMessage('message: $e'));
     }
   }
+
+
 }

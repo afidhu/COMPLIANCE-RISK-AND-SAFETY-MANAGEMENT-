@@ -1,4 +1,6 @@
+import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -6,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
+import '../../features/auths/presentation/bloc/auth_bloc.dart';
 import '../../features/compliances/presentation/screens/compliance_screen.dart';
 import '../../features/hazards/presentation/screens/hazards.dart';
 import '../../features/inspections/presentation/screens/inspensions.dart';
@@ -211,6 +214,7 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
         shadowColor: Colors.white,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
+        child:LogoutButton()
 
       ),
     );

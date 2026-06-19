@@ -23,6 +23,7 @@ enum UserRole {
   TECHNICIAN
   STAFF_MEMBER
   ADMIN
+  SYSTEM
 }
 
 enum UserStatus {

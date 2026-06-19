@@ -17,3 +17,5 @@ class LoginUserEvent extends AuthEvent{
 
 }
 
+
+// class LogoutUserEvent extends AuthEvent{}

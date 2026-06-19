@@ -67,9 +67,9 @@ export default function SideBar() {
                                             </Link>
                                         </li>
                                         <li>
-                                            <a href="./incidents/incidents.html">
+                                            <Link to={'/Compliance'}>
                                                 <span className="sub-item">Compliance</span>
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>

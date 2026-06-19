@@ -25,6 +25,8 @@ import ViewAssetCompliance from './components/compliances/ViewAssetCompliance';
 import Login from './components/auths/Login';
 import Register from './components/auths/Register';
 import { getInitialUser, UserContext } from './components/includes/AuthContext';
+import Compliance from './components/compliances/Compliance';
+
 
 
 function App() {
@@ -55,13 +57,14 @@ function App() {
         <Route path="/add-asset" element={<AddAsset />} />
         <Route path="/AddAssetCompliance/:assetId/:assetName" element={<AddAssetCompliance />} />
         <Route path="/ViewAssetCompliance/:assetId" element={<ViewAssetCompliance />} />
+        <Route path="/Compliance" element={<Compliance />} />
         <Route path="/AddHazard" element={<AddHazards />} />
         <Route path="/Incidents" element={<Incidents />} /> 
         <Route path="/AddIncident" element={<AddIncident />} /> 
         <Route path="/ViewIncident/:id" element={<ViewIncident/>} /> 
         <Route path="/Hazards" element={<Hazards />} />
         <Route path="/Hazard/:hazardId" element={<ViewHazard />} />
-        <Route path="/risks" element={<Risks />} />
+        <Route path="/risks" element={<Risks />} /> 
         {/* <Route path="/AddRisk" element={<AddRisk  />} /> */}
 
         {/* <Route path="/AddMitigation" element={<AddMitigation />} /> */}

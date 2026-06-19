@@ -15,17 +15,18 @@ class ComplianceScreen extends StatefulWidget {
   State<ComplianceScreen> createState() => _ComplianceScreenState();
 }
 
+
 class _ComplianceScreenState extends State<ComplianceScreen> {
 
   Color getStatusColor(String status) {
     switch (status) {
-      case "Compliant":
+      case "COMPLIANT":
         return Colors.green;
 
-      case "Due Soon":
+      case "DUE_SOON":
         return Colors.pinkAccent;
 
-      case "Overdue":
+      case "OVERDUE":
         return Colors.red;
 
       default:
@@ -35,13 +36,13 @@ class _ComplianceScreenState extends State<ComplianceScreen> {
 
   IconData getStatusIcon(String status) {
     switch (status) {
-      case "Compliant":
+      case "COMPLIANT":
         return Icons.verified;
 
-      case "Due Soon":
+      case "DUE_SOON":
         return Icons.timer;
 
-      case "Overdue":
+      case "OVERDUE":
         return Icons.warning_amber_rounded;
 
       default:

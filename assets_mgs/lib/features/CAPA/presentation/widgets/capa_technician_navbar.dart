@@ -1,4 +1,5 @@
 
+import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/capa_technician.dart';
@@ -57,6 +58,9 @@ class _CapaTechnicianNavbarState extends State<CapaTechnicianNavbar> {
           //   label: 'Risk',
           // ),
         ],
+      ),
+      drawer: Drawer(
+        child: LogoutButton(),
       ),
     );
   }

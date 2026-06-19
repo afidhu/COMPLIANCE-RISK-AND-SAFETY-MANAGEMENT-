@@ -1,12 +1,14 @@
 
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
+import { dateFormater } from "../utils/DateFormater";
 
 export default function ViewAssetCompliance() {
 
   const { assetId } = useParams();
   const { state } = useLocation();
+  const [search, setSearch] = useState("");
   console.log('state', state, 'id', assetId)
   const [isClicked, setIsClicked] = useState(false)
   const [isAdded, setIsAdded] = useState(false)
@@ -112,6 +114,47 @@ export default function ViewAssetCompliance() {
   };
 
 
+  const filteredData = useMemo(() => {
+    return assetsCompliance.filter(
+      (item) =>
+        item.complianceName
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        item.status
+          .toLowerCase()
+          .includes(search.toLowerCase())
+    );
+  }, [assetsCompliance, search]);
+
+  const compliantCount = assetsCompliance.filter(
+    (x) => x.status === "COMPLIANT"
+  ).length;
+
+  const dueSoonCount = assetsCompliance.filter(
+    (x) => x.status === "DUE_SOON"
+  ).length;
+
+  const overdueCount = assetsCompliance.filter(
+    (x) => x.status === "OVERDUE"
+  ).length;
+
+
+
+  const getBadge = (status: string) => {
+    switch (status) {
+      case "COMPLIANT":
+        return "bg-success";
+
+      case "DUE_SOON":
+        return "bg-warning text-dark";
+
+      case "OVERDUE":
+        return "bg-danger";
+
+      default:
+        return "bg-secondary";
+    }
+  };
 
   return (
     <div className="container">
@@ -149,11 +192,11 @@ export default function ViewAssetCompliance() {
         {/* Compliance Statistics */}
         <div className="row mb-4">
 
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="card card-stats shadow-sm border-0">
               <div className="card-body">
                 <h5 className="text-muted">
-                  Total Compliance Checks
+                  Total Compliances
                 </h5>
 
                 <h2 className="fw-bold text-primary">
@@ -163,7 +206,7 @@ export default function ViewAssetCompliance() {
             </div>
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="card card-stats shadow-sm border-0">
               <div className="card-body">
                 <h5 className="text-muted">
@@ -171,13 +214,13 @@ export default function ViewAssetCompliance() {
                 </h5>
 
                 <h2 className="fw-bold text-success">
-                  9
+                  {compliantCount}
                 </h2>
               </div>
             </div>
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="card card-stats shadow-sm border-0">
               <div className="card-body">
                 <h5 className="text-muted">
@@ -185,12 +228,25 @@ export default function ViewAssetCompliance() {
                 </h5>
 
                 <h2 className="fw-bold text-warning">
-                  3
+                  {dueSoonCount}
                 </h2>
               </div>
             </div>
           </div>
 
+          <div className="col-md-3">
+            <div className="card card-stats shadow-sm border-0">
+              <div className="card-body">
+                <h5 className="text-muted">
+                  Over Due
+                </h5>
+
+                <h2 className="fw-bold text-danger">
+                  {overdueCount}
+                </h2>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Compliance Table */}
@@ -236,17 +292,21 @@ export default function ViewAssetCompliance() {
                 <tbody>
 
                   {
-                    assetsCompliance.length > 0 ?
-                      assetsCompliance.map((item, index) => {
+                    filteredData.length > 0 ?
+                      filteredData.map((item, index) => {
+                        const formaterlastDueDate =dateFormater(item.lastDueDate)
+                        const formaterdueDate =dateFormater(item.dueDate)
                         return <>
                           <tr>
                             <td> {item.complianceName} </td>
                             <td> {item.frequency} </td>
-                            <td> {item.lastDueDate} </td>
-                            <td> {item.dueDate} </td>
+                            <td> {formaterlastDueDate} </td>
+                            <td> {formaterdueDate} </td>
 
                             <td>
-                              <span className="badge bg-success">
+                              <span className={`badge ${getBadge(
+                                item.status
+                              )}`}>
                                 {item.status}
                               </span>
                             </td>

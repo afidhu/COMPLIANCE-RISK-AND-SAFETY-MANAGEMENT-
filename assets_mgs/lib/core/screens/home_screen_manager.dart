@@ -1,3 +1,4 @@
+import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -197,6 +198,7 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
         shadowColor: Colors.white,
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
+        child: LogoutButton()
 
       ),
     );

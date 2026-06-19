@@ -1,0 +1,13 @@
+part of 'auth_cubit.dart';
+
+@immutable
+sealed class AuthState {}
+
+final class AuthInitial extends AuthState {}
+
+class AuthLogout extends AuthState {
+  final String message;
+
+  AuthLogout(this.message);
+
+}

@@ -27,6 +27,7 @@ import 'features/auths/data/repo_impl/auth_repo_impl.dart';
 import 'features/auths/domain/repository/auth_repo.dart';
 import 'features/auths/domain/use_cases/login_case.dart';
 import 'features/auths/presentation/bloc/auth_bloc.dart';
+import 'features/auths/presentation/cubit/auth_cubit.dart';
 import 'features/compliances/data/data_sources/compliance_remote_data_source.dart';
 import 'features/compliances/data/repo_impl/compliance_repo_impl.dart';
 import 'features/compliances/domain/repository/compliance_repo.dart';
@@ -74,6 +75,7 @@ void main() {
         BlocProvider<MitigationBloc>(create: (context)=>MitigationBloc(GetMitigationCase(context.read<MitigationRepo>()) )),
         BlocProvider<IncidentBloc>(create: (context)=>IncidentBloc(GetIncidentCase(context.read<IncidentRepo>()) )),
         BlocProvider<AuthBloc>(create: (context)=>AuthBloc(LoginCase(context.read<AuthRepo>()) )),
+        BlocProvider<AuthCubit>(create: (context)=>AuthCubit()),
 
       ],
           child: ScreenUtilInit(

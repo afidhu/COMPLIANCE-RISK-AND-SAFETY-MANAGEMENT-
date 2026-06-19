@@ -15,7 +15,6 @@ import compliance_routers from './routers/compliance_routers.ts';
 import capa_routers from './routers/capa_routers.ts';
 import assets_routers from './routers/assets_routers.ts';
 
-
 dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 3000; // This controls the backend server address
@@ -53,6 +52,7 @@ app.use('/capa', capa_routers);
 app.use('/assets',assets_routers);
 
 
+// complianceReminder()
 
 app.listen(port, () => {
     console.log(`Server Running at http://localhost:${port}`);
