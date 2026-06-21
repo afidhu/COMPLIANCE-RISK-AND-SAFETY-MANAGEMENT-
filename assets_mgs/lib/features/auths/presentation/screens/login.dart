@@ -1,5 +1,6 @@
 import 'package:assets_mgs/features/auths/domain/entities/user_entity.dart';
 import 'package:assets_mgs/features/auths/presentation/bloc/auth_bloc.dart';
+import 'package:assets_mgs/features/auths/presentation/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -447,11 +448,13 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Need help? "),
+                      const Text( "I'm not registered! ",),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(()=>RegisterScreen());
+                        },
                         child: const Text(
-                          "Contact Admin",
+                          "Register",
                           style: TextStyle(
                             color: Color(0xFF0000BA),
                             fontWeight: FontWeight.bold,

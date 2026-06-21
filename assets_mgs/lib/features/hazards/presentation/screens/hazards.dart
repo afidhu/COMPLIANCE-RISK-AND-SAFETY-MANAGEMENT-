@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../../CAPA/presentation/bloc/capa_bloc.dart';
+import '../../../assets/domain/entities/assets_entity.dart';
 import '../../../mitigations/presentation/bloc/mitigation_bloc.dart';
 import '../../../risks/presentation/bloc/risks_bloc.dart';
 import '../../../risks/presentation/screens/add_risks.dart';
@@ -244,15 +245,7 @@ class _HazardsState extends State<Hazards> {
                             IconButton(
                               tooltip: "View Asset",
                               onPressed: () {
-                                assetDetails({
-                                  "asset_id": "AST-001",
-                                  "asset_name": "Passenger Lift",
-                                  "asset_type": "Lift",
-                                  "location": "Block A",
-                                  "serial_no": "LFT-2026-001",
-                                  "status": "Active",
-                                  "created_by": "Admin",
-                                });
+                                assetDetails(hazard.asset);
                               },
                               icon: const Icon(
                                 Icons.remove_red_eye_outlined,
@@ -360,7 +353,8 @@ class _HazardsState extends State<Hazards> {
       ),
     );
   }
-  Future assetDetails(Map<String, dynamic> asset) async {
+  Future assetDetails(AssetsEntity? asset) async {
+    final dateFormat = dateFormater(asset!.createdAt.toString());
     return Get.bottomSheet(
 
       Container(
@@ -396,46 +390,46 @@ class _HazardsState extends State<Hazards> {
 
             const SizedBox(height: 20),
 
-            detailTile(
-              Icons.qr_code,
-              "Asset ID",
-              asset["asset_id"],
-            ),
+            // detailTile(
+            //   Icons.qr_code,
+            //   "Asset ID",
+            //   asset["asset_id"],
+            // ),
 
             detailTile(
               Icons.inventory,
               "Asset Name",
-              asset["asset_name"],
+              asset!.assetName.toString(),
             ),
 
             detailTile(
               Icons.category,
               "Asset Type",
-              asset["asset_type"],
+              asset.assetType.toString(),
             ),
 
             detailTile(
               Icons.location_on,
               "Location",
-              asset["location"],
+              asset.location.toString(),
             ),
 
             detailTile(
               Icons.confirmation_number,
               "Serial No",
-              asset["serial_no"] ?? "N/A",
+              asset.serialNo.toString()?? "N/A",
             ),
 
             detailTile(
               Icons.verified,
               "Status",
-              asset["status"],
+              asset.status.toString(),
             ),
 
             detailTile(
-              Icons.person,
-              "Created By",
-              asset["created_by"],
+              Icons.calendar_month_outlined,
+              "Created At",
+              dateFormat,
             ),
 
             const SizedBox(height: 20),

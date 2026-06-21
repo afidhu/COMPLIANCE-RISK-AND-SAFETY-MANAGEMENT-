@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../includes/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
-
+const { setUser } = useContext(UserContext);
   const [full_name, setFullName] =
     useState("");
 
-  const [email, setEmail] =
+  const [playerId, setplayerId] =
     useState("");
 
+    const [email, setEmail] =
+    useState("");
   const [phone, setPhone] =
     useState("");
 
@@ -41,19 +44,21 @@ const Register = () => {
     setError("");
     setSuccess("");
 
+    const datBody ={
+          fullName:full_name,
+          email:email,
+          role:role,
+          phone:phone,
+          playerId:playerId,
+          password:password,
+        }
+
+
     try {
       setLoading(true);
 
      const response =  await axios.post(
-       "http://localhost:51213/auth/register/",
-        {
-          fullName:full_name,
-          email,
-          role,
-          phone,
-          status,
-          password,
-        }
+       "http://localhost:51213/auth/register/", datBody
       );
 
       setSuccess(
@@ -63,6 +68,9 @@ const Register = () => {
       "user",
       JSON.stringify(response.data)
     );
+     if (setUser) {
+      setUser(response.data);
+    }
 
       setTimeout(() => {
         navigate("/dashboard");

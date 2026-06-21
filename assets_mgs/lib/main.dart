@@ -1,9 +1,9 @@
 import 'package:assets_mgs/features/assets/domain/use_cases/get_assets_case.dart';
 import 'package:assets_mgs/features/mitigations/data/repo_impl/mitigation_repo_impl.dart';
+import 'package:assets_mgs/features/notifications/presentation/screens/notification_demo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 
 import 'core/screens/splash_screen.dart';
 import 'features/CAPA/data/data_sources/remote_capa_data_remote.dart';
@@ -26,8 +26,10 @@ import 'features/auths/data/data_sources/auth_remote_data.dart';
 import 'features/auths/data/repo_impl/auth_repo_impl.dart';
 import 'features/auths/domain/repository/auth_repo.dart';
 import 'features/auths/domain/use_cases/login_case.dart';
+import 'features/auths/domain/use_cases/register_case.dart';
 import 'features/auths/presentation/bloc/auth_bloc.dart';
 import 'features/auths/presentation/cubit/auth_cubit.dart';
+import 'features/auths/presentation/screens/register_screen.dart';
 import 'features/compliances/data/data_sources/compliance_remote_data_source.dart';
 import 'features/compliances/data/repo_impl/compliance_repo_impl.dart';
 import 'features/compliances/domain/repository/compliance_repo.dart';
@@ -45,6 +47,8 @@ import 'features/mitigations/data/data_sources/mitigation_remote_data.dart';
 import 'features/mitigations/domain/repository/mitigation_repo.dart';
 import 'features/mitigations/domain/use_cases/get_mitigation_case.dart';
 import 'features/mitigations/presentation/bloc/mitigation_bloc.dart';
+import 'features/notifications/presentation/getx/notification_controller.dart';
+import 'features/notifications/presentation/getx/notification_initialization.dart';
 import 'features/risks/data/data_sources/risk_remote_data.dart';
 import 'features/risks/data/repo_impl/risk_repo_impl.dart';
 import 'features/risks/domain/repository/risk_repo.dart';
@@ -54,101 +58,107 @@ import 'features/risks/domain/use_cases/get_risk_case.dart';
 import 'features/risks/presentation/bloc/risks_bloc.dart';
 
 void main() {
-  runApp( MultiRepositoryProvider(providers: [
-    RepositoryProvider<HazardRepo>(create: (_)=>HazardRepoImpl(RemoteHazardDataSource()) ),
-    RepositoryProvider<AssetsRepo>(create: (_)=>AssetsRepoImpl(RemoteAssetsDataSource()) ),
-    RepositoryProvider<ComplianceRepo>(create: (_)=>ComplianceRepoImpl(ComplianceRemoteDataSource()) ),
-    RepositoryProvider<RiskRepo>(create: (_)=>RiskRepoImpl(RiskRemoteData()) ),
-    RepositoryProvider<CapaRepo>(create: (_)=>CapaRepoImpl(RemoteCapaDataRemote()) ),
-    RepositoryProvider<MitigationRepo>(create: (_)=>MitigationRepoImpl(MitigationRemoteData()) ),
-    RepositoryProvider<IncidentRepo>(create: (_)=>IncidentRepoImpl(IncidentRemoteData()) ),
-    RepositoryProvider<AuthRepo>(create: (_)=>AuthRepoImpl(AuthRemoteData()) ),
+  WidgetsFlutterBinding.ensureInitialized();
 
-     ],
+  //Notification initialization by onesignal
+  Get.put(NotificationInitializationController());
 
-      child: MultiBlocProvider(providers: [
-        BlocProvider<HazardsBloc>(create: (context)=>HazardsBloc(GetHazardsCase(context.read<HazardRepo>()),AddHazardsCase(context.read<HazardRepo>()) )),
-        BlocProvider<AssetsBloc>(create: (context)=>AssetsBloc(GetAssetsCase(context.read<AssetsRepo>()) )),
-        BlocProvider<ComplianceBloc>(create: (context)=>ComplianceBloc(GetComplianceCase(context.read<ComplianceRepo>()) )),
-        BlocProvider<RisksBloc>(create: (context)=>RisksBloc(GetRiskCase(context.read<RiskRepo>()),GetAllRiskCase(context.read<RiskRepo>()),AddRiskCase(context.read<RiskRepo>()) )),
-        BlocProvider<CapaBloc>(create: (context)=>CapaBloc(GetCapaCase(context.read<CapaRepo>()),GetCapaByTechnician((context.read<CapaRepo>())), UpdateCapaTechnicianCase((context.read<CapaRepo>())), )),
-        BlocProvider<MitigationBloc>(create: (context)=>MitigationBloc(GetMitigationCase(context.read<MitigationRepo>()) )),
-        BlocProvider<IncidentBloc>(create: (context)=>IncidentBloc(GetIncidentCase(context.read<IncidentRepo>()) )),
-        BlocProvider<AuthBloc>(create: (context)=>AuthBloc(LoginCase(context.read<AuthRepo>()) )),
-        BlocProvider<AuthCubit>(create: (context)=>AuthCubit()),
+  //Called function that work when user click notification message
+  Get.put(NotificationController());
 
+  runApp(
+
+
+
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<HazardRepo>(
+          create: (_) => HazardRepoImpl(RemoteHazardDataSource()),
+        ),
+        RepositoryProvider<AssetsRepo>(
+          create: (_) => AssetsRepoImpl(RemoteAssetsDataSource()),
+        ),
+        RepositoryProvider<ComplianceRepo>(
+          create: (_) => ComplianceRepoImpl(ComplianceRemoteDataSource()),
+        ),
+        RepositoryProvider<RiskRepo>(
+          create: (_) => RiskRepoImpl(RiskRemoteData()),
+        ),
+        RepositoryProvider<CapaRepo>(
+          create: (_) => CapaRepoImpl(RemoteCapaDataRemote()),
+        ),
+        RepositoryProvider<MitigationRepo>(
+          create: (_) => MitigationRepoImpl(MitigationRemoteData()),
+        ),
+        RepositoryProvider<IncidentRepo>(
+          create: (_) => IncidentRepoImpl(IncidentRemoteData()),
+        ),
+        RepositoryProvider<AuthRepo>(
+          create: (_) => AuthRepoImpl(AuthRemoteData()),
+        ),
       ],
-          child: ScreenUtilInit(
-            designSize: const Size(249, 419),
-            child: GetMaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Flutter Project',
-                theme: ThemeData(
-                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                ),
-                // home: HomeBottomNav()
-                home: SplashScreen()
+
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<HazardsBloc>(
+            create: (context) => HazardsBloc(
+              GetHazardsCase(context.read<HazardRepo>()),
+              AddHazardsCase(context.read<HazardRepo>()),
             ),
-          )
-      )
-  ) );
+          ),
+          BlocProvider<AssetsBloc>(
+            create: (context) =>
+                AssetsBloc(GetAssetsCase(context.read<AssetsRepo>())),
+          ),
+          BlocProvider<ComplianceBloc>(
+            create: (context) => ComplianceBloc(
+              GetComplianceCase(context.read<ComplianceRepo>()),
+            ),
+          ),
+          BlocProvider<RisksBloc>(
+            create: (context) => RisksBloc(
+              GetRiskCase(context.read<RiskRepo>()),
+              GetAllRiskCase(context.read<RiskRepo>()),
+              AddRiskCase(context.read<RiskRepo>()),
+            ),
+          ),
+          BlocProvider<CapaBloc>(
+            create: (context) => CapaBloc(
+              GetCapaCase(context.read<CapaRepo>()),
+              GetCapaByTechnician((context.read<CapaRepo>())),
+              UpdateCapaTechnicianCase((context.read<CapaRepo>())),
+            ),
+          ),
+          BlocProvider<MitigationBloc>(
+            create: (context) => MitigationBloc(
+              GetMitigationCase(context.read<MitigationRepo>()),
+            ),
+          ),
+          BlocProvider<IncidentBloc>(
+            create: (context) =>
+                IncidentBloc(GetIncidentCase(context.read<IncidentRepo>())),
+          ),
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(LoginCase(context.read<AuthRepo>()),RegisterCase(context.read<AuthRepo>())),
+          ),
+          BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+        ],
+
+        child: ScreenUtilInit(
+          designSize: const Size(249, 419),
+          child: GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Project',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            ),
+            // home: HomeBottomNav()
+            // home: SplashScreen()
+            home: RegisterScreen(),
+          ),
+        ),
+      ),
+    ),
+
+  );
 }
-
-
-
-
-
-
-
-//
-//
-//
-//
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return  ScreenUtilInit(
-//         designSize: const Size(360, 690),
-//         minTextAdapt: true,
-//         splitScreenMode: true,
-//       builder: (context,_) {
-//         return GetMaterialApp(
-//           title: 'Flutter Demo',
-//           debugShowCheckedModeBanner: false,
-//           theme: ThemeData(
-//             // This is the theme of your application.
-//             //
-//             // TRY THIS: Try running your application with "flutter run". You'll see
-//             // the application has a purple toolbar. Then, without quitting the app,
-//             // try changing the seedColor in the colorScheme below to Colors.green
-//             // and then invoke "hot reload" (save your changes or press the "hot
-//             // reload" button in a Flutter-supported IDE, or press "r" if you used
-//             // the command line to start the app).
-//             //
-//             // Notice that the counter didn't reset back to zero; the application
-//             // state is not lost during the reload. To reset the state, use hot
-//             // restart instead.
-//             //
-//             // This works for code too, not just values: Most code changes can be
-//             // tested with just a hot reload.
-//             colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-//           ),
-//           // home: HomeBottomNav()
-//           home: LoginScreen(),
-//           // home: SplashScreen(),
-//           // home: InspectionScreen(),
-//           // home: Hazards(),
-//           // home: AssetScreen(),
-//           // home: RiskScreen(),
-//         );
-//       }
-//     );
-//   }
-// }

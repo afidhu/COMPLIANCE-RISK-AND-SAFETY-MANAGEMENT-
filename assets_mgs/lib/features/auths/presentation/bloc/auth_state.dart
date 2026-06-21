@@ -31,3 +31,8 @@ class AuthLogoutMessage extends AuthState {
 
   AuthLogoutMessage(this.message);
 }
+class AuthRegisterSuccess extends AuthState {
+  final String message;
+
+  AuthRegisterSuccess(this.message);
+}

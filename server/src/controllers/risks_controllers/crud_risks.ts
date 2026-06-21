@@ -98,6 +98,13 @@ export const getRisksByHazardId = async(req:Request, resp:Response)=>{
             where: { 
                 hazardId: `${hazardId}`
              },
+             include:{
+                hazard:{
+                     include:{
+                        asset:true
+                     }
+                }
+             }
        
         });
         return resp.status(200).json(risks);

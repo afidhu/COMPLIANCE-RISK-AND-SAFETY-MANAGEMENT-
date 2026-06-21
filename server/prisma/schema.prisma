@@ -90,12 +90,23 @@ enum AssetsType {
   EXPLOSIVES
 }
 
+enum NotificationType {
+  COMPLIANCE
+  CAPA
+  HAZARD
+  INCIDENT
+  INSPECTION
+  CERTIFICATE
+}
+
 model User {
   userId      String      @id @default(cuid())
   fullName    String
   email       String      @unique
-  role        UserRole 
+  password    String?      
+  role        UserRole?
   phone       String?
+  playerId     String?    @unique
   status      UserStatus  @default(ACTIVE)
 
   assetsCreated       Asset[]
@@ -103,6 +114,9 @@ model User {
   incidentsReported   Incident[]
   mitigationAssigned  MitigationAction[]
   capaAssigned        CapaAction[]
+
+  sentNotifications     Notification[] @relation("SentNotifications")
+  receivedNotifications Notification[] @relation("ReceivedNotifications")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -259,4 +273,30 @@ model CapaAction {
   status         ActionStatus @default(PENDING)
 
   createdAt DateTime @default(now())
+}
+
+
+
+model Notification {
+  notify_id     String   @id @default(uuid())
+
+  sender_id     String
+  receiver_id   String
+
+  title         String
+  content       String
+
+  notify_type   NotificationType
+
+  reference_id  String?
+
+  is_read       Boolean @default(false)
+
+  createdAt     DateTime @default(now())
+  // Relations
+  sender   User @relation("SentNotifications", fields: [sender_id], references: [userId], onDelete: Cascade)
+  receiver User @relation("ReceivedNotifications", fields: [receiver_id], references: [userId], onDelete: Cascade)
+
+  @@index([sender_id])
+  @@index([receiver_id])
 }

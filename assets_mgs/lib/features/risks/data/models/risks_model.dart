@@ -1,3 +1,5 @@
+import 'package:assets_mgs/features/hazards/data/models/hazard_models.dart';
+
 import '../../domain/entities/risk_entity.dart';
 
 /// riskId : "cmq3vjm5j0003d5e28d8m32zt"
@@ -14,6 +16,7 @@ import '../../domain/entities/risk_entity.dart';
 class RisksModel extends RiskEntity {
  const RisksModel({
       super.riskId,
+      super.hazard,
       super.hazardId,
       super.riskTitle,
       super.riskDescription,
@@ -28,6 +31,7 @@ class RisksModel extends RiskEntity {
     return  RisksModel(
         riskId : json['riskId'],
         hazardId : json['hazardId'],
+        hazard :json['hazard'] != null ? HazardModels.fromJson(json['hazard']) : null,
         riskTitle: json['riskTitle'],
         riskDescription : json['riskDescription'],
         likelihood : json['likelihood'],

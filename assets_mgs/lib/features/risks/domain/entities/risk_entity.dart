@@ -2,8 +2,11 @@
 
 import 'package:equatable/equatable.dart';
 
+import '../../../hazards/domain/entities/hazards_entity.dart';
+
 class RiskEntity extends Equatable {
   final String? riskId;
+  final HazardsEntity? hazard;
   final String? hazardId;
   final String? riskTitle;
   final String? riskDescription;
@@ -17,6 +20,7 @@ class RiskEntity extends Equatable {
 
  const RiskEntity({
     this.riskId,
+    this.hazard,
     this.hazardId,
     this.riskTitle,
     this.riskDescription,
@@ -31,6 +35,7 @@ class RiskEntity extends Equatable {
   // TODO: implement props
   List<Object?> get props => [riskId,
   hazardId,
+    hazard,
   riskTitle,
   riskDescription,
   likelihood,

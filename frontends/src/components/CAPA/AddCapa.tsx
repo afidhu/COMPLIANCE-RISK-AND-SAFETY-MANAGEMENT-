@@ -1,17 +1,31 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { UserContext } from "../includes/AuthContext";
 
 const AddCAPA: React.FC = ({hazardid,hadazardTitle}) => {
+
+  const context = useContext(UserContext);
+// Destructure properties from your specific API response user object
+  const { user } = context;
 //   const [riskId, setRiskId] = useState("");
   const [actionTitle, setActionTitle] = useState("");
   const [assignedToId, setAssignedToId] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [hazardId, sethazardId] = useState("");
+
+  
+  // const [hazardId, sethazardId] = useState("");
 //   const [userId, setUserId] = useState("");
     const [technicians, setTechnicians] = useState([]);
 
-  
+    const [userId, setUserId] = useState("");
+
+const selectedUser = technicians.find(
+  (item) => item.userId.toString() === userId
+);
+console.log("Selected User:", selectedUser);
+console.log("Selected User ID:", selectedUser?.userId);
+
   const [loading, setLoading] = useState(false);
 
 
@@ -43,7 +57,9 @@ const AddCAPA: React.FC = ({hazardid,hadazardTitle}) => {
        riskId: "cmq3vjm5j0003d5e28d8m32zt",
         hazardId:hazardid,
         actionTitle,
-        assignedToId:assignedToId,
+        assignedToId: selectedUser?.userId,
+        sender_id:user?.userId,
+        playerId:selectedUser?.playerId,
         dueDate: new Date(dueDate).toISOString(),
       };
       console.log('payload',payload)
@@ -153,8 +169,8 @@ const AddCAPA: React.FC = ({hazardid,hadazardTitle}) => {
                       name="assigned_to"
                       className="form-select"
                       required
-                      value={assignedToId}
-                      onChange={(e)=>setAssignedToId(e.target.value)}
+                       value={userId}
+                        onChange={(e) => setUserId(e.target.value)}
                     >
                       <option disabled selected >
                         Select Technician

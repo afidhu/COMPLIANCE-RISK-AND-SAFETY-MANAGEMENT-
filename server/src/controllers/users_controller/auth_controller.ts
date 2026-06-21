@@ -7,14 +7,17 @@ import { prisma } from "../../index.ts";
 // register a new user
 export const registerUser = async(req:Request, resp:Response)=>{
     try {
-        const { fullName, email, role, phone } = req.body;
-       const newUser = await prisma.user.create({
-        data: {
-            fullName,
-            email,
-            role,
-            phone
+        const { fullName, email, role, phone,playerId,password } = req.body;
+        const datBody ={
+          fullName:fullName,
+          email:email,
+          role:role,
+          phone:phone,
+            playerId,
+          password:password,
         }
+       const newUser = await prisma.user.create({
+        data: datBody,
        });
        console.log(newUser)
        return resp.status(201).json(newUser);

@@ -14,6 +14,8 @@ import risks_routers from './routers/risks_routers.ts';
 import compliance_routers from './routers/compliance_routers.ts';
 import capa_routers from './routers/capa_routers.ts';
 import assets_routers from './routers/assets_routers.ts';
+import notification_router from './routers/notification_router.ts'
+import fetch from "node-fetch";
 
 dotenv.config();
 const app: Application = express();
@@ -49,11 +51,12 @@ app.use('/mitigations', mitigations_routers);
 app.use('/risks', risks_routers);
 app.use('/compliance', compliance_routers);
 app.use('/capa', capa_routers);
-app.use('/assets',assets_routers);
-
+app.use('/assets', assets_routers);
+app.use('/notification', notification_router);
 
 // complianceReminder()
 
+
 app.listen(port, () => {
-    console.log(`Server Running at http://localhost:${port}`);
+  console.log(`Server Running at http://localhost:${port}`);
 });

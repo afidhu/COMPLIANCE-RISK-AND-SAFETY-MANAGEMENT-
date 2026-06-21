@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repository/auth_repo.dart';
 import '../../domain/use_cases/login_case.dart';
+import '../../domain/use_cases/register_case.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -14,7 +15,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginCase _loginCase;
-  AuthBloc(this._loginCase) : super(AuthInitial()) {
+  final RegisterCase _registerCase;
+  AuthBloc(this._loginCase,this._registerCase) : super(AuthInitial()) {
     on<RegisterUserEvent>(_registerUser);
     on<LoginUserEvent>(_loginUser);
     // on<LogoutUserEvent>(_logoutUser);
@@ -22,12 +24,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 
   FutureOr<void> _registerUser(RegisterUserEvent event, Emitter<AuthState> emit) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+ emit(IsClickedAuthButton(isClicked: true));
     try{
-      // final addUser = await r.call(event.user);
-      // if(addUser.phone!.isNotEmpty){
-      //   print('User added success')
-      // }
-    }catch(e){}
+      final addUser = await _registerCase.call(event.user);
+      if(addUser.userId!.isNotEmpty){
+        prefs.clear();
+        emit(AuthRegisterSuccess('Successful'));
+        print('User added_success:$addUser');
+        emit(IsClickedAuthButton(isClicked: false));
+      }
+    }catch(e){
+      emit(IsClickedAuthButton(isClicked: false));
+      print('User added_Error:$e');
+      emit(AuthMessage('Fail to Create account: $e'));
+    }
   }
 
   FutureOr<void> _loginUser(LoginUserEvent event, Emitter<AuthState> emit)async {

@@ -95,16 +95,6 @@ Future<void> assetCapa({required AssetsEntity? asset,}) async {
             ],
           ),
 
-          const SizedBox(height: 25),
-
-          /// ASSET ID
-          // buildAssetTile(
-          //   icon: Icons.qr_code,
-          //   title: "Asset ID",
-          //   value: asset.toString(),
-          //   color: primaryColor,
-          // ),
-
           /// ASSET NAME
           buildAssetTile(
             icon: Icons.precision_manufacturing,

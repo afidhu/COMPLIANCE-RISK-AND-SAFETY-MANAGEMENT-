@@ -22,14 +22,16 @@ class _AssetScreenState extends State<AssetScreen> {
 
   IconData getAssetIcon(String type) {
     switch (type) {
-      case "Fire Protection":
+      case "EXPLOSIVES":
         return Icons.local_fire_department;
-      case "Lift":
+      case "LIFT":
         return Icons.elevator;
-      case "Electrical":
+      case "ELECTRICAL_DEVICE":
         return Icons.electrical_services;
-      case "Boiler":
+      case "BOILER":
         return Icons.precision_manufacturing;
+      case "PRESSURE_VESSEL":
+        return Icons.gas_meter_outlined;
       default:
         return Icons.business;
     }
@@ -37,14 +39,16 @@ class _AssetScreenState extends State<AssetScreen> {
 
   Color getAssetColor(String type) {
     switch (type) {
-      case "Fire Protection":
+      case "EXPLOSIVES":
         return Colors.red;
-      case "Lift":
+      case "LIFT":
         return Colors.blue;
-      case "Electrical":
+      case "ELECTRICAL_DEVICE":
         return Colors.orange;
-      case "Boiler":
+      case "BOILER":
         return Colors.green;
+      case "PRESSURE_VESSEL":
+        return Colors.yellowAccent;
       default:
         return Colors.grey;
     }
@@ -57,13 +61,11 @@ class _AssetScreenState extends State<AssetScreen> {
 
       body: BlocBuilder<AssetsBloc, AssetsState>(
         builder: (context, state) {
-          if(state is AssetsLoading){
+          if (state is AssetsLoading) {
             return Center(child: CircularProgressIndicator());
-          }
-          else if(state is AssetsMessage){
+          } else if (state is AssetsMessage) {
             return Text(state.infoMessage.toString());
-          }
-          else if(state is AssetsLoaded) {
+          } else if (state is AssetsLoaded) {
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
               cacheExtent: 1000,
@@ -72,7 +74,7 @@ class _AssetScreenState extends State<AssetScreen> {
               addRepaintBoundaries: true,
               itemCount: state.assets.length,
               itemBuilder: (context, index) {
-                final asset =state. assets[index];
+                final asset = state.assets[index];
                 return Container(
                   margin: const EdgeInsets.only(bottom: 14),
                   padding: const EdgeInsets.all(14),
@@ -91,14 +93,14 @@ class _AssetScreenState extends State<AssetScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       /// ICON SECTION
                       RepaintBoundary(
                         child: Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: getAssetColor(asset.assetType.toString())
-                                .withOpacity(0.12),
+                            color: getAssetColor(
+                              asset.assetType.toString(),
+                            ).withOpacity(0.12),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -116,7 +118,6 @@ class _AssetScreenState extends State<AssetScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
                             /// NAME
                             Text(
                               asset.assetName.toString(),
@@ -168,7 +169,7 @@ class _AssetScreenState extends State<AssetScreen> {
                         child: TextButton.icon(
                           iconAlignment: IconAlignment.end,
                           onPressed: () {
-                            assetCompliant(asset.compliance!.toList());
+                            assetCompliant(asset.compliance!.toList(), asset.assetName);
                           },
                           icon: Icon(
                             Icons.arrow_forward,
@@ -192,7 +193,7 @@ class _AssetScreenState extends State<AssetScreen> {
             );
           }
           return SizedBox.shrink();
-        }
+        },
       ),
 
       floatingActionButton: FloatingActionButton(

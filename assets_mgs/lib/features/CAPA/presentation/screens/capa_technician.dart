@@ -1,5 +1,6 @@
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:assets_mgs/features/CAPA/domain/entities/capa_entity.dart';
+import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -23,12 +24,11 @@ class _CapaTechnicianState extends State<CapaTechnician> {
 
   Color myColor(String staus) {
     switch (staus) {
-      case 'Pending':
+      case 'PENDING':
         return Colors.orange;
-        break;
-      case 'Completed':
+      case 'COMPLETED':
         return Colors.green;
-      case 'In Progress':
+      case 'IN_PROGRESS':
         return Colors.blue;
       default:
         return Colors.white;
@@ -73,43 +73,42 @@ class _CapaTechnicianState extends State<CapaTechnician> {
         ),
 
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                // Notification Icon
-                IconButton(
-                  onPressed: () {},
+          GestureDetector(
+            onTap: (){
+              Get.to(() => Notifications());
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // Notification Icon
+                  IconButton(
+                    onPressed: () {},
 
-                  icon: const Icon(
-                    Icons.notifications_active,
-                    color: Colors.white,
-                    size: 30,
+                    icon: const Icon(
+                      Icons.notifications_active,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
-                ),
 
-                // Notification Badge
-                Positioned(
-                  right: 2,
-                  top: 2,
+                  // Notification Badge
+                  Positioned(
+                    right: 2,
+                    top: 2,
 
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
-                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
 
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
 
-                    child: GestureDetector(
-                      onTap: () {
-                        debugPrint("12");
-                        Get.to(() => Notifications());
-                      },
                       child: const Text(
                         '12',
                         style: TextStyle(
@@ -120,8 +119,8 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -309,6 +308,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                 Icons.build,
                                 "Action Type",
                                 item.actionType.toString(),
+
                               ),
 
                               buildInfoRow(
@@ -335,6 +335,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
+
                                 ),
                               ),
 
@@ -350,7 +351,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
 
-                                child: Text(item.actionTitle.toString()),
+                                child: Text(item.actionTitle.toString(), style: TextStyle(color: Colors.red),),
                               ),
 
                               const SizedBox(height: 18),
@@ -403,12 +404,12 @@ class _CapaTechnicianState extends State<CapaTechnician> {
         ),
       ),
       drawer: Drawer(
-        child: OutlinedButton(onPressed: (){}, child: Text('Logout')),
+        child: LogoutButton()
       ),
     );
   }
 
-  Widget buildInfoRow(IconData icon, String title, String value) {
+  Widget buildInfoRow(IconData icon, String title, String value,) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(

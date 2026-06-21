@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../compliances/domain/entities/compliance_entity.dart';
 
-Future<void> assetCompliant( List<ComplianceEntity> compliances) async {
+Future<void> assetCompliant( List<ComplianceEntity> compliances, String? title) async {
   final Color primaryColor = const Color(0xFF0D47A1);
   await Get.bottomSheet(
     isScrollControlled: true,
@@ -66,7 +66,7 @@ Future<void> assetCompliant( List<ComplianceEntity> compliances) async {
 
                   children: [
                     Text(
-                      "Generator Compliance",
+                      "$title Compliance",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -120,14 +120,14 @@ Future<void> assetCompliant( List<ComplianceEntity> compliances) async {
                 Color statusColor;
 
                 switch (compliance.status.toString()) {
-                  case "Compliant":
+                  case "COMPLIANT":
                     statusColor = Colors.green;
                     break;
 
-                  case "Due Soon":
+                  case "DUE_SOON":
                     statusColor = Colors.orange;
                     break;
-                  case "Overdue":
+                  case "OVERDUE":
                     statusColor = Colors.red;
                     break;
                   default:
@@ -214,22 +214,6 @@ Future<void> assetCompliant( List<ComplianceEntity> compliances) async {
                         ),
 
                         const SizedBox(height: 15),
-
-                        // _rowItem(
-                        //   Icons.badge,
-                        //   "Compliance ID",
-                        //   compliance[
-                        //   "compliance_id"]!,
-                        //   primaryColor,
-                        // ),
-
-                        // _rowItem(
-                        //   Icons.inventory_2,
-                        //   "Asset ID",
-                        //   compliance[
-                        //   "asset_id"]!,
-                        //   primaryColor,
-                        // ),
 
                         _rowItem(
                           Icons.repeat,

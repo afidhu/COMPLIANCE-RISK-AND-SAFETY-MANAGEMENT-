@@ -18,4 +18,4 @@ const getInitialUser = () => {
 export { getInitialUser };
 
 // 3. Create context with null default structure
-export const UserContext = createContext(null);
+export const UserContext= createContext(null);

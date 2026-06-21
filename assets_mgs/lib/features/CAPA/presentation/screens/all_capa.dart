@@ -164,7 +164,7 @@ class AllCapa extends StatelessWidget {
                       ),
                       label: const Text(
                         "View Asset",
-                        style: TextStyle(fontSize: 13),
+                        style: TextStyle(fontSize: 13, color: Colors.white),
                       ),
                     ),
                   ),
