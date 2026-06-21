@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/notification_bloc.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -78,182 +81,196 @@ class _NotificationsState extends State<Notifications> {
         centerTitle: true,
       ),
 
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: notifications.length,
-        itemBuilder: (context, index) {
-          final n = notifications[index];
-          final color = getColor(n["notify_type"]);
+      body: BlocBuilder<NotificationBloc, NotificationState>(
+        builder: (context, state) {
 
-          return GestureDetector(
-            onTap: () {
-              // READY FOR NAVIGATION (CAPA / COMPLIANCE / HAZARD)
-              // use n["notify_id"] or referenceId here
-            },
+          if(state is  NotificationLoading){
+            return Center(child: CircularProgressIndicator(),);
+          }
+          else if(state is NotificationError){
+            return Center(child: Text(state.message.toString()),);
+          }
+          else if (state is NotificationLoaded){
+            return ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: state.notification.length,
+              itemBuilder: (context, index) {
+                final n = state.notification[index];
+                final color = getColor(n.notifyType.toString());
 
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              margin: const EdgeInsets.only(bottom: 14),
+                return GestureDetector(
+                  onTap: () {
+                    // READY FOR NAVIGATION (CAPA / COMPLIANCE / HAZARD)
+                    // use n["notify_id"] or referenceId here
+                  },
 
-              decoration: BoxDecoration(
-                color: n["is_read"]
-                    ? Colors.white
-                    : const Color(0xFFEAF2FF),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    margin: const EdgeInsets.only(bottom: 14),
 
-                borderRadius: BorderRadius.circular(18),
-
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-
-              child: Row(
-                children: [
-
-                  /// LEFT COLOR BAR (VERY MODERN LOOK)
-                  Container(
-                    width: 6,
-                    height: 110,
                     decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(18),
-                        bottomLeft: Radius.circular(18),
-                      ),
+                      color: n.isRead ==true
+                          ? Colors.white
+                          : const Color(0xFFEAF2FF),
+
+                      borderRadius: BorderRadius.circular(18),
+
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.06),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
-                  ),
 
-                  const SizedBox(width: 12),
+                    child: Row(
+                      children: [
 
-                  /// ICON
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      getIcon(n["notify_type"]),
-                      color: color,
-                      size: 26,
-                    ),
-                  ),
-
-                  const SizedBox(width: 14),
-
-                  /// CONTENT
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                        horizontal: 4,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          /// TYPE + UNREAD DOT
-                          Row(
-                            children: [
-
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: color.withOpacity(0.12),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  n["notify_type"],
-                                  style: TextStyle(
-                                    color: color,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-
-                              const SizedBox(width: 8),
-
-                              if (!n["is_read"])
-                                Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          /// MESSAGE
-                          Text(
-                            n["content"],
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              height: 1.3,
+                        /// LEFT COLOR BAR (VERY MODERN LOOK)
+                        Container(
+                          width: 6,
+                          height: 110,
+                          decoration: BoxDecoration(
+                            color: color,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(18),
+                              bottomLeft: Radius.circular(18),
                             ),
                           ),
+                        ),
 
-                          const SizedBox(height: 10),
+                        const SizedBox(width: 12),
 
-                          /// FOOTER
-                          Row(
-                            children: [
+                        /// ICON
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: color.withOpacity(0.12),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            getIcon(n.notifyType.toString()),
+                            color: color,
+                            size: 26,
+                          ),
+                        ),
 
-                              const Icon(
-                                Icons.person,
-                                size: 14,
-                                color: Colors.grey,
-                              ),
+                        const SizedBox(width: 14),
 
-                              const SizedBox(width: 4),
+                        /// CONTENT
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 4,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
 
-                              Expanded(
-                                child: Text(
-                                  "${n["sender"]} → ${n["receiver"]}",
+                                /// TYPE + UNREAD DOT
+                                Row(
+                                  children: [
+
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: color.withOpacity(0.12),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        n.notifyType.toString(),
+                                        style: TextStyle(
+                                          color: color,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+
+                                    const SizedBox(width: 8),
+
+                                    if (n.isRead ==false)
+                                      Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 8),
+
+                                /// MESSAGE
+                                Text(
+                                  n.content.toString(),
                                   style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.3,
                                   ),
                                 ),
-                              ),
 
-                              const Icon(
-                                Icons.access_time,
-                                size: 14,
-                                color: Colors.grey,
-                              ),
+                                const SizedBox(height: 10),
 
-                              const SizedBox(width: 4),
+                                /// FOOTER
+                                Row(
+                                  children: [
 
-                              Text(
-                                n["createdAt"],
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.grey,
+                                    const Icon(
+                                      Icons.person,
+                                      size: 14,
+                                      color: Colors.grey,
+                                    ),
+
+                                    const SizedBox(width: 4),
+
+                                    Expanded(
+                                      child: Text(
+                                        "${n.senderId} → ${n.receiverId}",
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+
+                                    const Icon(
+                                      Icons.access_time,
+                                      size: 14,
+                                      color: Colors.grey,
+                                    ),
+
+                                    const SizedBox(width: 4),
+
+                                    Text(
+                                      n.createdAt.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          );
+                );
+              },
+            );
+          }
+          return SizedBox.shrink();
         },
       ),
     );

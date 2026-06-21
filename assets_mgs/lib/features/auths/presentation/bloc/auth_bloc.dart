@@ -46,9 +46,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // emit(AuthLoading());
     try{
+
       final loginUser = await _loginCase.call(event.user);
-      if(loginUser.phone!.isNotEmpty){
-        print('User added success');
+      print('User loginUser :$loginUser');
+      if(loginUser.userId!.isNotEmpty){
+        print('User added_success');
         await prefs.setString('email', loginUser.email.toString());
         await prefs.setString('userId', loginUser.userId.toString());
         await prefs.setString('userType', loginUser.role.toString());

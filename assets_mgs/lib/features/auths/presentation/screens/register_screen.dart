@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../notifications/presentation/bloc/notification_bloc.dart';
 import '../bloc/auth_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {

@@ -1,6 +1,10 @@
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+
+import '../bloc/notification_bloc.dart';
+import '../screens/notifications.dart';
 
 
 
@@ -10,6 +14,7 @@ class NotificationController  extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+
     notificationViewClickHandle();
 
   }
@@ -31,10 +36,17 @@ class NotificationController  extends GetxController {
         print('itemId_:$itemReferenceId');
         print('notificationType:$notificationType');
         if (notificationType == 'CAPA') {
-          // Trigger your navigation logic here (e.g., Navigator, GoRouter)
-          print('Navigate to $notificationType with ID: $itemReferenceId');
+          print('Get.context: ${Get.context}');
+          if(Get.context != null){
+            // write bloc f() call here by pass userId, data will to next page
+            Get.context!.read<NotificationBloc>().add(GetNotificationByUserEvent());
+            // Trigger your navigation logic here (e.g., Navigator, GoRouter)
+            print('Navigate to $notificationType with ID: $itemReferenceId');
 
-          // write bloc f() call here by pass userId, data will to next page
+            Get.off(()=>Notifications());
+          }
+
+
         }
       }
     });

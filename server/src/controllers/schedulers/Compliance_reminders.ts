@@ -1,17 +1,39 @@
 import cron from 'node-cron';
 import { prisma } from '../../index.ts';
 import { addDays } from "date-fns";
+import { automaticNotification } from '../notifications_controller/auto_notification_capa.ts';
+import { createNotification } from '../notifications_controller/crud_controller.ts';
 
 
-export const complianceReminder = async () => {
+let isSchedulerRunning = false;
 
-    cron.schedule('* * * * * *', () => {
-        console.log('object')
-        runComplianceChecks()
-    })
-}
+export const complianceReminder = () => {
 
-// complianceReminder()
+    if (isSchedulerRunning) {
+        console.log("Scheduler already running, skipping...");
+        return;
+    }
+    
+    isSchedulerRunning = true;
+
+    cron.schedule('* * * * * *', async () => {
+        console.log('Scheduler_Started');
+
+        await runComplianceChecks();
+    });
+};
+
+
+// export const complianceReminder = async () => {
+
+//     cron.schedule('* * * * * *', () => {
+//         console.log('object')
+//         runComplianceChecks()
+//     })
+// }
+// console.log("Scheduler_Started");
+
+// // complianceReminder()
 
 export const runComplianceChecks = async () => {
     await checkBfDueDate();
@@ -19,6 +41,7 @@ export const runComplianceChecks = async () => {
     await checkCurrentDueDate();
 
     await checkOverdue();
+
 };
 
 // check if due date bf iwk
@@ -60,13 +83,15 @@ export const checkBfDueDate = async () => {
 
 
 // check if due date has reach 
-
 export const checkCurrentDueDate = async () => {
+
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 
     const endOfDay = new Date();
     endOfDay.setHours(23, 59, 59, 999);
+
+    // Find compliance due today
 
     const dueToday = await prisma.compliance.findMany({
         where: {
@@ -76,11 +101,93 @@ export const checkCurrentDueDate = async () => {
             },
         },
     });
-    console.log('dueToday', dueToday)
+
+    if (!dueToday.length) {
+        console.log("No compliance due today");
+        return [];
+    }
+console.log('dueToday:', dueToday)
+    // Find SYSTEM user
+
+    const systemUser = await prisma.user.findFirst({
+        where: {
+            role: "SYSTEM",
+        },
+    });
+
+    if (!systemUser) {
+        console.log("SYSTEM user not found");
+        return;
+    }
+
+    // Find all active inspectors
+
+    const inspectors = await prisma.user.findMany({
+        where: {
+            role: "INSPECTOR",
+            status: "ACTIVE",
+        },
+    });
+
+    for (const compliance of dueToday) {
+
+        for (const inspector of inspectors) {
+
+            // Check if notification already sent today
+
+            const alreadySent = await prisma.notification.findFirst({
+                where: {
+                    receiver_id: inspector.userId,
+                    notify_type: 'COMPLIANCE',
+                    reference_id: compliance.complianceId,
+
+                    createdAt: {
+                        gte: startOfDay,
+                        lte: endOfDay,
+                    },
+                },
+            });
+
+            console.log('notifi has sent',alreadySent)
+
+            if (alreadySent) {
+                continue;
+            }
+
+            const title = "Compliance Due Today";
+
+            const message =
+                `${compliance.complianceName} is due today. Please conduct the required inspection.`;
+
+            // Send OneSignal
+
+            await automaticNotification(
+                title,
+                message,
+                inspector.playerId,
+                "COMPLIANCE",
+                compliance.complianceId
+            );
+
+            // Save notification
+
+            await createNotification(
+                systemUser.userId,
+                inspector.userId,
+                title,
+                message,
+                "COMPLIANCE",
+                compliance.complianceId
+            );
+
+            console.log(
+                `Notification sent to ${inspector.userId}`
+            );
+        }
+    }
 
     return dueToday;
 };
-
 
 // check if due date has overdue
 

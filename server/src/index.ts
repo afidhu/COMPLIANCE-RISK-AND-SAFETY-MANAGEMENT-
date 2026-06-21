@@ -16,6 +16,7 @@ import capa_routers from './routers/capa_routers.ts';
 import assets_routers from './routers/assets_routers.ts';
 import notification_router from './routers/notification_router.ts'
 import fetch from "node-fetch";
+import { complianceReminder } from "./controllers/schedulers/Compliance_reminders.ts";
 
 dotenv.config();
 const app: Application = express();

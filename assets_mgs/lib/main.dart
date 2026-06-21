@@ -1,4 +1,5 @@
 import 'package:assets_mgs/features/assets/domain/use_cases/get_assets_case.dart';
+import 'package:assets_mgs/features/auths/presentation/screens/login.dart';
 import 'package:assets_mgs/features/mitigations/data/repo_impl/mitigation_repo_impl.dart';
 import 'package:assets_mgs/features/notifications/presentation/screens/notification_demo.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,11 @@ import 'features/mitigations/data/data_sources/mitigation_remote_data.dart';
 import 'features/mitigations/domain/repository/mitigation_repo.dart';
 import 'features/mitigations/domain/use_cases/get_mitigation_case.dart';
 import 'features/mitigations/presentation/bloc/mitigation_bloc.dart';
+import 'features/notifications/data/data_sources/notification_remote_data.dart';
+import 'features/notifications/data/repo_impl/notification_repo_impl.dart';
+import 'features/notifications/domain/repository/notification_repo.dart';
+import 'features/notifications/domain/use_cases/get_user_notification_case.dart';
+import 'features/notifications/presentation/bloc/notification_bloc.dart';
 import 'features/notifications/presentation/getx/notification_controller.dart';
 import 'features/notifications/presentation/getx/notification_initialization.dart';
 import 'features/risks/data/data_sources/risk_remote_data.dart';
@@ -62,6 +68,7 @@ void main() {
 
   //Notification initialization by onesignal
   Get.put(NotificationInitializationController());
+
 
   //Called function that work when user click notification message
   Get.put(NotificationController());
@@ -95,6 +102,10 @@ void main() {
         ),
         RepositoryProvider<AuthRepo>(
           create: (_) => AuthRepoImpl(AuthRemoteData()),
+        ),
+
+        RepositoryProvider<NotificationRepo>(
+          create: (_) => NotificationRepoImpl(NotificationRemoteData()),
         ),
       ],
 
@@ -142,6 +153,10 @@ void main() {
             create: (context) => AuthBloc(LoginCase(context.read<AuthRepo>()),RegisterCase(context.read<AuthRepo>())),
           ),
           BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+
+          BlocProvider<NotificationBloc>(
+            create: (context) => NotificationBloc(GetUserNotificationCase(context.read<NotificationRepo>()),),
+          ),
         ],
 
         child: ScreenUtilInit(
@@ -153,8 +168,9 @@ void main() {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
             // home: HomeBottomNav()
-            // home: SplashScreen()
-            home: RegisterScreen(),
+            home: SplashScreen()
+            // home: LoginScreen(),
+            // home: RegisterScreen(),
           ),
         ),
       ),

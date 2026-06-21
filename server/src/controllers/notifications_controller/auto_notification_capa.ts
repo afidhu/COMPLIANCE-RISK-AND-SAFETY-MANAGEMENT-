@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import fetch from "node-fetch";
 dotenv.config();
 
-export const technicianNotification = async ( title:any, message:any, playerId:any, type:any, referenceId:any ) => {
+export const automaticNotification = async ( title:any, message:any, playerId:any, type:any, referenceId:any ) => {
     const bodyData = {
         app_id: `${process.env.ONESIGNAL_APP_ID}`,
         // app_id:"bda3a186-5e4d-44df-8312-911c68f6a97c",

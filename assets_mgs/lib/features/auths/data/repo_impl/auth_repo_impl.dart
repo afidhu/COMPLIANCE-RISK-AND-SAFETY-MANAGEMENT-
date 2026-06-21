@@ -15,7 +15,8 @@ class AuthRepoImpl  implements AuthRepo{
     final usersModel =UsersModel.fromEntity(user);
     try{
       final response = await _authRemoteData.loginUser(usersModel);
-      if(response.statusCode ==201 ){
+      print('response_, ${response.statusCode}');
+      if(response.statusCode ==200 || response.statusCode ==2001){
         final userJson = response.data;
         return UsersModel.fromJson(userJson);
       }else{

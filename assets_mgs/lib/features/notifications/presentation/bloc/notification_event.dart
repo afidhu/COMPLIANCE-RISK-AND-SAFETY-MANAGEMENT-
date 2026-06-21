@@ -4,8 +4,7 @@ part of 'notification_bloc.dart';
 sealed class NotificationEvent {}
 
 class GetNotificationByUserEvent  extends NotificationEvent{
-  final String userId;
+  // final String userId;
 
-  GetNotificationByUserEvent(this.userId);
-
+  // GetNotificationByUserEvent(this.userId);
 }

@@ -1,18 +1,18 @@
 import type { Request,Response } from "express";
 import { prisma } from "../../index.ts";
-import { technicianNotification } from "../notifications_controller/auto_notification_capa.ts";
+import { automaticNotification } from "../notifications_controller/auto_notification_capa.ts";
 import { createNotification } from "../notifications_controller/crud_controller.ts";
 
 import { NotificationType } from "@prisma/client";
 
-export interface NotificationData {
-  sender_id: string;
-  receiver_id: string;
-  title: string;
-  content: string;
-  notify_type: NotificationType; // Uses your Prisma enum (e.g., 'LIKE', 'COMMENT', 'CAPA')
-  reference_id?: string | null;   // Optional field matching your Prisma schema
-}
+// export interface NotificationData {
+//   sender_id: string;
+//   receiver_id: string;
+//   title: string;
+//   content: string;
+//   notify_type: NotificationType; // Uses your Prisma enum (e.g., 'LIKE', 'COMMENT', 'CAPA')
+//   reference_id?: string | null;   // Optional field matching your Prisma schema
+// }
 
 // add a new CAPA action
 export const addCapa = async(req:Request, resp:Response)=>{
@@ -36,7 +36,7 @@ export const addCapa = async(req:Request, resp:Response)=>{
             }
         });
         if(newCapa.capaId.length >0){
-          const notificate=  technicianNotification('Task assigned' , `${newCapa.actionTitle}`, `${playerId}`, 'CAPA', `${newCapa.capaId}`)
+          const notificate=  automaticNotification('Task assigned' , `${newCapa.actionTitle}`, `${playerId}`, 'CAPA', `${newCapa.capaId}`)
           notificate.then((data)=>{
             console.log('createNotification:',data)
             createNotification(`${sender_id}`, `${newCapa.assignedTo.userId}`, `Task assigned`, `${newCapa.actionTitle}`, `CAPA`, `${newCapa.capaId}`)
