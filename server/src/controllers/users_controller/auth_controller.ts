@@ -144,3 +144,26 @@ export const getUserByEmail = async(req:Request, resp:Response)=>{
         return resp.status(500).json({ message: "Internal server error" });
     }
 }
+
+// count all users based on their role
+export const countUsersByRole = async(req:Request, resp:Response)=>{
+    try {
+        const usersByRole = await prisma.user.groupBy({
+            by: ['role'],
+            _count: {
+                userId: true
+            }
+        });
+        
+        const result = usersByRole.map(item => ({
+            role: item.role,
+            count: item._count.userId
+        }));
+        
+        return resp.status(200).json(result);
+    } catch (error) {
+        console.error("Error counting users by role:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+

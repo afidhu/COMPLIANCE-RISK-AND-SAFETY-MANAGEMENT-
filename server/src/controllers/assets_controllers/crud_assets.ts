@@ -27,7 +27,10 @@ export const getAssets = async (req: Request, resp: Response) => {
         const assets = await prisma.asset.findMany({
             include: {
                 compliances: true,
-            }
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
         });
         return resp.status(200).json(assets);
     } catch (error) {

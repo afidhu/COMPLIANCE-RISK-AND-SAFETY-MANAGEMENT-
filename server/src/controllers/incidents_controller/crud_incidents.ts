@@ -1,23 +1,23 @@
 
-import type { Request,Response } from "express";
+import type { Request, Response } from "express";
 import { prisma } from "../../index.ts";
 
 // add a new incident
-export const addIncident = async(req:Request, resp:Response)=>{
+export const addIncident = async (req: Request, resp: Response) => {
     try {
         const { assetId, riskId, incidentTitle, description, incidentDate, reportedById } = req.body;
-      const newIncident = await prisma.incident.create({
-          data: {
-              assetId,
-              riskId,
-              incidentTitle,
-              description,
-              incidentDate,
-              reportedById,
-              
-          }
-      });
-      return resp.status(201).json(newIncident);
+        const newIncident = await prisma.incident.create({
+            data: {
+                assetId,
+                riskId,
+                incidentTitle,
+                description,
+                incidentDate,
+                reportedById,
+
+            }
+        });
+        return resp.status(201).json(newIncident);
     } catch (error) {
         console.error("Error adding incident:", error);
         return resp.status(500).json({ message: "Internal server error" });
@@ -25,13 +25,17 @@ export const addIncident = async(req:Request, resp:Response)=>{
 }
 
 // get all incidents
-export const getIncidents = async(req:Request, resp:Response)=>{
+export const getIncidents = async (req: Request, resp: Response) => {
     try {
         const incidents = await prisma.incident.findMany({
-            include:{
-                asset:true,
-                risk:true,
-            }
+            include: {
+                asset: true,
+                risk: true,
+                reportedBy: true
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
         });
         return resp.status(200).json(incidents);
     } catch (error) {
@@ -41,7 +45,7 @@ export const getIncidents = async(req:Request, resp:Response)=>{
 }
 
 // get an incident by ID
-export const getIncidentById = async(req:Request, resp:Response)=>{
+export const getIncidentById = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         const incident = await prisma.incident.findUnique({
@@ -58,11 +62,14 @@ export const getIncidentById = async(req:Request, resp:Response)=>{
 }
 
 // get incidents by asset ID
-export const getIncidentsByAssetId = async(req:Request, resp:Response)=>{
+export const getIncidentsByAssetId = async (req: Request, resp: Response) => {
     try {
         const { assetId } = req.params;
         const incidents = await prisma.incident.findMany({
-            where: { assetId: `${assetId}` }
+            where: { assetId: `${assetId}` },
+            orderBy: {
+                createdAt: "desc",
+            }
         });
         return resp.status(200).json(incidents);
     } catch (error) {
@@ -72,11 +79,14 @@ export const getIncidentsByAssetId = async(req:Request, resp:Response)=>{
 }
 
 // get incidents by risk ID
-export const getIncidentsByRiskId = async(req:Request, resp:Response)=>{
+export const getIncidentsByRiskId = async (req: Request, resp: Response) => {
     try {
         const { riskId } = req.params;
         const incidents = await prisma.incident.findMany({
-            where: { riskId: `${riskId}` }
+            where: { riskId: `${riskId}` },
+            orderBy: {
+                createdAt: "desc",
+            }
         });
         return resp.status(200).json(incidents);
     } catch (error) {
@@ -86,12 +96,12 @@ export const getIncidentsByRiskId = async(req:Request, resp:Response)=>{
 }
 
 // update an incident
-export const updateIncident = async(req:Request, resp:Response)=>{
+export const updateIncident = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         const { assetId, riskId, incidentTitle, description, incidentDate } = req.body;
         const updatedIncident = await prisma.incident.update({
-            where: { incidentId: `${id}` }, 
+            where: { incidentId: `${id}` },
             data: {
                 assetId,
                 riskId,
@@ -108,7 +118,7 @@ export const updateIncident = async(req:Request, resp:Response)=>{
 }
 
 // delete an incident
-export const deleteIncident = async(req:Request, resp:Response)=>{
+export const deleteIncident = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         await prisma.incident.delete({
@@ -122,7 +132,7 @@ export const deleteIncident = async(req:Request, resp:Response)=>{
 }
 
 // get an incident by ID
-export const getIncidentByIdWithDetails = async(req:Request, resp:Response)=>{
+export const getIncidentByIdWithDetails = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         const incident = await prisma.incident.findUnique({
@@ -144,7 +154,7 @@ export const getIncidentByIdWithDetails = async(req:Request, resp:Response)=>{
 }
 
 // get incidents by asset ID with details
-export const getIncidentsByAssetIdWithDetails = async(req:Request, resp:Response)=>{
+export const getIncidentsByAssetIdWithDetails = async (req: Request, resp: Response) => {
     try {
         const { assetId } = req.params;
         const incidents = await prisma.incident.findMany({
@@ -153,6 +163,9 @@ export const getIncidentsByAssetIdWithDetails = async(req:Request, resp:Response
                 asset: true,
                 risk: true,
                 reportedBy: true
+            },
+            orderBy: {
+                createdAt: "desc",
             }
         });
         return resp.status(200).json(incidents);

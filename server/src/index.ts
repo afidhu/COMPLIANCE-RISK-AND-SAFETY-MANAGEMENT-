@@ -55,6 +55,8 @@ app.use('/capa', capa_routers);
 app.use('/assets', assets_routers);
 app.use('/notification', notification_router);
 
+
+//Here call Comppliance CRON
 // complianceReminder()
 
 

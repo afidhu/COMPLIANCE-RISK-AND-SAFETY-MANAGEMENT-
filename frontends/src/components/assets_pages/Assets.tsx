@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { dateFormater } from '../utils/DateFormater';
 
+
 export default function Assets() {
 
   const navigation = useNavigate()
   const[assets,setAssets] = useState([])
-
     const fetchAssets = async () => {
     try {
      const response = await axios.get('http://localhost:51213/assets/get')
@@ -30,7 +30,6 @@ const goTo = async(assetId:any,assetName:any,assetType:any,location:any )=>{
     state: { assetName: assetName, assetType:assetType, location:location }
   });
 }
-
 
 
 

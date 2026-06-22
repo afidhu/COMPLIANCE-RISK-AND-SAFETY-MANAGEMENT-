@@ -1,9 +1,9 @@
-import type { Request,Response } from "express";
+import type { Request, Response } from "express";
 import { prisma } from "../../index.ts";
 
 
 // Controller function to add a new risk
-export const addRisks = async(req:Request, resp:Response)=>{
+export const addRisks = async (req: Request, resp: Response) => {
     try {
         const { hazardId, riskTitle, riskDescription } = req.body;
         const newRisk = await prisma.risk.create({
@@ -11,12 +11,12 @@ export const addRisks = async(req:Request, resp:Response)=>{
                 hazardId,
                 riskTitle,
                 riskDescription,
-                severity:req.body.severity
+                severity: req.body.severity
             }
         });
         console.log(newRisk)
-        
-     
+
+
         return resp.status(201).json(newRisk);
     } catch (error) {
         console.error("Error adding risk:", error);
@@ -25,9 +25,20 @@ export const addRisks = async(req:Request, resp:Response)=>{
 }
 
 // Controller function to get all risks
-export const getRisks = async(req:Request, resp:Response)=>{
+export const getRisks = async (req: Request, resp: Response) => {
     try {
-        const risks = await prisma.risk.findMany();
+        const risks = await prisma.risk.findMany({
+            include: {
+                hazard: {
+                    include: {
+                        asset: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: "desc",
+            }
+        });
         return resp.status(200).json(risks);
     } catch (error) {
         console.error("Error fetching risks:", error);
@@ -36,7 +47,7 @@ export const getRisks = async(req:Request, resp:Response)=>{
 }
 
 // Controller function to get a risk by ID
-export const getRiskById = async(req:Request, resp:Response)=>{
+export const getRiskById = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         const risk = await prisma.risk.findUnique({
@@ -53,7 +64,7 @@ export const getRiskById = async(req:Request, resp:Response)=>{
 }
 
 // Controller function to update a risk
-export const updateRisk = async(req:Request, resp:Response)=>{
+export const updateRisk = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         const { hazardId, riskTitle, riskDescription, likelihood, impact, riskRating } = req.body;
@@ -76,7 +87,7 @@ export const updateRisk = async(req:Request, resp:Response)=>{
 }
 
 // Controller function to delete a risk
-export const deleteRisk = async(req:Request, resp:Response)=>{
+export const deleteRisk = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         await prisma.risk.delete({
@@ -90,22 +101,25 @@ export const deleteRisk = async(req:Request, resp:Response)=>{
 }
 
 // Controller function to get risks by hazard ID
-export const getRisksByHazardId = async(req:Request, resp:Response)=>{
+export const getRisksByHazardId = async (req: Request, resp: Response) => {
     try {
         const { hazardId } = req.params;
         console.log("Fetching risks for hazard ID:", hazardId);
         const risks = await prisma.risk.findMany({
-            where: { 
+            where: {
                 hazardId: `${hazardId}`
-             },
-             include:{
-                hazard:{
-                     include:{
-                        asset:true
-                     }
+            },
+            include: {
+                hazard: {
+                    include: {
+                        asset: true
+                    }
                 }
-             }
-       
+            },
+            orderBy: {
+                createdAt: "desc",
+            }
+
         });
         return resp.status(200).json(risks);
     } catch (error) {

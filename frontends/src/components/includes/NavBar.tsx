@@ -272,7 +272,7 @@ const context = useContext(UserContext);
                                         <div className="dropdown-divider"></div>
                                         <a className="dropdown-item" href="#">Account Setting</a>
                                         <div className="dropdown-divider"></div>
-                                        <a onClick={logOut} className="dropdown-item" href="#">Logout</a>
+                                        <a onClick={logOut} className="dropdown-item" href="#">Logout </a>
                                     </li>
                                 </div>
                             </ul>

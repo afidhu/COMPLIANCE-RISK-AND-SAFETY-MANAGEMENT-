@@ -111,7 +111,7 @@ export default function SideBar() {
                                             </Link>
                                         </li>
                                         <li>
-                                            <a href="./incidents/incidents.html">
+                                            <a href="#">
                                                 <span className="sub-item">Mitigation</span>
                                             </a>
                                         </li>
@@ -128,19 +128,19 @@ export default function SideBar() {
                                 <div className="collapse" id="sidebarLayouts">
                                     <ul className="nav nav-collapse">
                                         <li>
-                                            <a href="./reports/risks.html">
-                                                <span className="sub-item">Risks</span>
-                                            </a>
+                                            <Link to={'/RisksReport'} >
+                                                <span className="sub-item">RisksReport</span>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="./reports/incidents.html">
-                                                <span className="sub-item">Incidents</span>
-                                            </a>
+                                            <Link to={'/IncidentsReport'}>
+                                                <span className="sub-item">IncidentsReport</span>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="./reports/assets.html">
-                                                <span className="sub-item">Assets</span>
-                                            </a>
+                                            <Link to={'/AssetsReport'}>
+                                                <span className="sub-item">AssetsReport</span>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>

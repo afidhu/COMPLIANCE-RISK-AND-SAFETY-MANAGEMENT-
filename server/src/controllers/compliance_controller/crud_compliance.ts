@@ -29,7 +29,9 @@ export const addCompliance = async(req:Request, resp:Response)=>{
 export const getCompliances = async(req:Request, resp:Response)=>{
     try {
         const compliances = await prisma.compliance.findMany({
-                include: { asset: true }
+                include: { asset: true }, orderBy: {
+    createdAt: "desc",
+  },
         });
         return resp.status(200).json(compliances);
     } catch (error) {
@@ -101,7 +103,10 @@ export const getCompliancesByAssetId = async(req:Request, resp:Response)=>{
                 asset: {
                     assetId: `${assetid}`
                 }
-             }
+             },
+              orderBy: {
+    createdAt: "desc",
+              }
         });
         return resp.status(200).json(compliances);
     } catch (error) {

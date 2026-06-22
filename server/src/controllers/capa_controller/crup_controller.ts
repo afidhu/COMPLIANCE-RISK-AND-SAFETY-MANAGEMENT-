@@ -1,4 +1,4 @@
-import type { Request,Response } from "express";
+import type { Request, Response } from "express";
 import { prisma } from "../../index.ts";
 import { automaticNotification } from "../notifications_controller/auto_notification_capa.ts";
 import { createNotification } from "../notifications_controller/crud_controller.ts";
@@ -15,32 +15,32 @@ import { NotificationType } from "@prisma/client";
 // }
 
 // add a new CAPA action
-export const addCapa = async(req:Request, resp:Response)=>{
+export const addCapa = async (req: Request, resp: Response) => {
 
-    
+
     try {
-        const {actionTitle, assignedToId, dueDate, hazardId,playerId,sender_id} = req.body;
-        if(playerId ==null || sender_id == null){
+        const { actionTitle, assignedToId, dueDate, hazardId, playerId, sender_id } = req.body;
+        if (playerId == null || sender_id == null) {
             return resp.status(400).json('playerId & sender_id required')
         }
         const newCapa = await prisma.capaAction.create({
             data: {
-                
-                actionTitle:actionTitle,
-                assignedToId:assignedToId,
-                dueDate:dueDate,
-                hazardId:hazardId,
+
+                actionTitle: actionTitle,
+                assignedToId: assignedToId,
+                dueDate: dueDate,
+                hazardId: hazardId,
             },
-            include:{
-                assignedTo:true
+            include: {
+                assignedTo: true
             }
         });
-        if(newCapa.capaId.length >0){
-          const notificate=  automaticNotification('Task assigned' , `${newCapa.actionTitle}`, `${playerId}`, 'CAPA', `${newCapa.capaId}`)
-          notificate.then((data)=>{
-            console.log('createNotification:',data)
-            createNotification(`${sender_id}`, `${newCapa.assignedTo.userId}`, `Task assigned`, `${newCapa.actionTitle}`, `CAPA`, `${newCapa.capaId}`)
-          })
+        if (newCapa.capaId.length > 0) {
+            const notificate = automaticNotification('Task assigned', `${newCapa.actionTitle}`, `${playerId}`, 'CAPA', `${newCapa.capaId}`)
+            notificate.then((data) => {
+                console.log('createNotification:', data)
+                createNotification(`${sender_id}`, `${newCapa.assignedTo.userId}`, `Task assigned`, `${newCapa.actionTitle}`, `CAPA`, `${newCapa.capaId}`)
+            })
         }
         console.log(newCapa)
         return resp.status(201).json(newCapa);
@@ -51,9 +51,13 @@ export const addCapa = async(req:Request, resp:Response)=>{
 }
 
 // get all CAPA actions
-export const getCapas = async(req:Request, resp:Response)=>{
+export const getCapas = async (req: Request, resp: Response) => {
     try {
-        const capas = await prisma.capaAction.findMany();
+        const capas = await prisma.capaAction.findMany({
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
         return resp.status(200).json(capas);
     } catch (error) {
         console.error("Error fetching CAPA actions:", error);
@@ -62,13 +66,14 @@ export const getCapas = async(req:Request, resp:Response)=>{
 }
 
 // get a CAPA action by ID
-export const getCapaById = async(req:Request, resp:Response)=>{
+export const getCapaById = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         const capa = await prisma.capaAction.findUnique({
-            where: { 
+            where: {
                 capaId: `${id}`
             }
+
         });
         if (!capa) {
             return resp.status(404).json({ message: "CAPA action not found" });
@@ -81,11 +86,13 @@ export const getCapaById = async(req:Request, resp:Response)=>{
 }
 
 // get CAPA actions by risk ID    
-export const getCapasByRiskId = async(req:Request, resp:Response)=>{
+export const getCapasByRiskId = async (req: Request, resp: Response) => {
     try {
         const { riskid } = req.params;
         const capas = await prisma.capaAction.findMany({
-            where: { riskId: `${riskid}` }
+            where: { riskId: `${riskid}` }, orderBy: {
+                createdAt: "desc",
+            },
         });
         return resp.status(200).json(capas);
     } catch (error) {
@@ -95,14 +102,14 @@ export const getCapasByRiskId = async(req:Request, resp:Response)=>{
 }
 
 // update a CAPA action
-export const updateCapa = async(req:Request, resp:Response)=>{
+export const updateCapa = async (req: Request, resp: Response) => {
     try {
         const { capaId } = req.params;
         const { riskId, actionTitle, assignedToId, dueDate, status } = req.body;
         const updatedCapa = await prisma.capaAction.update({
             where: { capaId: `${capaId}` },
             data: {
-                status:status,
+                status: status,
             }
         });
         console.log(updatedCapa)
@@ -114,7 +121,7 @@ export const updateCapa = async(req:Request, resp:Response)=>{
 }
 
 // delete a CAPA action
-export const deleteCapa = async(req:Request, resp:Response)=>{
+export const deleteCapa = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
         await prisma.capaAction.delete({
@@ -129,24 +136,27 @@ export const deleteCapa = async(req:Request, resp:Response)=>{
 
 
 // get CAPA actions by hazard ID    
-export const getCapasByHazardId = async(req:Request, resp:Response)=>{
+export const getCapasByHazardId = async (req: Request, resp: Response) => {
     try {
         const { hazardId } = req.params;
         const capas = await prisma.capaAction.findMany({
-            where: { 
-                hazard:{
+            where: {
+                hazard: {
                     hazardId: `${hazardId}`
                 }
-             },
-             include: {
-                assignedTo:true,
-                hazard:{
-                    include:{
-                        asset:true
+            },
+            include: {
+                assignedTo: true,
+                hazard: {
+                    include: {
+                        asset: true
                     }
                 }
-             }
-            });
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
         return resp.status(200).json(capas);
     } catch (error) {
         console.error("Error fetching CAPA actions by hazard ID:", error);
@@ -156,23 +166,26 @@ export const getCapasByHazardId = async(req:Request, resp:Response)=>{
 
 
 // get CAPA By Technician ID    
-export const getCapasByTechnicianId = async(req:Request, resp:Response)=>{
+export const getCapasByTechnicianId = async (req: Request, resp: Response) => {
     try {
         const { userId } = req.params;
         const capas = await prisma.capaAction.findMany({
-            where: { 
-                assignedToId :`${userId}`
-             },
-             include: {
-                assignedTo:true,
-                hazard:{
-                    include:{
-                        asset:true
+            where: {
+                assignedToId: `${userId}`
+            },
+            include: {
+                assignedTo: true,
+                hazard: {
+                    include: {
+                        asset: true
                     }
                 }
-                
-             }
-            });
+
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
         return resp.status(200).json(capas);
     } catch (error) {
         console.error("Error fetching CAPA actions by hazard ID:", error);

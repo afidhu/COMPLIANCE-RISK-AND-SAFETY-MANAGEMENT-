@@ -1,15 +1,120 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function IncidentsReport() {
+  const [incidents, setIncidents] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  const getIncidents = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.get(
+        "http://localhost:51213/incidents/get"
+      );
+
+      setIncidents(response.data);
+    } catch (error) {
+      console.error("Error fetching incidents:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getIncidents();
+  }, []);
+
+  const getSeverityBadge = (severity) => {
+    switch (severity) {
+      case "HIGH":
+        return "badge bg-danger";
+      case "MEDIUM":
+        return "badge bg-warning text-dark";
+      case "LOW":
+        return "badge bg-success";
+      default:
+        return "badge bg-secondary";
+    }
+  };
+
+  const filteredIncidents = incidents.filter((item) => {
+    if (!fromDate && !toDate) return true;
+
+    const incidentDate = new Date(item.incidentDate);
+
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate + "T23:59:59") : null;
+
+    return (
+      (!from || incidentDate >= from) &&
+      (!to || incidentDate <= to)
+    );
+  });
+
+
+  const exportIncidentsPDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(20);
+    doc.text("COMPLIANCE MANAGEMENT SYSTEM", 14, 15);
+
+    doc.setFontSize(14);
+    doc.text("Incident Report", 14, 25);
+
+    doc.setFontSize(10);
+    doc.text(
+      `Generated On: ${new Date().toLocaleString()}`,
+      14,
+      32
+    );
+
+    doc.text(
+      `Total Incidents: ${filteredIncidents.length}`,
+      14,
+      38
+    );
+
+    autoTable(doc, {
+      startY: 45,
+      head: [[
+        "#",
+        "Asset",
+        "Title",
+        "Severity",
+        "Date",
+        "Status",
+      ]],
+      body: filteredIncidents.map((item, index) => [
+        index + 1,
+        item.asset?.assetName,
+        item.incidentTitle,
+        item.severity,
+        new Date(item.incidentDate).toLocaleDateString(),
+        item.status || "OPEN",
+      ]),
+    });
+
+    doc.save("Incident_Report.pdf");
+  };
+
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="page-inner">
 
         {/* PAGE HEADER */}
-        <div className="page-header">
-          <h3 className="fw-bold mb-3">Incident Reports</h3>
+        <div className="page-header mb-4">
+          <h3 className="fw-bold mb-2 text-dark">
+            Incident Reports
+          </h3>
 
-          <ul className="breadcrumbs mb-3">
+          <ul className="breadcrumbs mb-0">
             <li className="nav-home">
               <a href="#">
                 <i className="icon-home"></i>
@@ -21,7 +126,7 @@ export default function IncidentsReport() {
             </li>
 
             <li className="nav-item">
-              <a href="#">Tables</a>
+              <a href="#">Reports</a>
             </li>
 
             <li className="separator">
@@ -34,118 +139,279 @@ export default function IncidentsReport() {
           </ul>
         </div>
 
-        {/* CARD */}
-        <div className="row">
-          <div className="col-md-12">
-            <div className="card">
+        {/* SUMMARY CARDS */}
+        <div className="row mb-4">
+          <div className="col-md-4">
+            <div className="card shadow-sm border-0">
+              <div className="card-body">
+                <h6 className="text-muted mb-2">
+                  Total Incidents
+                </h6>
+                <h2 className="fw-bold text-primary">
+                  {incidents.length}
+                </h2>
+              </div>
+            </div>
+          </div>
 
-              {/* CARD HEADER */}
-              <div className="card-header d-flex justify-content-between align-items-center">
-                <h4 className="card-title mb-0">Incident Table</h4>
+          <div className="col-md-4">
+            <div className="card shadow-sm border-0">
+              <div className="card-body">
+                <h6 className="text-muted mb-2">
+                  High Severity
+                </h6>
+                <h2 className="fw-bold text-danger">
+                  {
+                    incidents.filter(
+                      (i) => i.severity === "HIGH"
+                    ).length
+                  }
+                </h2>
+              </div>
+            </div>
+          </div>
 
-                <a href="./add_incident.html" className="btn btn-primary btn-lg">
-                  <i className="fa fa-plus me-2"></i>
-                  Add New
-                </a>
+          <div className="col-md-4">
+            <div className="card shadow-sm border-0">
+              <div className="card-body">
+                <h6 className="text-muted mb-2">
+                  Medium Severity
+                </h6>
+                <h2 className="fw-bold text-warning">
+                  {
+                    incidents.filter(
+                      (i) => i.severity === "MEDIUM"
+                    ).length
+                  }
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* MAIN CARD */}
+        <div className="card shadow border-0">
+
+          {/* HEADER */}
+          <div className="card-header bg-white">
+
+            <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+              <div>
+                <h4 className="card-title fw-bold mb-1">
+                  Incident Report Register
+                </h4>
+
+                <small className="text-muted">
+                  View, filter and export incident reports
+                </small>
               </div>
 
-              {/* CARD BODY */}
-              <div className="card-body">
-                <div className="table-responsive">
+              <div className="d-flex align-items-center gap-2 flex-wrap">
 
-                  <table
-                    id="incident-datatables"
-                    className="display table table-striped table-hover align-middle"
-                  >
-                    <thead className="table-warning">
-                      <tr>
-                        <th>Incident ID</th>
-                        <th>Asset ID</th>
-                        <th>Incident Type</th>
-                        <th>Description</th>
-                        <th>Date Reported</th>
-                        <th>Export PDF</th>
-                      </tr>
-                    </thead>
+                <div>
+                  <small className="text-muted d-block">
+                    From
+                  </small>
 
-                    <tfoot className="table-light">
-                      <tr>
-                        <th>Incident ID</th>
-                        <th>Asset ID</th>
-                        <th>Incident Type</th>
-                        <th>Description</th>
-                        <th>Date Reported</th>
-                        <th>Export PDF</th>
-                      </tr>
-                    </tfoot>
-
-                    <tbody>
-
-                      {/* ROW 1 */}
-                      <tr>
-                        <td>INC-001</td>
-                        <td>AST-001</td>
-                        <td>Lift Failure</td>
-                        <td>Lift stopped between floors during operation</td>
-                        <td>2026-05-12</td>
-                        <td>
-                          <button className="btn btn-link btn-danger btn-lg">
-                            <i className="fa fa-file-pdf"></i>
-                          </button>
-                        </td>
-                      </tr>
-
-                      {/* ROW 2 */}
-                      <tr>
-                        <td>INC-002</td>
-                        <td>AST-002</td>
-                        <td>Safety Equipment Failure</td>
-                        <td>Fire extinguisher pressure was low</td>
-                        <td>2026-05-10</td>
-                        <td>
-                          <button className="btn btn-link btn-primary btn-lg">
-                            <i className="fa fa-file-pdf"></i>
-                          </button>
-                        </td>
-                      </tr>
-
-                      {/* ROW 3 */}
-                      <tr>
-                        <td>INC-003</td>
-                        <td>AST-004</td>
-                        <td>Power Failure</td>
-                        <td>Generator failed during backup operation</td>
-                        <td>2026-05-08</td>
-                        <td>
-                          <button className="btn btn-link btn-primary btn-lg">
-                            <i className="fa fa-file-pdf"></i>
-                          </button>
-                        </td>
-                      </tr>
-
-                      {/* ROW 4 */}
-                      <tr>
-                        <td>INC-004</td>
-                        <td>AST-010</td>
-                        <td>Electrical Hazard</td>
-                        <td>Sparks detected from distribution box</td>
-                        <td>2026-05-11</td>
-                        <td>
-                          <button className="btn btn-link btn-primary btn-lg">
-                            <i className="fa fa-file-pdf"></i>
-                          </button>
-                        </td>
-                      </tr>
-
-                    </tbody>
-
-                  </table>
-
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={fromDate}
+                    onChange={(e) =>
+                      setFromDate(e.target.value)
+                    }
+                  />
                 </div>
+
+                <div>
+                  <small className="text-muted d-block">
+                    To
+                  </small>
+
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={toDate}
+                    onChange={(e) =>
+                      setToDate(e.target.value)
+                    }
+                  />
+                </div>
+
+                <button
+                  className="btn btn-primary mt-4"
+                  onClick={() => { }}
+                >
+                  <i className="fa fa-filter me-2"></i>
+                  Filter
+                </button>
+
+                <button
+                  className="btn btn-danger mt-4"
+                  onClick={exportIncidentsPDF}
+                >
+                  <i className="fa fa-file-pdf me-2"></i>
+                  Export PDF
+                </button>
               </div>
 
             </div>
+
           </div>
+
+          {/* BODY */}
+          <div className="card-body">
+
+            <div className="table-responsive">
+
+              <table className="table table-hover align-middle">
+
+                <thead className="table-warning">
+                  <tr>
+                    <th>#</th>
+                    <th>Asset</th>
+                    <th>Location</th>
+                    <th>Incident Title</th>
+                    <th>Description</th>
+                    <th>Date Reported</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                    <th>PDF</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  {loading ? (
+                    <tr>
+                      <td
+                        colSpan="9"
+                        className="text-center py-5"
+                      >
+                        <div
+                          className="spinner-border text-primary"
+                          role="status"
+                        />
+                      </td>
+                    </tr>
+                  ) : filteredIncidents.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="9"
+                        className="text-center py-5"
+                      >
+                        <div className="text-muted">
+                          No incidents found
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredIncidents.map(
+                      (incident, index) => (
+                        <tr key={incident.incidentId}>
+
+                          <td>
+                            <span className="fw-bold text-primary">
+                              INC-{index + 1}
+                            </span>
+                          </td>
+
+                          <td>
+                            <div className="fw-semibold">
+                              {
+                                incident.asset
+                                  ?.assetName
+                              }
+                            </div>
+
+                            <small className="text-muted">
+                              {
+                                incident.asset
+                                  ?.assetType
+                              }
+                            </small>
+                          </td>
+
+                          <td>
+                            {
+                              incident.asset
+                                ?.location
+                            }
+                          </td>
+
+                          <td>
+                            <div className="fw-semibold">
+                              {
+                                incident.incidentTitle
+                              }
+                            </div>
+                          </td>
+
+                          <td
+                            style={{
+                              maxWidth: "300px",
+                              whiteSpace:
+                                "normal",
+                            }}
+                          >
+                            {
+                              incident.description
+                            }
+                          </td>
+
+                          <td>
+                            {new Date(
+                              incident.incidentDate
+                            ).toLocaleDateString()}
+                          </td>
+
+                          <td>
+                            <span
+                              className={getSeverityBadge(
+                                incident.severity
+                              )}
+                            >
+                              {
+                                incident.severity
+                              }
+                            </span>
+                          </td>
+
+                          <td>
+                            <span
+                              className={`badge ${incident.status
+                                  ? "bg-success"
+                                  : "bg-secondary"
+                                }`}
+                            >
+                              {incident.status ||
+                                "OPEN"}
+                            </span>
+                          </td>
+
+                          <td>
+                            <button
+                              className="btn btn-outline-danger btn-sm"
+                              title="Export PDF"
+                            >
+                              <i className="fa fa-file-pdf"></i>
+                            </button>
+                          </td>
+
+                        </tr>
+                      )
+                    )
+                  )}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
         </div>
 
       </div>

@@ -1,299 +1,377 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function Incidents() {
+  const [incidents, setIncidents] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getIncidents = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.get(
+        "http://localhost:51213/incidents/get"
+      );
+
+      setIncidents(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getIncidents();
+  }, []);
+
+  const getSeverityBadge = (severity) => {
+    switch (severity) {
+      case "CRITICAL":
+        return "badge bg-dark";
+      case "HIGH":
+        return "badge bg-danger";
+      case "MEDIUM":
+        return "badge bg-warning text-dark";
+      case "LOW":
+        return "badge bg-success";
+      default:
+        return "badge bg-secondary";
+    }
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case "CLOSED":
+        return "badge bg-success";
+      case "OPEN":
+        return "badge bg-primary";
+      case "ESCALATED":
+        return "badge bg-danger";
+      case "MONITORING":
+        return "badge bg-secondary";
+      default:
+        return "badge bg-warning text-dark";
+    }
+  };
+
   return (
-    <div className="container">
-      <div className="table-responsive">
+    <div className="container-fluid">
+      <div className="page-inner">
 
-     <div
-  className="card-header mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3"
-  style={{
-    background: "linear-gradient(135deg, #1e66ff, #0047cc)",
-    color: "#fff",
-    borderRadius: "12px",
-    padding: "18px 25px",
-  }}
->
-  {/* Left Side */}
-  <div>
-    <h3 className="mb-1 fw-bold">
-      <i className="fas fa-triangle-exclamation me-2"></i>
-      All Incidents
-    </h3>
+        {/* SUMMARY CARDS */}
+        <div className="row mb-4">
 
-    <small>
-      Track reported incidents, severity levels, and resolution status.
-    </small>
-  </div>
+          <div className="col-md-3">
+            <div className="card shadow-sm border-0">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Total Incidents
+                </h6>
 
-  {/* Right Side Button */}
-  <Link
-    to="/AddIncident"
-    className="btn fw-semibold"
-    style={{
-      backgroundColor: "#ffffff",
-      color: "#1e66ff",
-      borderRadius: "10px",
-      padding: "10px 18px",
-      border: "none",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-    }}
-  >
-    <i className="fa fa-plus me-2"></i>
-    Add Incident
-  </Link>
-</div>
+                <h2 className="fw-bold text-primary">
+                  {incidents.length}
+                </h2>
+              </div>
+            </div>
+          </div>
 
-        <table
-          id="incident-datatables"
-          className="display table table-striped table-hover align-middle"
+          <div className="col-md-3">
+            <div className="card shadow-sm border-0">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  High Severity
+                </h6>
+
+                <h2 className="fw-bold text-danger">
+                  {
+                    incidents.filter(
+                      (i) =>
+                        i.severity === "HIGH" ||
+                        i.severity === "CRITICAL"
+                    ).length
+                  }
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-3">
+            <div className="card shadow-sm border-0">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Medium Severity
+                </h6>
+
+                <h2 className="fw-bold text-warning">
+                  {
+                    incidents.filter(
+                      (i) => i.severity === "MEDIUM"
+                    ).length
+                  }
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-3">
+            <div className="card shadow-sm border-0">
+              <div className="card-body">
+                <h6 className="text-muted">
+                  Open Cases
+                </h6>
+
+                <h2 className="fw-bold text-info">
+                  {
+                    incidents.filter(
+                      (i) =>
+                        !i.status ||
+                        i.status === "OPEN"
+                    ).length
+                  }
+                </h2>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* HEADER */}
+        <div
+          className="card-header mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3"
+          style={{
+            background:
+              "linear-gradient(135deg, #1e66ff, #0047cc)",
+            color: "#fff",
+            borderRadius: "16px",
+            padding: "20px 25px",
+            boxShadow:
+              "0 10px 25px rgba(0,71,204,0.25)",
+          }}
         >
-          <thead
+          <div>
+            <h3 className="mb-1 fw-bold">
+              <i className="fas fa-triangle-exclamation me-2"></i>
+              Incident Management
+            </h3>
+
+            <small>
+              Track, monitor and manage all
+              reported incidents.
+            </small>
+          </div>
+
+          <Link
+            to="/AddIncident"
+            className="btn fw-semibold"
             style={{
-              backgroundColor: "#1e66ff",
-              color: "#fff",
+              backgroundColor: "#fff",
+              color: "#1e66ff",
+              borderRadius: "12px",
+              padding: "10px 18px",
+              boxShadow:
+                "0 4px 15px rgba(0,0,0,0.15)",
             }}
           >
-            <tr>
-              <th>Incident ID</th>
-              <th>Asset ID</th>
-              <th>Risk ID</th>
-              <th>Incident Title</th>
-              <th>Reported Date</th>
-              <th>Severity</th>
-              <th>Reported By</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+            <i className="fa fa-plus me-2"></i>
+            Add Incident
+          </Link>
+        </div>
 
-          <tfoot className="table-light">
-            <tr>
-              <th>Incident ID</th>
-              <th>Asset ID</th>
-              <th>Risk ID</th>
-              <th>Incident Title</th>
-              <th>Reported Date</th>
-              <th>Severity</th>
-              <th>Reported By</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </tfoot>
+        {/* TABLE CARD */}
+        <div className="card shadow border-0">
 
-          <tbody>
+          <div className="card-body">
 
-            <tr>
-              <td>INC-001</td>
-              <td>AST-001</td>
-              <td>RSK-001</td>
-              <td>Lift Sudden Shutdown</td>
-              <td>2026-06-15</td>
+            <div className="table-responsive">
 
-              <td>
-                <span className="badge bg-danger">
-                  Critical
-                </span>
-              </td>
+              <table className="table table-hover align-middle">
 
-              <td>John Inspector</td>
+                <thead
+                  style={{
+                    background:
+                      "linear-gradient(90deg,#1e66ff,#0047cc)",
+                    color: "#fff",
+                  }}
+                >
+                  <tr>
+                    <th>#</th>
+                    <th>Asset</th>
+                    <th>Incident</th>
+                    <th>Date</th>
+                    <th>Severity</th>
+                    <th>Reported By</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
 
-              <td>
-                <span className="badge bg-warning text-dark">
-                  Under Investigation
-                </span>
-              </td>
+                <tbody>
 
-              <td>
-                <div className="form-button-action">
+                  {loading ? (
+                    <tr>
+                      <td
+                        colSpan="9"
+                        className="text-center py-5"
+                      >
+                        <div
+                          className="spinner-border text-primary"
+                          role="status"
+                        />
+                      </td>
+                    </tr>
+                  ) : incidents.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="9"
+                        className="text-center py-5"
+                      >
+                        <div className="text-muted">
+                          No Incident Records Found
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    incidents.map(
+                      (incident, index) => (
+                        <tr
+                          key={
+                            incident.incidentId
+                          }
+                        >
+                          <td>
+                            <span className="fw-bold text-primary">
+                              INC-{index + 1}
+                            </span>
+                          </td>
 
-                  <Link to={'/ViewIncident/1'}>
-                  
-                  <button
-                    type="button"
-                    className="btn btn-link btn-primary btn-lg"
-                    title="View Incident"
-                  >
-                    <i className="fa fa-eye"></i>
-                  </button>
+                          <td>
+                            <div className="fw-semibold">
+                              {
+                                incident.asset
+                                  ?.assetName
+                              }
+                            </div>
 
-                  </Link>
+                            <small className="text-muted">
+                              {
+                                incident.asset
+                                  ?.location
+                              }
+                            </small>
+                          </td>
 
-                  <button
-                    type="button"
-                    className="btn btn-link btn-danger btn-lg"
-                    title="Delete Incident"
-                  >
-                    <i className="fa fa-trash"></i>
-                  </button>
+                          {/* <td>
+                            <small className="text-muted">
+                              {
+                                incident.riskId
+                              }
+                            </small>
+                          </td> */}
 
-                </div>
-              </td>
-            </tr>
+                          <td>
+                            <div className="fw-semibold">
+                              {
+                                incident.incidentTitle
+                              }
+                            </div>
 
-            <tr>
-              <td>INC-002</td>
-              <td>AST-002</td>
-              <td>RSK-002</td>
-              <td>Fire Extinguisher Failure</td>
-              <td>2026-06-14</td>
+                            <small className="text-muted">
+                              {
+                                incident.description
+                              }
+                            </small>
+                          </td>
 
-              <td>
-                <span className="badge bg-danger">
-                  High
-                </span>
-              </td>
+                          <td>
+                            {new Date(
+                              incident.incidentDate
+                            ).toLocaleDateString()}
+                          </td>
 
-              <td>Ali Hassan</td>
+                          <td>
+                            <span
+                              className={getSeverityBadge(
+                                incident.severity
+                              )}
+                            >
+                              {
+                                incident.severity
+                              }
+                            </span>
+                          </td>
 
-              <td>
-                <span className="badge bg-success">
-                  Closed
-                </span>
-              </td>
+                          <td>
+                            <div className="fw-semibold">
+                              {
+                                incident
+                                  .reportedBy
+                                  ?.fullName
+                              }
+                            </div>
 
-              <td>
-                <div className="form-button-action">
+                            <small className="text-muted">
+                              {
+                                incident
+                                  .reportedBy
+                                  ?.role
+                              }
+                            </small>
+                          </td>
 
-                  <button
-                    className="btn btn-link btn-primary btn-lg"
-                  >
-                    <i className="fa fa-eye"></i>
-                  </button>
+                          <td>
+                            <span
+                              className={getStatusBadge(
+                                incident.status ||
+                                  "OPEN"
+                              )}
+                            >
+                              {incident.status ||
+                                "OPEN"}
+                            </span>
+                          </td>
 
-                  <button
-                    className="btn btn-link btn-danger btn-lg"
-                  >
-                    <i className="fa fa-trash"></i>
-                  </button>
+                          <td>
+                            <div className="d-flex gap-2">
 
-                </div>
-              </td>
-            </tr>
+                              <Link
+                                to={`/ViewIncident/${incident.incidentId}`}
+                              >
+                                <button
+                                  className="btn btn-sm btn-primary"
+                                  title="View"
+                                >
+                                  <i className="fa fa-eye"></i>
+                                </button>
+                              </Link>
 
-            <tr>
-              <td>INC-003</td>
-              <td>AST-004</td>
-              <td>RSK-003</td>
-              <td>Generator Oil Leakage</td>
-              <td>2026-06-12</td>
+                              <button
+                                className="btn btn-sm btn-danger"
+                                title="Delete"
+                              >
+                                <i className="fa fa-trash"></i>
+                              </button>
 
-              <td>
-                <span className="badge bg-warning text-dark">
-                  Medium
-                </span>
-              </td>
+                            </div>
+                          </td>
 
-              <td>Fatma Omar</td>
+                        </tr>
+                      )
+                    )
+                  )}
 
-              <td>
-                <span className="badge bg-primary">
-                  Open
-                </span>
-              </td>
+                </tbody>
 
-              <td>
-                <div className="form-button-action">
+              </table>
 
-                  <button
-                    className="btn btn-link btn-primary btn-lg"
-                  >
-                    <i className="fa fa-eye"></i>
-                  </button>
+            </div>
 
-                  <button
-                    className="btn btn-link btn-danger btn-lg"
-                  >
-                    <i className="fa fa-trash"></i>
-                  </button>
+          </div>
 
-                </div>
-              </td>
-            </tr>
+        </div>
 
-            <tr>
-              <td>INC-004</td>
-              <td>AST-007</td>
-              <td>RSK-004</td>
-              <td>HVAC Overheating Event</td>
-              <td>2026-06-10</td>
-
-              <td>
-                <span className="badge bg-info">
-                  Low
-                </span>
-              </td>
-
-              <td>Mohamed Salim</td>
-
-              <td>
-                <span className="badge bg-secondary">
-                  Monitoring
-                </span>
-              </td>
-
-              <td>
-                <div className="form-button-action">
-
-                  <button
-                    className="btn btn-link btn-primary btn-lg"
-                  >
-                    <i className="fa fa-eye"></i>
-                  </button>
-
-                  <button
-                    className="btn btn-link btn-danger btn-lg"
-                  >
-                    <i className="fa fa-trash"></i>
-                  </button>
-
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>INC-005</td>
-              <td>AST-010</td>
-              <td>RSK-005</td>
-              <td>Electrical Short Circuit</td>
-              <td>2026-06-08</td>
-
-              <td>
-                <span className="badge bg-dark">
-                  Critical
-                </span>
-              </td>
-
-              <td>Safety Officer</td>
-
-              <td>
-                <span className="badge bg-danger">
-                  Escalated
-                </span>
-              </td>
-
-              <td>
-                <div className="form-button-action">
-
-                  <button
-                    className="btn btn-link btn-primary btn-lg"
-                  >
-                    <i className="fa fa-eye"></i>
-                  </button>
-
-                  <button
-                    className="btn btn-link btn-danger btn-lg"
-                  >
-                    <i className="fa fa-trash"></i>
-                  </button>
-
-                </div>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
       </div>
     </div>
   );

@@ -33,6 +33,10 @@ export const getHazards = async(req:Request, resp:Response)=>{
                 reportedBy:true,
                 asset:true
             }
+            ,
+              orderBy: {
+    createdAt: "desc",
+              }
         });
         return resp.status(200).json(hazards);
     } catch (error) {

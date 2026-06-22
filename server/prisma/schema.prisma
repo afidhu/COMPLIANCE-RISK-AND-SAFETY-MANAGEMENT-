@@ -214,8 +214,8 @@ model Incident {
   assetId         String
   asset           Asset    @relation(fields: [assetId], references: [assetId])
 
-  riskId          String
-  risk            Risk     @relation(fields: [riskId], references: [riskId])
+  riskId          String?
+  risk            Risk?     @relation(fields: [riskId], references: [riskId])
 
   incidentTitle   String
   description     String

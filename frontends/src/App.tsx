@@ -26,6 +26,9 @@ import Login from './components/auths/Login';
 import Register from './components/auths/Register';
 import { getInitialUser, UserContext } from './components/includes/AuthContext';
 import Compliance from './components/compliances/Compliance';
+import RisksReport from './components/reports/RisksReport';
+import IncidentsReport from './components/reports/IncidentsReport';
+import AssetsReport from './components/reports/AssetsReport';
 
 
 
@@ -65,6 +68,12 @@ function App() {
         <Route path="/Hazards" element={<Hazards />} />
         <Route path="/Hazard/:hazardId" element={<ViewHazard />} />
         <Route path="/risks" element={<Risks />} /> 
+        
+        <Route path="/RisksReport" element={<RisksReport />} /> 
+        <Route path="/IncidentsReport" element={<IncidentsReport />} /> 
+        <Route path="/AssetsReport" element={<AssetsReport />} /> 
+        {/* <Route path="/Incidents" element={<Incidents />} /> Risks */}
+        {/* <Route path="/Risks" element={<Risks />} />  */}
         {/* <Route path="/AddRisk" element={<AddRisk  />} /> */}
 
         {/* <Route path="/AddMitigation" element={<AddMitigation />} /> */}
