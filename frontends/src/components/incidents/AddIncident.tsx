@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../includes/AuthContext";
 import { useNavigate } from "react-router-dom";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function AddIncident() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function AddIncident() {
   const getAssets = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:51213/assets/get"
+        `${BaseUrl}/assets/get`
       );
       setAssets(res.data);
     } catch (error) {
@@ -68,7 +69,7 @@ export default function AddIncident() {
       };
 
       await axios.post(
-        "http://localhost:51213/incidents/add",
+        `${BaseUrl}/incidents/add`,
         payload
       );
 

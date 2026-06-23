@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
+import BaseUrl from '../utils/api_provider/ApiProviders';
 
 export default function AddRisk({hadazardId,hadazardTitle}: any) {
 
@@ -36,7 +37,7 @@ const addRiskHandle = async (e: React.FormEvent) => {
 
   try {
     const response = await axios.post(
-      "http://localhost:51213/risks/add",
+      `${BaseUrl}/risks/add`,
       riskData
     );
 

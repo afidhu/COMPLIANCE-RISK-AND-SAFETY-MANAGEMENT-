@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { dateFormater } from '../utils/DateFormater';
+import BaseUrl from '../utils/api_provider/ApiProviders';
 
 export default function CapaHazard({hazardid,hadazardTitle}:any) {
 
@@ -11,7 +12,7 @@ export default function CapaHazard({hazardid,hadazardTitle}:any) {
 
       const fetchCapa = async () => {
         try {
-            const response = await axios.get(`http://localhost:51213/capa/get-by-hazardid/${hazardid}`)
+            const response = await axios.get(`${BaseUrl}capa/get-by-hazardid/${hazardid}`)
 console.log('CAPA',response.data)
             setCapa(response.data);
             

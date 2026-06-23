@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { dateFormater } from '../utils/DateFormater';
+import BaseUrl from '../utils/api_provider/ApiProviders';
 
 
 export default function Assets() {
@@ -13,7 +14,7 @@ export default function Assets() {
   const[assets,setAssets] = useState([])
     const fetchAssets = async () => {
     try {
-     const response = await axios.get('http://localhost:51213/assets/get')
+     const response = await axios.get(`${BaseUrl}/assets/get`)
     
       setAssets(response.data);
     } catch (error) {

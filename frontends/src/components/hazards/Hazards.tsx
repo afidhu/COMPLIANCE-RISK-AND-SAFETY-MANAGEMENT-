@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function Hazards() {
 
@@ -9,7 +10,7 @@ export default function Hazards() {
   const [hazards, setHazards] = useState([])
   const fetchHazard = async () => {
     try {
-      const response = await axios.get('http://localhost:51213/hazards/get')
+      const response = await axios.get(`${BaseUrl}/hazards/get`)
 
       setHazards(response.data);
     } catch (error) {

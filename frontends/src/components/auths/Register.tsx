@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../includes/AuthContext";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const { setUser } = useContext(UserContext);
       setLoading(true);
 
      const response =  await axios.post(
-       "http://localhost:51213/auth/register/", datBody
+      `${BaseUrl}auth/register/`, datBody
       );
 
       setSuccess(

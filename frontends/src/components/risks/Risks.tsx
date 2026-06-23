@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function Risks() {
 
@@ -8,7 +9,7 @@ export default function Risks() {
 
   const fetchrisks = async () => {
     try {
-      const response = await axios.get('http://localhost:51213/risks/get')
+      const response = await axios.get(`${BaseUrl}/risks/get`)
 
       setRisks(response.data);
     } catch (error) {

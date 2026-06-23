@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function AssetsReport() {
   const [assets, setAssets] = useState([]);
@@ -13,7 +14,7 @@ export default function AssetsReport() {
       setLoading(true);
 
       const response = await axios.get(
-        "http://localhost:51213/assets/get"
+        `${BaseUrl}/assets/get`
       );
 
       setAssets(response.data);

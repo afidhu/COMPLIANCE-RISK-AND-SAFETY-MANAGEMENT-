@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../includes/AuthContext";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const handleLogin = async (e: React.FormEvent) => {
     setLoading(true);
 
     const response = await axios.post(
-      "http://localhost:51213/auth/login/",
+      `${BaseUrl}/auth/login/`,
       { email, password }
     );
 

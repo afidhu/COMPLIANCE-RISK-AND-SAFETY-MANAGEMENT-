@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../includes/AuthContext";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 const AddCAPA: React.FC = ({hazardid,hadazardTitle}) => {
 
@@ -32,7 +33,7 @@ console.log("Selected User ID:", selectedUser?.userId);
 
   const fetchTechnicians = async () => {
     try {
-     const response = await axios.get('http://localhost:51213/auth/users/technician')
+     const response = await axios.get(`${BaseUrl}auth/users/technician`)
     
     console.log(response.data);
       setTechnicians(response.data);
@@ -65,7 +66,7 @@ console.log("Selected User ID:", selectedUser?.userId);
       console.log('payload',payload)
 
       const response = await axios.post(
-        "http://localhost:51213/capa/add",
+        `${BaseUrl}capa/add`,
         payload
       );
 

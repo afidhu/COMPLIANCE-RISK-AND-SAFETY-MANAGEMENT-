@@ -1,14 +1,21 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
+import BaseUrl from "../utils/api_provider/ApiProviders";
+import { UserContext } from "../includes/AuthContext";
 
 export default function AddAsset() {
+
+  const context = useContext(UserContext);
+// Destructure properties from your specific API response user object
+  const { user } = context;
+
   const [formData, setFormData] = useState({
     assetName: "",
     assetType: "",
     location: "",
     serialNo: "",
-    createdById:"cmq3rfv800001rte2k6ioz6ut",
+    createdById:`${user.userId}`,
     // status: "",
   });
 
@@ -24,7 +31,7 @@ const addAssetHandle = async (e: React.FormEvent) => {
 
   try {
     const response = await axios.post(
-      "http://localhost:51213/assets/add",
+      `${BaseUrl}/assets/add`,
       formData
     );
 

@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 
 export default function AddAssetCompliance() {
@@ -31,7 +32,7 @@ const addComplianceHandle = async (e: React.FormEvent) => {
 
   try {
     const response = await axios.post(
-      "http://localhost:51213/compliance/add/",
+     `${BaseUrl}/compliance/add/`,
       formData
     );
 

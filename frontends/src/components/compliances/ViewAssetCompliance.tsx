@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { dateFormater } from "../utils/DateFormater";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function ViewAssetCompliance() {
 
@@ -28,7 +29,7 @@ export default function ViewAssetCompliance() {
 
   const fetchAssetsCompliance = async () => {
     try {
-      const response = await axios.get(`http://localhost:51213/compliance/get-by-assetid/${assetId}`)
+      const response = await axios.get(`${BaseUrl}/compliance/get-by-assetid/${assetId}`)
 
       // console.log(response.data);
       setAssetsCompliance(response.data);
@@ -51,7 +52,7 @@ export default function ViewAssetCompliance() {
 
     try {
       const response = await axios.post(
-        "http://localhost:51213/compliance/add/",
+        `${BaseUrl}/compliance/add/`,
         formData
       );
 

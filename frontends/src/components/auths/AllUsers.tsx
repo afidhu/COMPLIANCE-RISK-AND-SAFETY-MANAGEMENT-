@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function AllUsers() {
   const [inspectors, setInspectors] = useState([]);
@@ -23,10 +24,10 @@ export default function AllUsers() {
         staffMembersRes,
         safetyOfficersRes,
       ] = await Promise.all([
-        axios.get(`${API_BASE}/auth/users/role/INSPECTOR`),
-        axios.get(`${API_BASE}/auth/users/role/TECHNICIAN`),
-        axios.get(`${API_BASE}/auth/users/role/STAFF_MEMBER`),
-        axios.get(`${API_BASE}/auth/users/role/SAFETY_OFFICER`),
+        axios.get(`${BaseUrl}/auth/users/role/INSPECTOR`),
+        axios.get(`${BaseUrl}/auth/users/role/TECHNICIAN`),
+        axios.get(`${BaseUrl}/auth/users/role/STAFF_MEMBER`),
+        axios.get(`${BaseUrl}/auth/users/role/SAFETY_OFFICER`),
       ]);
 
       setInspectors(inspectorsRes.data || []);
@@ -103,7 +104,7 @@ export default function AllUsers() {
 
       // UPDATE WITH YOUR API
       await axios.patch(
-        `${API_BASE}/auth/users/approve/${userId}`
+        `${BaseUrl}/auth/users/approve/${userId}`
       );
 
       await loadUsers();
@@ -123,7 +124,7 @@ export default function AllUsers() {
 
       // UPDATE WITH YOUR API
       await axios.put(
-        `${API_BASE}/auth/users/activate/${userId}`
+        `${BaseUrl}/auth/users/activate/${userId}`
       );
 
       await loadUsers();
@@ -143,7 +144,7 @@ export default function AllUsers() {
 // http://localhost:51213/auth/users/activateUser-deactivate/
       // UPDATE WITH YOUR API
       await axios.patch(
-        `${API_BASE}/auth/users/activateUser-deactivate/${userId}`
+        `${BaseUrl}/auth/users/activateUser-deactivate/${userId}`
       );
 
       await loadUsers();

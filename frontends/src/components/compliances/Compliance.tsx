@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { dateFormater } from "../utils/DateFormater";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 interface Compliance {
     compliance_id: number;
@@ -27,7 +28,7 @@ export default function Compliance() {
     const getCompliance = async () => {
         try {
             const response = await axios.get(
-                "http://localhost:51213/compliance/get/"
+                `${BaseUrl}/compliance/get/`
             );
 
             setCompliances(response.data);

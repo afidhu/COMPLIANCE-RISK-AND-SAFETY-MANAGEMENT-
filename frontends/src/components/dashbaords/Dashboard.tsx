@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function Dashboard() {
   const [counts, setCounts] = useState([]);
@@ -13,7 +14,7 @@ export default function Dashboard() {
       setLoading(true);
 
       const res = await axios.get(
-        "http://localhost:51213/auth/users/countUsersByRole"
+        `${BaseUrl}/auth/users/countUsersByRole`
       );
 
       setCounts(res.data);

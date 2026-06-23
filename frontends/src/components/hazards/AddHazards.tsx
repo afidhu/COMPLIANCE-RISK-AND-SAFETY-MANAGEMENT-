@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../includes/AuthContext";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function AddHazards() {
 
@@ -41,7 +42,7 @@ export default function AddHazards() {
     setAssetError(null);
 
     try {
-      const response = await axios.get("http://localhost:51213/assets/get");
+      const response = await axios.get(`${BaseUrl}/assets/get`);
 
       // Assumes your backend returns an array of hazards directly or inside response.data
       setAsset(response.data);
@@ -75,7 +76,7 @@ export default function AddHazards() {
 
     try {
       const response = await axios.post(
-        "http://localhost:51213/hazards/add",
+       `${BaseUrl}/hazards/add`,
         hazardData
       );
 

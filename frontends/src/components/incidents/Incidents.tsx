@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function Incidents() {
   const [incidents, setIncidents] = useState([]);
@@ -12,7 +13,7 @@ export default function Incidents() {
       setLoading(true);
 
       const response = await axios.get(
-        "http://localhost:51213/incidents/get"
+        `${BaseUrl}/incidents/get`
       );
 
       setIncidents(response.data);
