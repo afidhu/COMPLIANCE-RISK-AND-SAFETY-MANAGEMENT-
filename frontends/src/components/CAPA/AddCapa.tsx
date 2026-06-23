@@ -33,7 +33,7 @@ console.log("Selected User ID:", selectedUser?.userId);
 
   const fetchTechnicians = async () => {
     try {
-     const response = await axios.get(`${BaseUrl}auth/users/technician`)
+     const response = await axios.get(`${BaseUrl}/auth/users/technician`)
     
     console.log(response.data);
       setTechnicians(response.data);
