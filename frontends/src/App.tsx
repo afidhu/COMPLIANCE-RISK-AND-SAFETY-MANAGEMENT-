@@ -29,6 +29,7 @@ import Compliance from './components/compliances/Compliance';
 import RisksReport from './components/reports/RisksReport';
 import IncidentsReport from './components/reports/IncidentsReport';
 import AssetsReport from './components/reports/AssetsReport';
+import AllUsers from './components/auths/AllUsers';
 
 
 
@@ -53,8 +54,10 @@ function App() {
       
       <Routes>
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login />} /> 
+       
         <Route path="/" element={<MainDashboard />} >
+         <Route path="/AllUsers" element={<AllUsers />} /> 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/assets" element={<Assets />} />
         <Route path="/add-asset" element={<AddAsset />} />

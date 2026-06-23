@@ -167,3 +167,104 @@ export const countUsersByRole = async(req:Request, resp:Response)=>{
     }
 }
 
+// get all user based on role
+
+export const allUserBasedOnRole = async(req:Request, resp:Response)=>{
+    try {
+        const { role } = req.params;
+        if (!role) {
+            return resp.status(400).json({ message: "Role parameter is required" });
+        }
+
+        const users = await prisma.user.findMany({
+            where: {
+                role: {
+                    equals: role.toUpperCase(),
+                }
+            }
+        });
+
+        return resp.status(200).json(users);
+    } catch (error) {
+        console.error("Error getting users by role:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Deactivate user
+export const deactivateUser = async(req:Request, resp:Response)=>{
+    try {
+        const { id } = req.params;
+        const user = await prisma.user.update({
+            where: { userId: `${id}` },
+            data: { status: 'INACTIVE' }
+        });
+
+        return resp.status(200).json(user);
+    } catch (error) {
+        console.error("Error deactivating user:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Activate and deactivate user
+export const activateUserDeactivate = async(req:Request, resp:Response)=>{
+    try {
+        const { id } = req.params;
+        const getUser = await   prisma.user.findFirst({
+            where:{
+                userId:`${id}`
+            }
+        })
+
+        if(getUser?.status === 'ACTIVE'){
+           await prisma.user.update({
+            where: { userId: `${id}` },
+            data: { status: 'INACTIVE' }
+        });
+
+        }
+        else{
+             await prisma.user.update({
+            where: { userId: `${id}` },
+            data: { status: 'ACTIVE' }
+        });
+        }
+
+
+        return resp.status(200).json(getUser);
+    } catch (error) {
+        console.error("Error activating user:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Approve user
+export const approveUser = async(req:Request, resp:Response)=>{
+    try {
+        const { id } = req.params;
+        const getUser = await   prisma.user.findFirst({
+            where:{
+                userId:`${id}`
+            }
+        })
+        if(getUser?.isApproved){
+         await prisma.user.update({
+                    where: { userId: `${id}` },
+                    data:{isApproved:false}
+                });
+        }
+       else{
+        await prisma.user.update({
+            where: { userId: `${id}` },
+            data:{isApproved:true}
+        });
+
+       }
+        
+        return resp.status(200).json(getUser);
+    } catch (error) {
+        console.error("Error approving user:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}

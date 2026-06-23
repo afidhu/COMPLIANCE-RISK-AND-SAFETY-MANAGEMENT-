@@ -29,7 +29,7 @@ app.use(
       "http://localhost:5173", // React Vite
       "http://localhost:3000", // React CRA (if used)
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
     credentials: true,
   })
 );

@@ -40,7 +40,7 @@ export default function Dashboard() {
           <div className="row g-4">
 
             {/* SYSTEM USERS */}
-            <div className="col-sm-6 col-md-3">
+            {/* <div className="col-sm-6 col-md-3">
               <div className="card card-stats card-round shadow-sm border-0 h-100">
                 <div className="card-body py-4">
                   <div className="d-flex justify-content-between align-items-center">
@@ -64,7 +64,44 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
+            </div> */}
+
+                {/* Safety officer */}
+            <div className="col-sm-6 col-md-3">
+              <div className="card card-stats card-round shadow-sm border-0 h-100">
+                <div className="card-body py-4">
+
+                  <div className="d-flex justify-content-between align-items-center">
+
+                    <div className="d-flex align-items-center">
+
+                      <div style={iconBoxStyle}>
+                        <i className="fas fa-fire-alt"></i>
+                      </div>
+
+                      <div className="ms-3">
+                        <p className="mb-1 text-muted fw-semibold">
+                          Safety officer
+                        </p>
+
+                        <h3 className="fw-bold mb-0">
+                          {loading ? "..." : getCount("SAFETY_OFFICER")}
+                        </h3>
+                      </div>
+
+                    </div>
+
+                    <Link to={'/AllUsers'} style={eyeButtonStyle}>
+                      <i className="fas fa-eye"></i>
+                    </Link>
+
+                  </div>
+
+                </div>
+              </div>
             </div>
+
+
 
             {/* INSPECTORS */}
             <div className="col-sm-6 col-md-3">
@@ -91,7 +128,7 @@ export default function Dashboard() {
 
                     </div>
 
-                    <Link to="/inspectors" style={eyeButtonStyle}>
+                    <Link to={'/AllUsers'} style={eyeButtonStyle}>
                       <i className="fas fa-eye"></i>
                     </Link>
 
@@ -126,7 +163,7 @@ export default function Dashboard() {
 
                     </div>
 
-                    <Link to="/technicians" style={eyeButtonStyle}>
+                    <Link to={'/AllUsers'} style={eyeButtonStyle}>
                       <i className="fas fa-eye"></i>
                     </Link>
 
@@ -161,7 +198,7 @@ export default function Dashboard() {
 
                     </div>
 
-                    <Link to="/staff" style={eyeButtonStyle}>
+                    <Link to={'/AllUsers'} style={eyeButtonStyle}>
                       <i className="fas fa-eye"></i>
                     </Link>
 
@@ -197,7 +234,7 @@ export default function Dashboard() {
 
                       </div>
 
-                      <Link to="/estate-managers" style={eyeButtonStyle}>
+                      <Link to={'/AllUsers'} style={eyeButtonStyle}>
                         <i className="fas fa-eye"></i>
                       </Link>
 
@@ -234,7 +271,7 @@ export default function Dashboard() {
 
                       </div>
 
-                      <Link to="/estate-managers" style={eyeButtonStyle}>
+                      <Link to={'/AllUsers'} style={eyeButtonStyle}>
                         <i className="fas fa-eye"></i>
                       </Link>
 
