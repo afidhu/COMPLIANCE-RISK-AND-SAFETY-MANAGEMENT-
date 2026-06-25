@@ -30,6 +30,9 @@ import RisksReport from './components/reports/RisksReport';
 import IncidentsReport from './components/reports/IncidentsReport';
 import AssetsReport from './components/reports/AssetsReport';
 import AllUsers from './components/auths/AllUsers';
+import ComplianceAnalysis from './components/compliances/ComplianceAnalysis';
+import DashboardAnalysis from './components/dashbaords/DashboardAnalysis';
+import UnapprovedScreen from './components/utils/UnapprovedScreen';
 
 
 
@@ -55,9 +58,12 @@ function App() {
       <Routes>
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route path="/" element={<Login />} /> 
+        <Route path="/Unapproved" element={<UnapprovedScreen />} /> 
        
         <Route path="/" element={<MainDashboard />} >
          <Route path="/AllUsers" element={<AllUsers />} /> 
+         <Route path="/ComplianceAnalysis" element={<ComplianceAnalysis />} /> 
+         <Route path="/DashboardAnalysis" element={<DashboardAnalysis />} /> 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/assets" element={<Assets />} />
         <Route path="/add-asset" element={<AddAsset />} />

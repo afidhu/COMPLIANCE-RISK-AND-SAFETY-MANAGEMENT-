@@ -248,19 +248,21 @@ export const approveUser = async(req:Request, resp:Response)=>{
                 userId:`${id}`
             }
         })
-        if(getUser?.isApproved){
+        if(getUser?.isApproved ===true){
          await prisma.user.update({
                     where: { userId: `${id}` },
                     data:{isApproved:false}
                 });
+                
         }
-       else{
+       else if(getUser?.isApproved ===false){
         await prisma.user.update({
             where: { userId: `${id}` },
             data:{isApproved:true}
         });
 
        }
+       console.log('Approved:',getUser)
         
         return resp.status(200).json(getUser);
     } catch (error) {

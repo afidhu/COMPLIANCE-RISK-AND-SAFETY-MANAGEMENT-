@@ -43,9 +43,34 @@ const handleLogin = async (e: React.FormEvent) => {
       setUser(response.data);
     }
 
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 1000);
+
+if (response.data.isApproved === true) {
+  switch (response.data.role) {
+    case 'ESTATE_MANAGER':
+      setTimeout(() => { navigate("/dashboard"); }, 1000);
+      break;
+    case 'TECHNICIAN':
+      setTimeout(() => { navigate("/techdashboard"); }, 1000);
+      break;
+    case 'SAFETY_OFFICER':
+      setTimeout(() => { navigate("/sfetdashboard"); }, 1000);
+      break;
+    case 'STAFF_MEMBER':
+      setTimeout(() => { navigate("/Hazards"); }, 1000);
+      break;
+        case 'INSPECTOR':
+      setTimeout(() => { navigate("/DashboardAnalysis"); }, 1000);
+      break;
+    default:
+      // Handle fallback for unknown roles if needed
+      break;
+  }
+} else {
+  setTimeout(() => { navigate("/Unapproved"); }, 1000);
+}
+
+
+
     
   } catch (err: any) {
     alert(`error:${err.message}`);

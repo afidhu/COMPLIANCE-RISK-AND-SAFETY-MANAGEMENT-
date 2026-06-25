@@ -32,6 +32,9 @@ const goTo = async(assetId:any,assetName:any,assetType:any,location:any )=>{
   });
 }
 
+const activeCount = assets.filter((a:any) => (a.status || '').toString().toLowerCase() === 'active').length
+
+const inActiveCount = assets.filter((a:any) => (a.status || '').toString().toLowerCase() === 'inactive').length
 
 
   return (
@@ -74,32 +77,32 @@ const goTo = async(assetId:any,assetName:any,assetType:any,location:any )=>{
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col-md-4">
               <div className="card shadow-sm border-0">
                 <div className="card-body">
                   <h6 className="text-muted">Active</h6>
-                  <h2 className="fw-bold text-success">15</h2>
+                  <h2 className="fw-bold text-success">{activeCount}</h2>
                 </div>
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col-md-4">
               <div className="card shadow-sm border-0">
                 <div className="card-body">
                   <h6 className="text-muted">Maintenance</h6>
-                  <h2 className="fw-bold text-warning">120</h2>
+                  <h2 className="fw-bold text-warning">{inActiveCount}</h2>
                 </div>
               </div>
             </div>
 
-            <div className="col-md-3">
+            {/* <div className="col-md-3">
               <div className="card shadow-sm border-0">
                 <div className="card-body">
                   <h6 className="text-muted">Critical Issues</h6>
                   <h2 className="fw-bold text-danger">15</h2>
                 </div>
               </div>
-            </div>
+            </div> */}
 
           </div>
 

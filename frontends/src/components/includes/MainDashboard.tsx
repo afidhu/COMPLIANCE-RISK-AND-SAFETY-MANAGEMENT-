@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
+import Dashboard from "../dashbaords/Dashboard";
 
 
 export default function MainDashboard() {
@@ -25,15 +26,16 @@ export default function MainDashboard() {
                         <NavBar />
                         {/* <!-- End Navbar --> */}
                     </div>
-<br />
-<br />
+                    <br />
+                    <br />
 
-                   {/* start Content dynamic rendering */}
-                      <Outlet />
-                      {/* End Content dynamic rendering */}
+                    {/* start Content dynamic rendering */}
+                    <Outlet />
+                  
+                    {/* End Content dynamic rendering */}
 
                     {/* start footer */}
-                    <Footer/>
+                    <Footer />
                     {/* end footer */}
                 </div>
             </div>

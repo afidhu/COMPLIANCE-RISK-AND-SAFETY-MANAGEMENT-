@@ -94,7 +94,25 @@ export default function AllUsers() {
       case "UNAPPROVED":
         return "badge bg-warning text-dark";
       default:
-        return "badge bg-secondary";
+  // const activateUser = async (userId) => {
+  //   try {
+  //     setProcessingUser(userId);
+
+  //     // UPDATE WITH YOUR API
+  //     await axios.put(
+  //       `${BaseUrl}/auth/users/activate/${userId}`
+  //     );
+
+  //     await loadUsers();
+
+  //     alert("User activated successfully");
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Failed to activate user");
+  //   } finally {
+  //     setProcessingUser(null);
+  //   }
+  // };       return "badge bg-secondary";
     }
   };
 
@@ -106,10 +124,9 @@ export default function AllUsers() {
       await axios.patch(
         `${BaseUrl}/auth/users/approve/${userId}`
       );
-
-      await loadUsers();
-
+  await loadUsers();
       alert("User approved successfully");
+     
     } catch (error) {
       console.error(error);
       alert("Failed to approve user");
@@ -118,25 +135,25 @@ export default function AllUsers() {
     }
   };
 
-  const activateUser = async (userId) => {
-    try {
-      setProcessingUser(userId);
+  // const activateUser = async (userId) => {
+  //   try {
+  //     setProcessingUser(userId);
 
-      // UPDATE WITH YOUR API
-      await axios.put(
-        `${BaseUrl}/auth/users/activate/${userId}`
-      );
+  //     // UPDATE WITH YOUR API
+  //     await axios.put(
+  //       `${BaseUrl}/auth/users/activate/${userId}`
+  //     );
 
-      await loadUsers();
+  //     await loadUsers();
 
-      alert("User activated successfully");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to activate user");
-    } finally {
-      setProcessingUser(null);
-    }
-  };
+  //     alert("User activated successfully");
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Failed to activate user");
+  //   } finally {
+  //     setProcessingUser(null);
+  //   }
+  // };
 
   const activateDeactivateUser = async (userId) => {
     try {
@@ -253,7 +270,7 @@ export default function AllUsers() {
                       <div className="d-flex gap-1 flex-wrap">
 
                          {
-                            user.isApproved ? 
+                            user.isApproved ==true? 
                             <button
                           className="btn btn-success btn-sm"
                           disabled={
@@ -263,7 +280,7 @@ export default function AllUsers() {
                             approveUser(user.userId)
                           }
                         >
-                        Approved
+                        Approved 
                         </button>
                             :
                             <button

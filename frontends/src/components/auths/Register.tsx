@@ -11,7 +11,7 @@ const { setUser } = useContext(UserContext);
     useState("");
 
   const [playerId, setplayerId] =
-    useState("");
+    useState(null);
 
     const [email, setEmail] =
     useState("");
@@ -19,10 +19,10 @@ const { setUser } = useContext(UserContext);
     useState("");
 
   const [role, setRole] =
-    useState("Inspector");
+    useState("");
 
   const [status, setStatus] =
-    useState("Active");
+    useState("ACTIVE");
 
   const [password, setPassword] =
     useState("");
@@ -40,7 +40,7 @@ const { setUser } = useContext(UserContext);
     e: React.FormEvent
   ) => {
     e.preventDefault();
-    console.log(role)
+   
 
     setError("");
     setSuccess("");
@@ -59,7 +59,7 @@ const { setUser } = useContext(UserContext);
       setLoading(true);
 
      const response =  await axios.post(
-      `${BaseUrl}auth/register/`, datBody
+      `${BaseUrl}/auth/register/`, datBody
       );
 
       setSuccess(
@@ -72,15 +72,37 @@ const { setUser } = useContext(UserContext);
      if (setUser) {
       setUser(response.data);
     }
-
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 1500);
+if (response.data.isApproved === true) {
+  switch (response.data.role) {
+    case 'ESTATE_MANAGER':
+      setTimeout(() => { navigate("/dashboard"); }, 1000);
+      break;
+    case 'TECHNICIAN':
+      setTimeout(() => { navigate("/techdashboard"); }, 1000);
+      break;
+    case 'SAFETY_OFFICER':
+      setTimeout(() => { navigate("/sfetdashboard"); }, 1000);
+      break;
+    case 'STAFF_MEMBER':
+      setTimeout(() => { navigate("/staffdashboard"); }, 1000);
+      break;
+        case 'INSPECTOR':
+      setTimeout(() => { navigate("/DashboardAnalysis"); }, 1000);
+      break;
+    default:
+      // Handle fallback for unknown roles if needed
+      break;
+  }
+} else {
+  setTimeout(() => { navigate("/Unapproved"); }, 1000);
+}
     } catch (err: any) {
+      console.log('error:',err.message)
       setError(
         err?.response?.data?.message ||
           "Registration failed"
       );
+      
     } finally {
       setLoading(false);
     }
@@ -150,6 +172,7 @@ const { setUser } = useContext(UserContext);
                 <input
                   className="form-control"
                   value={full_name}
+                  required
                   onChange={(e) =>
                     setFullName(e.target.value)
                   }
@@ -165,6 +188,7 @@ const { setUser } = useContext(UserContext);
                   type="email"
                   className="form-control"
                   value={email}
+                  required
                   onChange={(e) =>
                     setEmail(e.target.value)
                   }
@@ -179,6 +203,7 @@ const { setUser } = useContext(UserContext);
                 <input
                   className="form-control"
                   value={phone}
+                  required
                   onChange={(e) =>
                     setPhone(e.target.value)
                   }
@@ -198,7 +223,7 @@ const { setUser } = useContext(UserContext);
                     setRole(e.target.value)
                   }
                 >
-                 <option  value={'ESTATE_MANAGER'} > ---select---</option>
+                 <option  value='' selected disabled > ---select---</option>
                   <option  value={'ESTATE_MANAGER'} >Estate menager</option>
                   <option  value={'INSPECTOR'} >Inspector</option>
                   <option  value={'SAFETY_OFFICER'} > Safety Officer </option>
@@ -207,7 +232,7 @@ const { setUser } = useContext(UserContext);
                 </select>
               </div>
 
-              <div className="col-md-6 mb-3">
+              {/* <div className="col-md-6 mb-3">
                 <label className="text-white">
                   Status
                 </label>
@@ -222,7 +247,7 @@ const { setUser } = useContext(UserContext);
                   <option>Active</option>
                   <option>Inactive</option>
                 </select>
-              </div>
+              </div> */}
 
               <div className="col-md-6 mb-3">
                 <label className="text-white">

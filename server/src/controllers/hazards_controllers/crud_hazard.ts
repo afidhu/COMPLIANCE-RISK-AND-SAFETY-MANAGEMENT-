@@ -84,6 +84,27 @@ export const updateHazard = async(req:Request, resp:Response)=>{
     }
 }
 
+// Controller function to get hazards by reported user ID
+export const getHazardsByReportedById = async(req:Request, resp:Response)=>{
+    try {
+        const { reportedById } = req.params;
+        const hazards = await prisma.hazard.findMany({
+            where: { reportedById: `${reportedById}` },
+            include: {
+                reportedBy: true,
+                asset: true
+            },
+            orderBy: {
+                createdAt: "desc",
+            }
+        });
+        return resp.status(200).json(hazards);
+    } catch (error) {
+        console.error("Error fetching hazards by reportedBy ID:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
 // Controller function to delete a hazard
 export const deleteHazard = async(req:Request, resp:Response)=>{
     try {
@@ -99,3 +120,6 @@ export const deleteHazard = async(req:Request, resp:Response)=>{
         return resp.status(500).json({ message: "Internal server error" });
     }
 }   
+
+
+// get 

@@ -1,11 +1,14 @@
 
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BaseUrl from "../utils/api_provider/ApiProviders";
+import { UserContext } from "../includes/AuthContext";
 
 export default function Hazards() {
-
+    const context = useContext(UserContext);
+// Destructure properties from your specific API response user object
+  const { user } = context;
   const navigation = useNavigate()
   const [hazards, setHazards] = useState([])
   const fetchHazard = async () => {
@@ -18,8 +21,18 @@ export default function Hazards() {
     }
   };
 
+  const fetchHazardByStaffMember = async () => {
+    try {
+      const response = await axios.get(`${BaseUrl}/hazards/get-by-reportedby/${user.userId}`)
+
+      setHazards(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    fetchHazard();
+  user.role ==='STAFF_MEMBER'?fetchHazardByStaffMember():  fetchHazard();
   }, []);
 
   const goTo = async (hazardId: any, hazardTitle: any) => {
@@ -147,3 +160,5 @@ export default function Hazards() {
     </div>
   );
 }
+
+

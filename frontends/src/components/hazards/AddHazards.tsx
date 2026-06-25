@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../includes/AuthContext";
 import BaseUrl from "../utils/api_provider/ApiProviders";
+import Select from "react-select";
 
 export default function AddHazards() {
 
@@ -55,7 +56,13 @@ export default function AddHazards() {
       setisLoadingAsset(false);
     }
   };
-
+const assetOptions = asset.map((item) => ({
+  value: item.assetId,
+  label: item.assetName,
+  assetType: item.assetType,
+  location: item.location,
+  serialNo: item.serialNo,
+}));
   // 3. Automatically fetch data when the page or component mounts
   useEffect(() => {
     fetchAssets();
@@ -160,54 +167,59 @@ export default function AddHazards() {
 
                 <form onSubmit={addHazardHandle} >
 
-                  {/* ASSET ID */}
+                  {/* ASSET name */}
                   <div className="mb-4">
                     <label className="form-label fw-semibold">
                       Select Asset
                     </label>
 
                     <div className="input-group">
-                      <span className="input-group-text bg-light border-end-0">
-                        <i className="fas fa-user text-primary"></i>
-                      </span>
+  <span className="input-group-text bg-light">
+    <i className="fas fa-building text-primary"></i>
+  </span>
 
-                      <select className="form-select border-start-0 py-3"
-                        value={hazardData.assetId}
-                        name={'assetId'}
-                        onChange={handleHazardInputChange}>
-                        <option disabled selected>
-                          Select Assets
-                        </option>
-                        {isLoadingAsset ? <><option disabled selected>No Asset</option></> :
-                          asset.map((item) => {
+  <div style={{ flex: 1 }}>
+    <Select
+      options={assetOptions}
+      isLoading={isLoadingAsset}
+      placeholder="Search and Select Asset..."
+      isSearchable
+      value={
+        assetOptions.find(
+          (option) =>
+            option.value === hazardData.assetId
+        ) || null
+      }
+      onChange={(selectedOption) =>
+        setHazardData({
+          ...hazardData,
+          assetId: selectedOption?.value || "",
+        })
+      }
+      formatOptionLabel={(option) => (
+        <div>
+          <div className="fw-bold">
+            {option.label}
+          </div>
 
-                            return <option value={item.assetId}>{item.assetName}</option>
-                          })
-                        }
-                      </select>
-                    </div>
+          <small className="text-muted">
+            {option.assetType} • {option.location}
+          </small>
+
+          {option.serialNo && (
+            <div>
+              <small className="text-primary">
+                {option.serialNo}
+              </small>
+            </div>
+          )}
+        </div>
+      )}
+    />
+  </div>
+</div>
                   </div>
 
-
-
-                  {/* COMPLIANCE ID */}
-                  {/* <div className="mb-4">
-                    <label className="form-label fw-semibold">
-                      Compliance ID (Optional)
-                    </label>
-
-                    <div className="input-group">
-                      <span className="input-group-text bg-light border-end-0">
-                        <i className="fas fa-shield-halved text-primary"></i>
-                      </span>
-
-                      <input
-                        type="text"
-                        className="form-control border-start-0 py-3"
-                        placeholder="Enter compliance ID (if any)"
-                      />
-                    </div>
-                  </div> */}
 
                   {/* HAZARD TITLE */}
                   <div className="mb-4">
@@ -252,51 +264,6 @@ export default function AddHazards() {
                       ></textarea>
                     </div>
                   </div>
-
-                  {/* REPORTED BY */}
-                  {/* <div className="mb-4">
-                    <label className="form-label fw-semibold">
-                      Reported By
-                    </label>
-
-                    <div className="input-group">
-                      <span className="input-group-text bg-light border-end-0">
-                        <i className="fas fa-user text-primary"></i>
-                      </span>
-
-                      <select className="form-select border-start-0 py-3">
-                        <option disabled selected>
-                          Select reporter
-                        </option>
-                        <option value="system">System</option>
-                        <option value="juma">Juma</option>
-                        <option value="inspector">Inspector</option>
-                      </select>
-                    </div>
-                  </div> */}
-
-                  {/* STATUS */}
-                  {/* <div className="mb-4">
-                    <label className="form-label fw-semibold">
-                      Status
-                    </label>
-
-                    <div className="input-group">
-                      <span className="input-group-text bg-light border-end-0">
-                        <i className="fas fa-circle-check text-primary"></i>
-                      </span>
-
-                      <select className="form-select border-start-0 py-3">
-                        <option disabled selected>
-                          Select status
-                        </option>
-                        <option value="open">Open</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="resolved">Resolved</option>
-                        <option value="closed">Closed</option>
-                      </select>
-                    </div>
-                  </div> */}
 
                   {/* BUTTONS */}
                   <div className="d-flex justify-content-end gap-3 mt-5">

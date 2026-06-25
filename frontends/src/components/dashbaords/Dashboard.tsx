@@ -210,7 +210,7 @@ export default function Dashboard() {
             </div>
 
             {/* ESTATE MANAGER (ONLY ADMIN) */}
-            {user === "admin" && (
+            {user.role === "admin" && (
               <div className="col-sm-6 col-md-3">
                 <div className="card card-stats card-round shadow-sm border-0 h-100">
                   <div className="card-body py-4">
@@ -247,7 +247,7 @@ export default function Dashboard() {
             )}
 
             {/* ESTATE MANAGER NOT SEE HIS SELF */}
-            {counts.role != "ESTATE_MANAGER" && (
+            {/* {counts.role != "ESTATE_MANAGER" && (
               <div className="col-sm-6 col-md-3">
                 <div className="card card-stats card-round shadow-sm border-0 h-100">
                   <div className="card-body py-4">
@@ -281,7 +281,7 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
           </div>
         </div>
