@@ -9,6 +9,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../notifications/presentation/bloc/notification_bloc.dart';
 import '../../../notifications/presentation/screens/notifications.dart';
 import '../../../notifications/presentation/widgets/notification_button.dart';
 import '../bloc/capa_bloc.dart';
@@ -50,6 +51,8 @@ class _CapaTechnicianState extends State<CapaTechnician> {
     context.read<CapaBloc>().add(
       GetCapaByTechnicianEvent(userId.toString()),
     );
+
+    context.read<NotificationBloc>().add(GetNotificationByUserEvent());
   }
   @override
   Widget build(BuildContext context) {
@@ -158,12 +161,12 @@ class _CapaTechnicianState extends State<CapaTechnician> {
 
                                         const SizedBox(height: 3),
 
-                                        Text(
-                                          "CAPA ID : ${item.capaId}",
-                                          style: TextStyle(
-                                            color: Colors.grey.shade600,
-                                          ),
-                                        ),
+                                        // Text(
+                                        //   "CAPA ID : ${item.capaId}",
+                                        //   style: TextStyle(
+                                        //     color: Colors.grey.shade600,
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                   ),

@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/app_themes.dart';
 import 'package:assets_mgs/features/assets/domain/use_cases/get_assets_case.dart';
 import 'package:assets_mgs/features/auths/presentation/screens/login.dart';
 import 'package:assets_mgs/features/mitigations/data/repo_impl/mitigation_repo_impl.dart';
@@ -161,6 +162,10 @@ void main() {
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Project',
+            // theme: AppTheme.dark,
+            themeMode: ThemeMode.system,
+              // theme: AppTheme.light,
+              // darkTheme: AppTheme.dark,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),

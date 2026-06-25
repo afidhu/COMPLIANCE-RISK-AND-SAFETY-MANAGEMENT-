@@ -17,6 +17,7 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _isThemed = false.obs;
     return Drawer(
       child: SafeArea(
         child: FutureBuilder<Map<String, String?>>(
@@ -112,15 +113,14 @@ class DrawerWidget extends StatelessWidget {
                       ),
 
                       /// SWITCH
-                      Switch(
-                        value: Get.isDarkMode,
-                        activeColor: Colors.blue,
-                        onChanged: (value) {
-                          Get.changeThemeMode(
-                            value ? ThemeMode.dark : ThemeMode.light,
-                          );
-                        },
-                      ),
+                      Obx(()=> Switch(
+                          value: _isThemed.value,
+                          onChanged: (val){
+                            _isThemed.value =val;
+                            _isThemed.value? Get.changeThemeMode(ThemeMode.light): Get.changeThemeMode(ThemeMode.dark);
+                            // Get.changeThemeMode(ThemeMode.light);
+                          }
+                      ))
                     ],
                   ),
                 ),

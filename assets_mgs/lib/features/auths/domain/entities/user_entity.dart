@@ -6,6 +6,7 @@ class UserEntity extends Equatable {
  final String? email;
  final dynamic password;
  final String? role;
+ final bool? isApproved;
  final String? phone;
  final dynamic playerId;
  final String? status;
@@ -19,6 +20,7 @@ const UserEntity({
   this.password,
   this.role,
   this.phone,
+  this.isApproved,
   this.playerId,
   this.status,
   this.createdAt,
@@ -33,6 +35,7 @@ const UserEntity({
  email,
  password,
  role,
+    isApproved,
  phone,
  playerId,
  status,

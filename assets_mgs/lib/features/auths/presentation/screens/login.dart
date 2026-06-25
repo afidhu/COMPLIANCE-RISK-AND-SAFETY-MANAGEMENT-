@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/screens/home_bottom_nav.dart';
 import '../../../../core/screens/home_screen_inspector.dart';
 import '../../../../core/screens/home_screen_manager.dart';
+import '../../../../core/screens/un_approved_screen.dart';
 import '../../../CAPA/presentation/widgets/capa_technician_navbar.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -227,16 +228,22 @@ class LoginScreen extends StatelessWidget {
                             ),
                             duration: const Duration(seconds: 2),
                           );
-        
-                          if (state.user.role == 'INSPECTOR' ||
-                              state.user.role == 'ESTATE_MANAGER') {
-                            Get.offAll(
-                                  () => HomeBottomNav(
-                                userType: state.user.role.toString(),
-                              ),
-                            );
-                          } else if (state.user.role == 'TECHNICIAN') {
-                            Get.offAll(() => CapaTechnicianNavbar());
+
+                          if (state.user.isApproved == false) {
+                            Get.off(() => UnApprovedScreen());
+                          }
+                          else {
+                            if (state.user.role == 'INSPECTOR' ||
+                                state.user.role == 'ESTATE_MANAGER') {
+                              Get.offAll(
+                                    () =>
+                                    HomeBottomNav(
+                                      userType: state.user.role.toString(),
+                                    ),
+                              );
+                            } else if (state.user.role == 'TECHNICIAN') {
+                              Get.offAll(() => CapaTechnicianNavbar());
+                            }
                           }
                         }
         

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
+import '../bloc/notification_bloc.dart';
 import '../screens/notifications.dart';
 
 Widget notificationButton() {
@@ -35,13 +37,21 @@ Widget notificationButton() {
                   width: 1.5,
                 ),
               ),
-              child: const Text(
-                "12",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: BlocBuilder<NotificationBloc, NotificationState>(
+                builder: (context, state) {
+                 if(state is NotificationLoaded){
+                   final unRead = state.notification.where((item)=>item.isRead==false).length;
+                   return  Text(
+                     unRead.toString(),
+                     style: TextStyle(
+                       color: Colors.white,
+                       fontSize: 10,
+                       fontWeight: FontWeight.bold,
+                     ),
+                   );
+                 }
+                 return SizedBox.shrink();
+                },
               ),
             ),
           ),
