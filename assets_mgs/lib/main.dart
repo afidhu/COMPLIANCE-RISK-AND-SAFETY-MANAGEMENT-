@@ -69,13 +69,10 @@ void main() {
   //Notification initialization by onesignal
   Get.put(NotificationInitializationController());
 
-
   //Called function that work when user click notification message
   Get.put(NotificationController());
 
   runApp(
-
-
 
     MultiRepositoryProvider(
       providers: [

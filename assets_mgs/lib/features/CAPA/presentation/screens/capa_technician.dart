@@ -1,4 +1,5 @@
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/CAPA/domain/entities/capa_entity.dart';
 import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:popup_menu/popup_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../notifications/presentation/screens/notifications.dart';
+import '../../../notifications/presentation/widgets/notification_button.dart';
 import '../bloc/capa_bloc.dart';
 import '../widgets/asset_capa.dart';
 
@@ -73,58 +75,10 @@ class _CapaTechnicianState extends State<CapaTechnician> {
         ),
 
         actions: [
-          GestureDetector(
-            onTap: (){
-              Get.to(() => Notifications());
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // Notification Icon
-                  IconButton(
-                    onPressed: () {},
-
-                    icon: const Icon(
-                      Icons.notifications_active,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ),
-
-                  // Notification Badge
-                  Positioned(
-                    right: 2,
-                    top: 2,
-
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-
-                      child: const Text(
-                        '12',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          notificationButton()
         ],
       ),
+
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: ()async{
@@ -403,9 +357,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
           ),
         ),
       ),
-      drawer: Drawer(
-        child: LogoutButton()
-      ),
+      drawer: const DrawerWidget()
     );
   }
 

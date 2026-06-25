@@ -10,6 +10,7 @@ class NotificationRemoteData {
   Future<Response> getNotify(String userId) async {
     try {
       return await dioClient.dio.get('/notification/unread/user/${userId.trim()}');
+
     } catch (e) {
       print('eror : ${e.toString()}');
       throw Exception('Error at : $e');

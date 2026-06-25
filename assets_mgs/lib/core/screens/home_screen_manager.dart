@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -194,13 +195,7 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
           ],
         ),
       ),
-      drawer: Drawer(
-        shadowColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        child: LogoutButton()
-
-      ),
+      drawer:DrawerWidget()
     );
   }
 }

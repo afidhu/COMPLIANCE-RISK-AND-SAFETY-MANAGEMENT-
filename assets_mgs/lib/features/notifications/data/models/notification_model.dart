@@ -1,3 +1,4 @@
+import '../../../auths/data/models/users_model.dart';
 import '../../domain/entities/notification_entities.dart';
 
 /// notify_id : "6f9ed4e2-ce52-4f81-9c32-8528bd3d3842"
@@ -14,6 +15,8 @@ class NotificationModel extends NotificationEntities {
   const NotificationModel({
     super.notifyId,
     super.senderId,
+    super.sender,
+    super.receiver,
     super.receiverId,
     super.title,
     super.content,
@@ -33,6 +36,8 @@ class NotificationModel extends NotificationEntities {
       referenceId: json['reference_id'],
       isRead: json['is_read'],
       createdAt: json['createdAt'],
+        receiver : json['receiver'] != null ? UsersModel.fromJson(json['receiver']) : null,
+        sender : json['sender'] != null ? UsersModel.fromJson(json['sender']) : null,
     );
   }
 

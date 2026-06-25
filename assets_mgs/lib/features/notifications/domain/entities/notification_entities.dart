@@ -1,8 +1,12 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../auths/domain/entities/user_entity.dart';
+
 class NotificationEntities extends Equatable {
   final String? notifyId;
   final String? senderId;
+  final UserEntity? sender;
+  final UserEntity? receiver;
   final String? receiverId;
   final String? title;
   final String? content;
@@ -14,6 +18,8 @@ class NotificationEntities extends Equatable {
   const NotificationEntities({
     required this.notifyId,
     required this.senderId,
+    required this.sender,
+    required this.receiver,
     required this.receiverId,
     required this.title,
     required this.content,
@@ -28,6 +34,8 @@ class NotificationEntities extends Equatable {
   List<Object?> get props => [
     notifyId,
     senderId,
+    sender,
+    receiver,
     receiverId,
     title,
     content,

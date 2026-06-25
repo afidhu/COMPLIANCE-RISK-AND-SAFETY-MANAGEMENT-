@@ -154,6 +154,10 @@ export const getUnreadNotificationsByReceiver = async (req: Request, resp: Respo
                 receiver_id: `${userId}`,
                 is_read: false // Only fetch items where is_read is false
             },
+            include:{
+                receiver:true,
+                sender:true
+            },
             orderBy: { 
                 createdAt: "desc" // Newest unread notifications first
             }

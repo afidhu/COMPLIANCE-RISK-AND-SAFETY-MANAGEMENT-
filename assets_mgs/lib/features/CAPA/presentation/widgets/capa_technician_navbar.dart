@@ -1,4 +1,5 @@
 
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 
@@ -59,9 +60,7 @@ class _CapaTechnicianNavbarState extends State<CapaTechnicianNavbar> {
           // ),
         ],
       ),
-      drawer: Drawer(
-        child: LogoutButton(),
-      ),
+      drawer: DrawerWidget()
     );
   }
 }

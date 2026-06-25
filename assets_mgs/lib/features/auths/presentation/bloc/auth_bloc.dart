@@ -52,6 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if(loginUser.userId!.isNotEmpty){
         print('User added_success');
         await prefs.setString('email', loginUser.email.toString());
+        await prefs.setString('username', loginUser.fullName.toString());
         await prefs.setString('userId', loginUser.userId.toString());
         await prefs.setString('userType', loginUser.role.toString());
         emit(AuthLoginSuccess('success Login',user: loginUser));

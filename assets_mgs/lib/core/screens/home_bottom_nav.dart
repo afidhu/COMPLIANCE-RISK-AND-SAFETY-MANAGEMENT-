@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 import '../../features/reports/presentation/screens/reports.dart';
@@ -68,9 +69,7 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
           // ),
         ],
       ),
-      drawer: Drawer(
-        child: LogoutButton()
-      ),
+      drawer:DrawerWidget()
     );
   }
 }
