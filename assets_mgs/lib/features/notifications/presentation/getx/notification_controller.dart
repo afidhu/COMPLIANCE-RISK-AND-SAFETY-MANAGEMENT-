@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../bloc/notification_bloc.dart';
-import '../screens/notifications.dart';
+import '../screens/notifications_screen.dart';
 
 
 
@@ -43,11 +43,20 @@ class NotificationController  extends GetxController {
             // Trigger your navigation logic here (e.g., Navigator, GoRouter)
             print('Navigate to $notificationType with ID: $itemReferenceId');
 
-            Get.off(()=>Notifications());
+            Get.offAll(()=>NotificationsScreen());
           }
-
-
         }
+        else if(notificationType == 'COMPLIANCE') {
+            print('Get.context: ${Get.context}');
+            if(Get.context != null){
+              // write bloc f() call here by pass userId, data will to next page
+              Get.context!.read<NotificationBloc>().add(GetNotificationByUserEvent());
+              // Trigger your navigation logic here (e.g., Navigator, GoRouter)
+              print('Navigate to $notificationType with ID: $itemReferenceId');
+
+              Get.offAll(()=>NotificationsScreen());
+            }
+          }
       }
     });
   }

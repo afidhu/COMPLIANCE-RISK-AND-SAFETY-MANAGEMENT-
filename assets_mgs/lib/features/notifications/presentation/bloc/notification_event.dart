@@ -8,3 +8,9 @@ class GetNotificationByUserEvent  extends NotificationEvent{
 
   // GetNotificationByUserEvent(this.userId);
 }
+
+class UpdateNotificationByUserEvent  extends NotificationEvent{
+  final String notId;
+
+  UpdateNotificationByUserEvent(this.notId);
+}

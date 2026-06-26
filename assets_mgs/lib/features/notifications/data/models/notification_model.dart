@@ -1,4 +1,6 @@
+import '../../../CAPA/data/models/capa_model.dart';
 import '../../../auths/data/models/users_model.dart';
+import '../../../compliances/data/models/compliance.dart';
 import '../../domain/entities/notification_entities.dart';
 
 /// notify_id : "6f9ed4e2-ce52-4f81-9c32-8528bd3d3842"
@@ -17,8 +19,10 @@ class NotificationModel extends NotificationEntities {
     super.senderId,
     super.sender,
     super.receiver,
+    super.capa,
     super.receiverId,
     super.title,
+    super.compliance,
     super.content,
     super.notifyType,
     super.referenceId,
@@ -38,6 +42,8 @@ class NotificationModel extends NotificationEntities {
       createdAt: json['createdAt'],
         receiver : json['receiver'] != null ? UsersModel.fromJson(json['receiver']) : null,
         sender : json['sender'] != null ? UsersModel.fromJson(json['sender']) : null,
+        capa : json['capa'] != null ? CapaModel.fromJson(json['capa']) : null,
+      compliance : json['compliance'] != null ? ComplianceModel.fromJson(json['compliance']) : null,
     );
   }
 

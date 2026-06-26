@@ -4,13 +4,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
 import '../bloc/notification_bloc.dart';
-import '../screens/notifications.dart';
+import '../screens/notifications_screen.dart';
 
 Widget notificationButton() {
  Get.context?.read<NotificationBloc>().add(GetNotificationByUserEvent());
   return IconButton(
     onPressed: () {
-      Get.to(() => Notifications());
+      Get.to(() => NotificationsScreen());
     },
     icon: Stack(
       clipBehavior: Clip.none,

@@ -17,7 +17,7 @@ router.post('/send-capa',technicianNotification)
 router.get("/", getAllNotifications);
 router.get("/:id", getNotificationById);
 router.get("/user/:userId", getNotificationsByReceiver);
-router.put("/:id", updateNotification);
+router.patch("/:id", updateNotification);
 router.delete("/:id", deleteNotification);
 router.get("/unread/user/:userId", getUnreadNotificationsByReceiver);
 

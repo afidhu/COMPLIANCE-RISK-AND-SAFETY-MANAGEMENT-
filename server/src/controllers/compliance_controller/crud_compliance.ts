@@ -61,18 +61,18 @@ export const getComplianceById = async(req:Request, resp:Response)=>{
 export const updateCompliance = async(req:Request, resp:Response)=>{
     try {
         const { id } = req.params;
-        const { complianceName, assetId, frequency, lastDueDate, dueDate, status } = req.body;
+        const { complianceName, frequency, lastDueDate, dueDate } = req.body;
         const updatedCompliance = await prisma.compliance.update({
             where: { complianceId: `${id}` },
             data: {
                 complianceName,
-                assetId,
                 frequency,
-                lastDueDate,
-                dueDate,
-                status
+                status:'COMPLIANT',
+                  lastDueDate: lastDueDate ? new Date(lastDueDate) : null, 
+                dueDate: new Date(dueDate),
             }
         });
+        console.log(updatedCompliance)
         return resp.status(200).json(updatedCompliance);
     } catch (error) {
         console.error("Error updating compliance:", error);

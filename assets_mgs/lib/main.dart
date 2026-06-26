@@ -36,6 +36,7 @@ import 'features/compliances/data/data_sources/compliance_remote_data_source.dar
 import 'features/compliances/data/repo_impl/compliance_repo_impl.dart';
 import 'features/compliances/domain/repository/compliance_repo.dart';
 import 'features/compliances/domain/use_cases/get_compliance_case.dart';
+import 'features/compliances/domain/use_cases/update_compliance_case.dart';
 import 'features/compliances/presentation/bloc/compliance_bloc.dart';
 import 'features/hazards/data/data_sources/remote_hazard_data_source.dart';
 import 'features/hazards/data/repo_impl/hazard_repo_impl.dart';
@@ -53,6 +54,7 @@ import 'features/notifications/data/data_sources/notification_remote_data.dart';
 import 'features/notifications/data/repo_impl/notification_repo_impl.dart';
 import 'features/notifications/domain/repository/notification_repo.dart';
 import 'features/notifications/domain/use_cases/get_user_notification_case.dart';
+import 'features/notifications/domain/use_cases/update_notification_as_read_case.dart';
 import 'features/notifications/presentation/bloc/notification_bloc.dart';
 import 'features/notifications/presentation/getx/notification_controller.dart';
 import 'features/notifications/presentation/getx/notification_initialization.dart';
@@ -123,6 +125,7 @@ void main() {
           BlocProvider<ComplianceBloc>(
             create: (context) => ComplianceBloc(
               GetComplianceCase(context.read<ComplianceRepo>()),
+              UpdateComplianceCase(context.read<ComplianceRepo>()),
             ),
           ),
           BlocProvider<RisksBloc>(
@@ -154,7 +157,7 @@ void main() {
           BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
 
           BlocProvider<NotificationBloc>(
-            create: (context) => NotificationBloc(GetUserNotificationCase(context.read<NotificationRepo>()),),
+            create: (context) => NotificationBloc(GetUserNotificationCase(context.read<NotificationRepo>()),UpdateNotificationAsReadCase(context.read<NotificationRepo>())),
           ),
         ],
 

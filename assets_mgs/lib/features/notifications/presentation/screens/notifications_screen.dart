@@ -1,40 +1,22 @@
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
+import 'package:assets_mgs/features/CAPA/presentation/widgets/asset_capa.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../bloc/notification_bloc.dart';
+import 'notification_compliance_view.dart';
 
-class Notifications extends StatefulWidget {
-  const Notifications({super.key});
+class NotificationsScreen extends StatefulWidget {
+  const NotificationsScreen({super.key});
 
   @override
-  State<Notifications> createState() => _NotificationsState();
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
 }
 
-class _NotificationsState extends State<Notifications> {
-
-  // final List<Map<String, dynamic>> notifications = [
-  //
-  //   {
-  //     "notify_id": 1,
-  //     "sender": "System",
-  //     "receiver": "Inspector",
-  //     "content": "Fire extinguisher certificate will expire in 3 days.",
-  //     "notify_type": "Compliance",
-  //     "is_read": false,
-  //     "createdAt": "2026-05-25 09:30 AM",
-  //   },
-  //
-  //   {
-  //     "notify_id": 2,
-  //     "sender": "Inspector",
-  //     "receiver": "Technician",
-  //     "content": "CAPA task assigned for Lift A malfunction repair.",
-  //     "notify_type": "Task",
-  //     "is_read": false,
-  //     "createdAt": "2026-05-25 10:10 AM",
-  //   },
-  // ];
+class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Color getColor(String type) {
     switch (type) {
@@ -410,11 +392,19 @@ class _NotificationsState extends State<Notifications> {
                                      color.withOpacity(.08),
                                      shape: BoxShape.circle,
                                    ),
-                                   child: Icon(
+                                   child:IconButton(onPressed: (){
+                                     context.read<NotificationBloc>().add(UpdateNotificationByUserEvent(n.notifyId.toString()));
+                                     if(n.notifyType =='CAPA'){
+                                       assetCapa(asset: n.capa!.hazards!.asset);
+                                     }
+                                     else if(n.notifyType =='COMPLIANCE'){
+                                       Get.to(()=>NotificationComplianceView(),arguments: n.compliance);
+                                     }
+                                   }, icon:  Icon(
                                      Icons.arrow_forward,
                                      color: Color(0xFF0D47A1),
-                                     size: 18,
-                                   ),
+                                     size: 18.sp,
+                                   )),
                                  ),
                                ],
                              ),

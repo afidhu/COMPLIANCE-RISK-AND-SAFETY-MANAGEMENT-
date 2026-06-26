@@ -44,7 +44,7 @@ export const runComplianceChecks = async () => {
 
 };
 
-// check if due date bf iwk
+// check if due date bf 1wk
 
 
 export const checkBfDueDate = async () => {

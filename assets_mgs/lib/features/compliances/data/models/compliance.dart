@@ -55,4 +55,19 @@ class ComplianceModel extends ComplianceEntity {
     // return map;
   }
 
+  factory ComplianceModel.fromEntity(ComplianceEntity compliance){
+   return ComplianceModel(
+     status: compliance.status,
+     updatedAt: compliance.updatedAt,
+     asset: compliance.asset,
+     assetId: compliance.assetId,
+     dueDate: compliance.dueDate,
+     lastDueDate: compliance.lastDueDate,
+     complianceId: compliance.complianceId,
+     complianceName: compliance.complianceName,
+     createdAt: compliance.createdAt,
+     frequency: compliance.frequency
+   );
+  }
+
 }

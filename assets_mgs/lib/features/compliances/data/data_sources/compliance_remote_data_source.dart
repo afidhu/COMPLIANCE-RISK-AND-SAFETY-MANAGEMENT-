@@ -22,4 +22,12 @@ class ComplianceRemoteDataSource {
       throw Exception('Error at : $e');
     }
   }
+
+  Future<Response> updateCompliance(dynamic compliance, dynamic id) async{
+    try{
+      return await dioClient.dio.put('/compliance/update/$id',data: compliance.toJson());
+    } catch(e){
+      throw Exception('Error at : $e');
+    }
+  }
 }

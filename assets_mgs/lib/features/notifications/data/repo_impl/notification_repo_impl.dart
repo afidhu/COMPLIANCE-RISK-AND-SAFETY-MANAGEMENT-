@@ -28,4 +28,22 @@ class NotificationRepoImpl implements NotificationRepo{
       throw Exception(' error $e');
     }
   }
+
+  @override
+  Future<bool> updateUserNotification(String notId) async{
+    try{
+      final response = await _notificationRemoteData.readNotify(notId);
+      if(response.statusCode == 200 || response.statusCode ==201){
+       return true;
+      }
+      throw Exception('error to update notifyJson');
+    } catch(e){
+      print('error at : $e');
+      throw Exception(' error $e');
+    }
+  }
+
+
+
+
 }

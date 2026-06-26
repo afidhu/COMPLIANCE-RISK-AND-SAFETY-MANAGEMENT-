@@ -292,6 +292,7 @@ model Notification {
 
   reference_id  String?
 
+
   is_read       Boolean @default(false)
 
   createdAt     DateTime @default(now())

@@ -14,3 +14,8 @@ class ComplianceLoaded extends ComplianceState {
 
   ComplianceLoaded(this.compliance);
 }
+
+class ComplianceUpdated extends ComplianceState {
+  final bool isUpdated;
+  ComplianceUpdated(this.isUpdated);
+}

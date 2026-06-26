@@ -4,7 +4,7 @@ import type { Request, Response } from "express";
 import { prisma } from "../../index.ts";
 
 // Create a new notification
-export const createNotification = async (sender_id:any, receiver_id:any, title:any, content:any, notify_type:any, reference_id:any) => {
+export const createNotification = async (sender_id: any, receiver_id: any, title: any, content: any, notify_type: any, reference_id: any) => {
     try {
         // const { sender_id, receiver_id, title, content, notify_type, reference_id } = req.body;
 
@@ -28,10 +28,10 @@ export const createNotification = async (sender_id:any, receiver_id:any, title:a
                 receiver: true
             }
         });
-console.log('newNotification:',newNotification);
+        console.log('newNotification:', newNotification);
         return newNotification;
 
-        
+
         // return resp.status(201).json(newNotification);
     } catch (error) {
         console.error("Error creating notification:", error);
@@ -44,7 +44,7 @@ console.log('newNotification:',newNotification);
 export const getAllNotifications = async (req: Request, resp: Response) => {
     try {
         const notifications = await prisma.notification.findMany({
-            orderBy: { 
+            orderBy: {
                 createdAt: "desc" // Newest notifications first
             },
             include: {
@@ -86,34 +86,90 @@ export const getNotificationById = async (req: Request, resp: Response) => {
 };
 
 // Get all notifications for a specific receiver (User Inbox)
-export const getNotificationsByReceiver = async (req: Request, resp: Response) => {
-    try {
-        const { userId } = req.params;
+export const getNotificationsByReceiver = async ( req: Request,resp: Response) => {
+  try {
+    const { userId } = req.params;
 
-        const notifications = await prisma.notification.findMany({
-            where: { receiver_id: `${userId}` },
-            orderBy: { createdAt: "desc" }
-        });
+    const notifications = await prisma.notification.findMany({
+      where: {
+        receiver_id: `${userId}`,
+        
+      },
+      include:{
+         receiver: true,
+                sender: true
+      },
+      
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
-        return resp.status(200).json(notifications);
-    } catch (error) {
-        console.error("Error fetching user notifications:", error);
-        return resp.status(500).json({ message: "Internal server error" });
-    }
+    const result = await Promise.all(
+      notifications.map(async (notification) => {
+        let capaDetails = null;
+        let complianceDetails=null
+
+        // Only lookup CAPA notifications
+        if (
+          notification.notify_type === 'CAPA' &&
+          notification.reference_id
+        ) {
+          capaDetails = await prisma.capaAction.findUnique({
+            where: {
+              capaId: notification.reference_id,
+            },
+            include: {
+              hazard: {
+                include: {
+                  asset: true,
+                },
+              },
+            },
+          });
+        }
+        else if (
+          notification.notify_type === 'COMPLIANCE' &&
+          notification.reference_id
+        ) {
+          complianceDetails = await prisma.compliance.findUnique({
+            where: {
+                complianceId: notification.reference_id,
+            },
+            include: {
+                asset:true
+            },
+          });
+        }
+
+        return {
+          ...notification,
+          capa: capaDetails,
+          compliance:complianceDetails
+        };
+      })
+    );
+    console.log(result)
+
+    return resp.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return resp.status(500).json({
+      message: "Internal server error",
+    });
+  }
 };
 
 // Update a notification (e.g., Mark as read)
 export const updateNotification = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
-        const { is_read, title, content } = req.body;
+        // const { is_read, title, content } = req.body;
 
         const updatedNotification = await prisma.notification.update({
             where: { notify_id: `${id}` },
             data: {
-                is_read,
-                title,
-                content
+                is_read:true,
             }
         });
 
@@ -150,15 +206,15 @@ export const getUnreadNotificationsByReceiver = async (req: Request, resp: Respo
         }
 
         const unreadNotifications = await prisma.notification.findMany({
-            where: { 
+            where: {
                 receiver_id: `${userId}`,
                 is_read: false // Only fetch items where is_read is false
             },
-            include:{
-                receiver:true,
-                sender:true
+            include: {
+                receiver: true,
+                sender: true
             },
-            orderBy: { 
+            orderBy: {
                 createdAt: "desc" // Newest unread notifications first
             }
         });

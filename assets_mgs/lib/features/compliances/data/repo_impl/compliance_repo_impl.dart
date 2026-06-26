@@ -42,4 +42,19 @@ class ComplianceRepoImpl implements ComplianceRepo  {
     }
   }
 
-}
+  @override
+  Future<bool> updateCompliance({required ComplianceEntity compliance, required String id}) async{
+    try{
+      final complianceModel =ComplianceModel.fromEntity(compliance);
+      final response = await complianceRemoteDataSource.updateCompliance(complianceModel, id);
+      if(response.statusCode == 200 || response.statusCode ==201){
+        return true;
+      }
+      throw Exception('error to update compliance');
+    } catch(e){
+      print('error at : $e');
+      throw Exception(' error $e');
+    }
+  }
+  }
+

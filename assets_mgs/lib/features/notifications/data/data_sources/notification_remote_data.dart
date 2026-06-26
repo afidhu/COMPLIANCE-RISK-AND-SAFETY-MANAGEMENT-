@@ -9,7 +9,19 @@ class NotificationRemoteData {
 
   Future<Response> getNotify(String userId) async {
     try {
-      return await dioClient.dio.get('/notification/unread/user/${userId.trim()}');
+      return await dioClient.dio.get('/notification/user/${userId.trim()}');
+
+    } catch (e) {
+      print('eror : ${e.toString()}');
+      throw Exception('Error at : $e');
+    }
+  }
+
+  //update as read
+
+  Future<Response> readNotify(String notId) async {
+    try {
+      return await dioClient.dio.patch('/notification/${notId.trim()}',data: {"is_read":true});
 
     } catch (e) {
       print('eror : ${e.toString()}');
