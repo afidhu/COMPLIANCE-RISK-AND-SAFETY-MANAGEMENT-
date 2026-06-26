@@ -1,6 +1,7 @@
 import 'package:assets_mgs/features/auths/domain/entities/user_entity.dart';
 import 'package:assets_mgs/features/auths/presentation/bloc/auth_bloc.dart';
 import 'package:assets_mgs/features/auths/presentation/screens/register_screen.dart';
+import 'package:assets_mgs/features/hazards/presentation/screens/register_hazards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -232,6 +233,7 @@ class LoginScreen extends StatelessWidget {
                           if (state.user.isApproved == false) {
                             Get.off(() => UnApprovedScreen());
                           }
+
                           else {
                             if (state.user.role == 'INSPECTOR' ||
                                 state.user.role == 'ESTATE_MANAGER') {
@@ -243,6 +245,9 @@ class LoginScreen extends StatelessWidget {
                               );
                             } else if (state.user.role == 'TECHNICIAN') {
                               Get.offAll(() => CapaTechnicianNavbar());
+                            }
+                            else if(state.user.role =='STAFF_MEMBER'){
+                              Get.offAll(RegisterHazards());
                             }
                           }
                         }

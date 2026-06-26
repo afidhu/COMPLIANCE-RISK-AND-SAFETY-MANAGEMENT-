@@ -254,14 +254,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
 
                     DropdownMenuItem(
-                      value: "SAFETY_OFFICER",
-                      child: Text("Safety Officer"),
+                      value: "STAFF_MEMBER",
+                      child: Text("staff member"),
                     ),
 
-                    DropdownMenuItem(
-                      value: "ESTATE_MANAGER",
-                      child: Text("Estate Manager"),
-                    ),
+                    // DropdownMenuItem(
+                    //   value: "ESTATE_MANAGER",
+                    //   child: Text("Estate Manager"),
+                    // ),
                   ],
 
                   onChanged: (value) {
@@ -271,59 +271,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
 
-                const SizedBox(height: 18),
+                // const SizedBox(height: 18),
 
                 /// PLAYER ID
-                buildTextField(
-                  controller: playerIdController,
-                  label: "Player ID",
-                  icon: Icons.notifications_active,
-                ),
+                // buildTextField(
+                //   controller: playerIdController,
+                //   label: "Player ID",
+                //   icon: Icons.notifications_active,
+                // ),
 
-                const SizedBox(height: 18),
-
-                /// STATUS
-                DropdownButtonFormField<String>(
-
-                  value: status,
-
-                  decoration: InputDecoration(
-
-                    labelText: "Status",
-
-                    prefixIcon: const Icon(
-                      Icons.verified_user_outlined,
-                    ),
-
-                    filled: true,
-                    fillColor: Colors.white,
-
-                    border: OutlineInputBorder(
-                      borderRadius:
-                      BorderRadius.circular(15),
-                    ),
-                  ),
-
-                  items: const [
-
-                    DropdownMenuItem(
-                      value: "ACTIVE",
-                      child: Text("Active"),
-                    ),
-
-                    DropdownMenuItem(
-                      value: "INACTIVE",
-                      child: Text("Inactive"),
-                    ),
-                  ],
-
-                  onChanged: (value) {
-                    setState(() {
-                      status = value!;
-                    });
-                  },
-                ),
-
+                // const SizedBox(height: 18),
+                //
+                // /// STATUS
+                // DropdownButtonFormField<String>(
+                //
+                //   value: status,
+                //
+                //   decoration: InputDecoration(
+                //
+                //     labelText: "Status",
+                //
+                //     prefixIcon: const Icon(
+                //       Icons.verified_user_outlined,
+                //     ),
+                //
+                //     filled: true,
+                //     fillColor: Colors.white,
+                //
+                //     border: OutlineInputBorder(
+                //       borderRadius:
+                //       BorderRadius.circular(15),
+                //     ),
+                //   ),
+                //
+                //   items: const [
+                //
+                //     DropdownMenuItem(
+                //       value: "ACTIVE",
+                //       child: Text("Active"),
+                //     ),
+                //
+                //     DropdownMenuItem(
+                //       value: "INACTIVE",
+                //       child: Text("Inactive"),
+                //     ),
+                //   ],
+                //
+                //   onChanged: (value) {
+                //     setState(() {
+                //       status = value!;
+                //     });
+                //   },
+                // ),
+                //
                 const SizedBox(height: 30),
 
                 /// REGISTER BUTTON
@@ -349,6 +349,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             )
                         ));
                         // RegisterUserEvent
+                        fullNameController.clear();
+                        emailController.clear();
+                            passwordController.clear();
+                        phoneController.clear();
+                            playerIdController.clear();
                       }
                     },
 
@@ -370,10 +375,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if(state is AuthMessage){
                           Get.snackbar('Fail', state.message.toString(),dismissDirection: DismissDirection.down);
                         }
-                        else if(state is AuthRegisterSuccess){
-                          Get.snackbar('Success', state.message.toString(),dismissDirection: DismissDirection.down);
-                          Get.off(()=>LoginScreen());
+                        else if (state is AuthRegisterSuccess) {
+                          Get.snackbar(
+                            'Registration Successful',
+                            state.message.toString(),
+                            snackPosition: SnackPosition.TOP,
+                            dismissDirection: DismissDirection.down,
+                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                            borderRadius: 16,
+                            // Modern gradient color configuration
+                            backgroundGradient: const LinearGradient(
+                              colors: [Color(0xFF00B09B), Color(0xFF96C93D)], // Premium Emerald Teal gradient
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            colorText: Colors.white,
+                            icon: const Icon(
+                              Icons.check_circle_outline,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            shouldIconPulse: true,
+                            boxShadows: [
+                              BoxShadow(
+                                color: const Color(0xFF07963C).withOpacity(0.3),
+                                blurRadius: 12,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                            duration: const Duration(seconds: 3),
+                          );
+
+                          // Clean transition to LoginScreen
+                          Get.off(
+                                () =>  LoginScreen(),
+
+                            duration: const Duration(milliseconds: 300),
+                          );
                         }
+
                       },
                        builder: (BuildContext context, AuthState state) {
                       final isClicked = state is IsClickedAuthButton && state.isClicked;
@@ -388,6 +429,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             fontSize: 16,
                             fontWeight:
                             FontWeight.bold,
+                            color: Colors.white
                           )
                       );
                        },
@@ -397,7 +439,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 13),
 
             Row(
 

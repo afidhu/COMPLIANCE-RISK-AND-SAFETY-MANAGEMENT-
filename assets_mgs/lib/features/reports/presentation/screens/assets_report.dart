@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../assets/presentation/bloc/assets_bloc.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class AssetsReport extends StatefulWidget {
   const AssetsReport({super.key});
@@ -9,37 +15,16 @@ class AssetsReport extends StatefulWidget {
 
 class _AssetsReportState extends State<AssetsReport> {
 
-  /// SAMPLE ASSET DATA
-  final List<Map<String, dynamic>> assets = [
 
-    {
-      "asset_id": "AST-001",
-      "asset_name": "Passenger Lift",
-      "location": "Main Lobby",
-    },
-
-    {
-      "asset_id": "AST-002",
-      "asset_name": "Fire Extinguisher",
-      "location": "Floor 2",
-    },
-
-    {
-      "asset_id": "AST-003",
-      "asset_name": "Electrical Panel",
-      "location": "Building A",
-    },
-
-    {
-      "asset_id": "AST-004",
-      "asset_name": "Boiler Machine",
-      "location": "Mechanical Room",
-    },
-  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<AssetsBloc>().add(GetAssetEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
 
       backgroundColor: const Color(0xFFF5F7FA),
@@ -90,35 +75,27 @@ class _AssetsReportState extends State<AssetsReport> {
 
                 /// EXPORT BUTTON
                 ElevatedButton.icon(
-
                   style: ElevatedButton.styleFrom(
-
-                    backgroundColor:
-                    const Color(0xFF0000BA),
-
+                    backgroundColor: const Color(0xFF0000BA),
                     foregroundColor: Colors.white,
-
-                    padding:
-                    const EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 18,
                       vertical: 12,
                     ),
-
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-
                   onPressed: () {
+                    final state = context.read<AssetsBloc>().state;
 
-                    /// EXPORT LOGIC
+                    if (state is AssetsLoaded) {
+                      _exportToPdf(state.assets);
+                    }
                   },
-
-                  icon: const Icon(Icons.download),
-
-                  label: const Text("Export"),
-                ),
+                  icon: const Icon(Icons.picture_as_pdf),
+                  label: const Text("Export PDF"),
+                )
               ],
             ),
 
@@ -146,7 +123,7 @@ class _AssetsReportState extends State<AssetsReport> {
                   Expanded(
                     flex: 2,
                     child: Text(
-                      "Asset ID",
+                      "S/N",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -184,80 +161,169 @@ class _AssetsReportState extends State<AssetsReport> {
             /// ASSETS LIST
             Expanded(
 
-              child: ListView.builder(
+              child: BlocBuilder<AssetsBloc, AssetsState>(
+                  builder: (context, state) {
+                    if (state is AssetsLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state is AssetsMessage) {
+                      return Text(state.infoMessage.toString());
+                    } else if (state is AssetsLoaded) {
+                      return ListView.builder(
 
-                itemCount: assets.length,
+                        itemCount: state.assets.length,
 
-                itemBuilder: (context, index) {
+                        itemBuilder: (context, index) {
+                          final asset = state.assets[index];
 
-                  final asset = assets[index];
+                          return Container(
 
-                  return Container(
+                            margin:
+                            const EdgeInsets.only(bottom: 12),
 
-                    margin:
-                    const EdgeInsets.only(bottom: 12),
-
-                    padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 16,
-                    ),
-
-                    decoration: BoxDecoration(
-
-                      color: Colors.white,
-
-                      borderRadius:
-                      BorderRadius.circular(16),
-
-                      boxShadow: [
-
-                        BoxShadow(
-                          blurRadius: 6,
-                          offset: const Offset(0, 3),
-                          color: Colors.black
-                              .withOpacity(0.04),
-                        ),
-                      ],
-                    ),
-
-                    child: Row(
-
-                      children: [
-
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            asset["asset_id"],
-                            style: const TextStyle(
-                              fontWeight:
-                              FontWeight.w600,
+                            padding:
+                            const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 16,
                             ),
-                          ),
-                        ),
 
-                        Expanded(
-                          flex: 4,
-                          child: Text(
-                            asset["asset_name"],
-                          ),
-                        ),
+                            decoration: BoxDecoration(
 
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            asset["location"],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                              color: Colors.white,
+
+                              borderRadius:
+                              BorderRadius.circular(16),
+
+                              boxShadow: [
+
+                                BoxShadow(
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 3),
+                                  color: Colors.black
+                                      .withOpacity(0.04),
+                                ),
+                              ],
+                            ),
+
+                            child: Row(
+
+                              children: [
+
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    '${index+1}',
+                                    style: const TextStyle(
+                                      fontWeight:
+                                      FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    asset.assetName.toString(),
+                                  ),
+                                ),
+
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    asset.location.toString(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  return SizedBox.shrink();
                 },
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _exportToPdf(List<dynamic> assets) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(24),
+
+        build: (context) => [
+
+          pw.Center(
+            child: pw.Text(
+              "ASSETS REPORT",
+              style: pw.TextStyle(
+                fontSize: 22,
+                fontWeight: pw.FontWeight.bold,
+              ),
+            ),
+          ),
+
+          pw.SizedBox(height: 8),
+
+          pw.Center(
+            child: pw.Text(
+              "Facilities Management System",
+              style: const pw.TextStyle(fontSize: 13),
+            ),
+          ),
+
+          pw.SizedBox(height: 20),
+
+          pw.Table.fromTextArray(
+            border: pw.TableBorder.all(),
+
+            headerStyle: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+              color: PdfColors.white,
+            ),
+
+            headerDecoration: const pw.BoxDecoration(
+              color: PdfColors.blue900,
+            ),
+
+            cellAlignment: pw.Alignment.centerLeft,
+
+            headers: const [
+              "S/N",
+              "Asset Name",
+              "Location",
+            ],
+
+            data: List.generate(
+              assets.length,
+                  (index) => [
+                "${index + 1}",
+                assets[index].assetName ?? "",
+                assets[index].location ?? "",
+              ],
+            ),
+          ),
+
+          pw.SizedBox(height: 20),
+
+          pw.Align(
+            alignment: pw.Alignment.centerRight,
+            child: pw.Text(
+              "Generated on: ${DateTime.now()}",
+              style: const pw.TextStyle(fontSize: 10),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (format) async => pdf.save(),
     );
   }
 }

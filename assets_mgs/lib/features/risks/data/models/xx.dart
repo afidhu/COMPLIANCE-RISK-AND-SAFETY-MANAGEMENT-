@@ -1,17 +1,17 @@
-/// riskId : "cmq3vjm5j0003d5e28d8m32zt"
-/// hazardId : "cmq3vb19g0002d5e2c24ittfn"
-/// riskTitle : "Electric Shock"
-/// riskDescription : "Exposure to live electrical wires may result in serious injury or fatal electric shock."
+/// riskId : "cmqkfedsw0000nme24sodp2cg"
+/// hazardId : "cmqkdvrdp0000xoe22v1vmaeg"
+/// riskTitle : "people may die"
+/// riskDescription : "this will.be very dangerous "
 /// likelihood : "POSSIBLE"
-/// severity : "MEDIUM"
+/// severity : "HIGH"
 /// riskLevel : null
 /// status : "OPEN"
-/// createdAt : "2026-06-07T14:25:32.647Z"
-/// updatedAt : "2026-06-07T14:25:32.647Z"
-/// hazard : {"hazardId":"cmq3vb19g0002d5e2c24ittfn","assetId":"cmq3rok1g00007me298pkhi4n","complianceId":"cmq3t3yq800071ze2a1nx1shs","hazardTitle":"Pressure Leakage","hazardDescription":"Boiler pressure valve leaking steam and requiring immediate maintenance.","reportedById":"cmq3r9t6n0000rte28j0zvojs","status":"CLOSED","createdAt":"2026-06-07T14:18:52.324Z","asset":{"assetId":"cmq3rok1g00007me298pkhi4n","assetName":"Electric Boiler","assetType":"BOILER","location":"BLOCK B","serialNo":null,"status":"ACTIVE","createdById":"cmq3rfv800001rte2k6ioz6ut","createdAt":"2026-06-07T12:37:24.724Z","updatedAt":"2026-06-07T12:37:24.724Z"}}
+/// createdAt : "2026-06-19T04:25:39.681Z"
+/// updatedAt : "2026-06-19T04:25:39.681Z"
+/// hazard : {"hazardId":"cmqkdvrdp0000xoe22v1vmaeg","assetId":"cmqby5byj0002n8e2qvhwd1uf","complianceId":null,"hazardTitle":"Missed Compliance - Daily Fuel System Inspection","hazardDescription":"Daily Fuel System Inspection became overdue on 2026-06-16. The required compliance activity was not completed before the due date and may expose the facility to safety, operational, or regulatory risks.","reportedById":"1","status":"OPEN","createdAt":"2026-06-19T03:43:11.197Z","asset":{"assetId":"cmqby5byj0002n8e2qvhwd1uf","assetName":"Generator","assetType":"ELECTRICAL_DEVICE","location":"BLOCK C","serialNo":null,"status":"ACTIVE","createdById":"cmq3rfv800001rte2k6ioz6ut","createdAt":"2026-06-13T06:00:34.507Z","updatedAt":"2026-06-13T06:00:34.507Z"}}
 
-class Model {
-  Model({
+class Xx {
+  Xx({
       this.riskId, 
       this.hazardId, 
       this.riskTitle, 
@@ -24,7 +24,7 @@ class Model {
       this.updatedAt, 
       this.hazard,});
 
-  Model.fromJson(dynamic json) {
+  Xx.fromJson(dynamic json) {
     riskId = json['riskId'];
     hazardId = json['hazardId'];
     riskTitle = json['riskTitle'];
@@ -69,15 +69,15 @@ class Model {
 
 }
 
-/// hazardId : "cmq3vb19g0002d5e2c24ittfn"
-/// assetId : "cmq3rok1g00007me298pkhi4n"
-/// complianceId : "cmq3t3yq800071ze2a1nx1shs"
-/// hazardTitle : "Pressure Leakage"
-/// hazardDescription : "Boiler pressure valve leaking steam and requiring immediate maintenance."
-/// reportedById : "cmq3r9t6n0000rte28j0zvojs"
-/// status : "CLOSED"
-/// createdAt : "2026-06-07T14:18:52.324Z"
-/// asset : {"assetId":"cmq3rok1g00007me298pkhi4n","assetName":"Electric Boiler","assetType":"BOILER","location":"BLOCK B","serialNo":null,"status":"ACTIVE","createdById":"cmq3rfv800001rte2k6ioz6ut","createdAt":"2026-06-07T12:37:24.724Z","updatedAt":"2026-06-07T12:37:24.724Z"}
+/// hazardId : "cmqkdvrdp0000xoe22v1vmaeg"
+/// assetId : "cmqby5byj0002n8e2qvhwd1uf"
+/// complianceId : null
+/// hazardTitle : "Missed Compliance - Daily Fuel System Inspection"
+/// hazardDescription : "Daily Fuel System Inspection became overdue on 2026-06-16. The required compliance activity was not completed before the due date and may expose the facility to safety, operational, or regulatory risks."
+/// reportedById : "1"
+/// status : "OPEN"
+/// createdAt : "2026-06-19T03:43:11.197Z"
+/// asset : {"assetId":"cmqby5byj0002n8e2qvhwd1uf","assetName":"Generator","assetType":"ELECTRICAL_DEVICE","location":"BLOCK C","serialNo":null,"status":"ACTIVE","createdById":"cmq3rfv800001rte2k6ioz6ut","createdAt":"2026-06-13T06:00:34.507Z","updatedAt":"2026-06-13T06:00:34.507Z"}
 
 class Hazard {
   Hazard({
@@ -104,7 +104,7 @@ class Hazard {
   }
   String? hazardId;
   String? assetId;
-  String? complianceId;
+  dynamic complianceId;
   String? hazardTitle;
   String? hazardDescription;
   String? reportedById;
@@ -130,15 +130,15 @@ class Hazard {
 
 }
 
-/// assetId : "cmq3rok1g00007me298pkhi4n"
-/// assetName : "Electric Boiler"
-/// assetType : "BOILER"
-/// location : "BLOCK B"
+/// assetId : "cmqby5byj0002n8e2qvhwd1uf"
+/// assetName : "Generator"
+/// assetType : "ELECTRICAL_DEVICE"
+/// location : "BLOCK C"
 /// serialNo : null
 /// status : "ACTIVE"
 /// createdById : "cmq3rfv800001rte2k6ioz6ut"
-/// createdAt : "2026-06-07T12:37:24.724Z"
-/// updatedAt : "2026-06-07T12:37:24.724Z"
+/// createdAt : "2026-06-13T06:00:34.507Z"
+/// updatedAt : "2026-06-13T06:00:34.507Z"
 
 class Asset {
   Asset({

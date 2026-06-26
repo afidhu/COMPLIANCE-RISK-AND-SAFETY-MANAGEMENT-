@@ -7,6 +7,7 @@ import '../bloc/notification_bloc.dart';
 import '../screens/notifications.dart';
 
 Widget notificationButton() {
+ Get.context?.read<NotificationBloc>().add(GetNotificationByUserEvent());
   return IconButton(
     onPressed: () {
       Get.to(() => Notifications());

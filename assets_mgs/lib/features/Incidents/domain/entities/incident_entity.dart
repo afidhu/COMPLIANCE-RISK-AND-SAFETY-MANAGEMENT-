@@ -1,12 +1,14 @@
 
 
 import '../../../assets/domain/entities/assets_entity.dart';
+import '../../../auths/domain/entities/user_entity.dart';
 import '../../../risks/domain/entities/risk_entity.dart';
 
 class IncidentEntity {
   final String? incidentId;
   final String? assetId;
   final String? riskId;
+  final UserEntity? reportedBy;
   final String? incidentTitle;
   final String? description;
   final String? incidentDate;
@@ -20,6 +22,7 @@ class IncidentEntity {
   IncidentEntity({
     this.incidentId,
     this.assetId,
+    this.reportedBy,
     this.riskId,
     this.incidentTitle,
     this.description,

@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../assets/domain/entities/assets_entity.dart';
 import '../../../assets/presentation/bloc/assets_bloc.dart';
 import '../../domain/entities/hazards_entity.dart';
 import '../bloc/hazards_bloc.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+
+import 'hazards.dart';
 
 class RegisterHazards extends StatefulWidget {
   const RegisterHazards({super.key});
@@ -15,23 +20,18 @@ class RegisterHazards extends StatefulWidget {
 }
 
 class _RegisterHazardsState extends State<RegisterHazards> {
-
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController assetIdController =
-  TextEditingController();
+  AssetsEntity? _selectedAsset;
 
-  final TextEditingController complianceIdController =
-  TextEditingController();
+  final TextEditingController complianceIdController = TextEditingController();
 
-  final TextEditingController hazardTitleController =
-  TextEditingController();
+  final TextEditingController hazardTitleController = TextEditingController();
 
   final TextEditingController hazardDescriptionController =
-  TextEditingController();
+      TextEditingController();
 
-  final TextEditingController reportedByController =
-  TextEditingController();
+  final TextEditingController reportedByController = TextEditingController();
 
   String status = "OPEN";
 
@@ -45,17 +45,16 @@ class _RegisterHazardsState extends State<RegisterHazards> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: const Color(0xFFF4F7FC),
 
       appBar: AppBar(
         title: const Text("Register Hazard"),
         backgroundColor: const Color(0xFF0000BA),
         foregroundColor: Colors.white,
+        centerTitle: true,
       ),
 
       body: SingleChildScrollView(
-
         padding: const EdgeInsets.all(16),
 
         child: Form(
@@ -63,12 +62,9 @@ class _RegisterHazardsState extends State<RegisterHazards> {
           key: _formKey,
 
           child: Column(
-
             children: [
-
               /// HEADER
               Container(
-
                 width: double.infinity,
 
                 padding: const EdgeInsets.all(10),
@@ -79,9 +75,7 @@ class _RegisterHazardsState extends State<RegisterHazards> {
                 ),
 
                 child: const Column(
-
                   children: [
-
                     Icon(
                       Icons.warning_amber_rounded,
                       size: 60,
@@ -104,9 +98,7 @@ class _RegisterHazardsState extends State<RegisterHazards> {
                     Text(
                       "Report unsafe conditions before incidents occur",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white70,
-                      ),
+                      style: TextStyle(color: Colors.white70),
                     ),
                   ],
                 ),
@@ -116,37 +108,68 @@ class _RegisterHazardsState extends State<RegisterHazards> {
 
               BlocBuilder<AssetsBloc, AssetsState>(
                 builder: (context, state) {
-
                   if (state is AssetsLoaded) {
+                    return DropdownSearch<AssetsEntity>(
+                      items: (filter, _) => state.assets,
 
-                    return DropdownButtonFormField(
-                      decoration: const InputDecoration(
-                        labelText: "Select Asset",
-                        border: OutlineInputBorder(),
+                      /// Display text
+                      itemAsString: (AssetsEntity asset) =>
+                          asset.assetName ?? "Unknown Asset",
+
+                      /// Required for custom objects
+                      compareFn: (AssetsEntity a, AssetsEntity b) =>
+                          a.assetId == b.assetId,
+
+                      selectedItem: _selectedAsset,
+
+                      validator: (asset) => asset == null ? "Required" : null,
+
+                      popupProps: PopupProps.menu(
+                        showSearchBox: true,
+                        fit: FlexFit.loose,
+
+                        searchFieldProps: const TextFieldProps(
+                          decoration: InputDecoration(
+                            hintText: "Search asset...",
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+
+                        emptyBuilder: (context, searchEntry) => const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Center(child: Text("No assets found")),
+                        ),
                       ),
 
-                      items: state.assets.map((asset) {
-
-                        return DropdownMenuItem(
-
-                          value: asset.assetId,
-
-                          child: Text(
-                            asset.assetName.toString(),
+                      decoratorProps: DropDownDecoratorProps(
+                        decoration: InputDecoration(
+                          labelText: "Select Asset",
+                          hintText: "Choose an asset",
+                          prefixIcon: const Icon(Icons.inventory_2_outlined),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        );
+                        ),
+                      ),
 
-                      }).toList(),
-
-                      onChanged: (value) {
-                        assetIdController.text =value!;
-                        print(value);
+                      onSelected: (AssetsEntity? asset) {
+                        setState(() {
+                          _selectedAsset = asset;
+                        });
+                        if (asset != null) {
+                          debugPrint("Selected Asset ID: ${asset.assetId}");
+                          debugPrint("Selected Asset: ${asset.assetName}");
+                        }
                       },
                     );
-
                   }
 
-                  return const CircularProgressIndicator();
+                  if (state is AssetsLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  return const Center(child: Text("Failed to load assets"));
                 },
               ),
 
@@ -157,7 +180,6 @@ class _RegisterHazardsState extends State<RegisterHazards> {
               //   label: "Compliance ID (Optional)",
               //   icon: Icons.verified_user,
               // ),
-
               const SizedBox(height: 15),
 
               buildTextField(
@@ -169,128 +191,153 @@ class _RegisterHazardsState extends State<RegisterHazards> {
               const SizedBox(height: 15),
 
               TextFormField(
-
                 controller: hazardDescriptionController,
 
                 maxLines: 4,
 
                 decoration: InputDecoration(
                   labelText: "Hazard Description",
-                  prefixIcon: const Icon(
-                    Icons.description,
-                  ),
+                  prefixIcon: const Icon(Icons.description),
                   border: OutlineInputBorder(
-                    borderRadius:
-                    BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 15),
-
-              buildTextField(
-                controller: reportedByController,
-                label: "Reported By",
-                icon: Icons.person,
-              ),
-
-              const SizedBox(height: 15),
-
-              DropdownButtonFormField<String>(
-
-                value: status,
-
-                decoration: InputDecoration(
-                  labelText: "Status",
-                  prefixIcon: const Icon(
-                    Icons.flag,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                    BorderRadius.circular(14),
-                  ),
-                ),
-
-                items: const [
-
-                  DropdownMenuItem(
-                    value: "OPEN",
-                    child: Text("Open"),
-                  ),
-
-                  DropdownMenuItem(
-                    value: "IN_PROGRESS",
-                    child: Text("In Progress"),
-                  ),
-
-                  DropdownMenuItem(
-                    value: "CLOSED",
-                    child: Text("Closed"),
-                  ),
-                ],
-
-                onChanged: (value) {
-                  setState(() {
-                    status = value!;
-                  });
-                },
-              ),
-
+              // const SizedBox(height: 15),
+              //
+              // buildTextField(
+              //   controller: reportedByController,
+              //   label: "Reported By",
+              //   icon: Icons.person,
+              // ),
+              //
+              // const SizedBox(height: 15),
+              //
+              // DropdownButtonFormField<String>(
+              //
+              //   value: status,
+              //
+              //   decoration: InputDecoration(
+              //     labelText: "Status",
+              //     prefixIcon: const Icon(
+              //       Icons.flag,
+              //     ),
+              //     border: OutlineInputBorder(
+              //       borderRadius:
+              //       BorderRadius.circular(14),
+              //     ),
+              //   ),
+              //
+              //   items: const [
+              //
+              //     DropdownMenuItem(
+              //       value: "OPEN",
+              //       child: Text("Open"),
+              //     ),
+              //
+              //     DropdownMenuItem(
+              //       value: "IN_PROGRESS",
+              //       child: Text("In Progress"),
+              //     ),
+              //
+              //     DropdownMenuItem(
+              //       value: "CLOSED",
+              //       child: Text("Closed"),
+              //     ),
+              //   ],
+              //
+              //   onChanged: (value) {
+              //     setState(() {
+              //       status = value!;
+              //     });
+              //   },
+              // ),
+              //
               const SizedBox(height: 30),
 
               SizedBox(
-
                 width: double.infinity,
                 height: 55,
 
                 child: ElevatedButton.icon(
-
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                    const Color(0xFF0000BA),
+                    backgroundColor: const Color(0xFF0000BA),
 
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
 
-                  onPressed: () {
-                    if (_formKey.currentState!
-                        .validate()) {
-                      context.read<HazardsBloc>().add(AddHazardsEvent(
-                          HazardsEntity(
-                              assetId: assetIdController.text,
-                              reportedById: "cmqc4upxw0006n8e2yker51u9",
-                              hazardTitle: hazardTitleController.text,
-                              hazardDescription: hazardDescriptionController.text,
-                              status: status
-                          )
-                      ));
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(
+                  onPressed: () async {
 
-                        const SnackBar(
-                          content:
-                          Text("Hazard Registered"),
+                    if (_formKey.currentState!.validate()) {
+                      final hazardsBloc = context.read<HazardsBloc>();
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      final userId = prefs.getString('userId');
+                      if (!mounted) return;
+
+                      hazardsBloc.add(
+                        AddHazardsEvent(
+                          HazardsEntity(
+                            assetId: _selectedAsset?.assetId ?? "",
+                            reportedById: '$userId',
+                            hazardTitle: hazardTitleController.text,
+                            hazardDescription: hazardDescriptionController.text,
+                            status: 'OPEN',
+                          ),
                         ),
                       );
+                      scaffoldMessenger.showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text("Hazard Registered"),
+                        ),
+                      );
+
+                      complianceIdController.clear();
+                      hazardTitleController.clear();
+                      hazardDescriptionController.clear();
 
                       // Get.back();
                     }
                   },
 
-                  icon: const Icon(
-                    Icons.save,
-                    color: Colors.white,
-                  ),
+                  icon: const Icon(Icons.save, color: Colors.white),
 
-                  label: const Text(
-                    "Register Hazard",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  label: BlocConsumer<HazardsBloc, HazardsState>(
+                    builder: (context, state) {
+                      final isClicked =
+                          state is IsHazardsAddedButtonClicked &&
+                          state.isClicked;
+
+                    return  isClicked
+                          ?  CircularProgressIndicator()
+                          : Text(
+                              "Register Hazard",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                      return SizedBox.shrink();
+                    },
+                    listener: (context, state)async {
+                      final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                      final userType = prefs.getString('userType');
+                      if(state is HazardsLoaded && state.isAdded){
+                        if(state.isAdded ==true){
+                          if(userType !='STAFF_MEMBER'){
+                            Get.back();
+                          }
+                        }
+                      }
+                      return;
+                    },
                   ),
                 ),
               ),
@@ -302,14 +349,11 @@ class _RegisterHazardsState extends State<RegisterHazards> {
   }
 
   Widget buildTextField({
-
     required TextEditingController controller,
     required String label,
     required IconData icon,
-
   }) {
     return TextFormField(
-
       controller: controller,
 
       validator: (value) {
@@ -321,15 +365,11 @@ class _RegisterHazardsState extends State<RegisterHazards> {
       },
 
       decoration: InputDecoration(
-
         labelText: label,
 
         prefixIcon: Icon(icon),
 
-        border: OutlineInputBorder(
-          borderRadius:
-          BorderRadius.circular(14),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
     );
   }
@@ -337,37 +377,26 @@ class _RegisterHazardsState extends State<RegisterHazards> {
   Widget _showAssets() {
     return BlocBuilder<AssetsBloc, AssetsState>(
       builder: (context, state) {
-
         if (state is AssetsLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (state is AssetsLoaded) {
-
           return ListView.builder(
             itemCount: state.assets.length,
 
             itemBuilder: (context, index) {
-
               final asset = state.assets[index];
 
               return ListTile(
                 leading: const Icon(Icons.inventory_2),
 
-                title: Text(
-                  asset.assetName.toString(),
-                ),
+                title: Text(asset.assetName.toString()),
 
-                subtitle: Text(
-                  asset.assetType.toString(),
-                ),
+                subtitle: Text(asset.assetType.toString()),
 
                 onTap: () {
-
-                  print(asset.assetName);
-
+                  debugPrint(asset.assetName);
                   Get.back();
                 },
               );
@@ -375,11 +404,8 @@ class _RegisterHazardsState extends State<RegisterHazards> {
           );
         }
 
-        return const Center(
-          child: Text("No Assets Found"),
-        );
+        return const Center(child: Text("No Assets Found"));
       },
     );
   }
-
 }

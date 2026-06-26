@@ -65,6 +65,7 @@ import 'features/risks/domain/use_cases/get_risk_case.dart';
 import 'features/risks/presentation/bloc/risks_bloc.dart';
 
 void main() {
+
   WidgetsFlutterBinding.ensureInitialized();
 
   //Notification initialization by onesignal

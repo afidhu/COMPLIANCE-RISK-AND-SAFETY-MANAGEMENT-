@@ -1,21 +1,12 @@
-import 'package:assets_mgs/core/widgets/drawer_widget.dart';
-import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/Incidents/presentation/screens/all_incidents.dart';
+
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
+import 'package:assets_mgs/features/notifications/presentation/widgets/notification_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
-import '../../features/auths/presentation/bloc/auth_bloc.dart';
 import '../../features/compliances/presentation/screens/compliance_screen.dart';
 import '../../features/hazards/presentation/screens/hazards.dart';
-import '../../features/inspections/presentation/screens/inspensions.dart';
-import '../../features/notifications/presentation/screens/notifications.dart';
-import '../../features/risks/presentation/screens/Risk_screen.dart';
-import '../../features/schedules/presentation/screens/schedules.dart';
 
 class HomeScreenInspector extends StatefulWidget {
   const HomeScreenInspector({super.key});
@@ -80,51 +71,7 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
         ),
 
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.notifications_active,
-                    color: Colors.white,
-                    size: 22, // reduced size (clean like Xender)
-                  ),
-                ),
-
-                Positioned(
-                  right: 6,
-                  top: 6,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        debugPrint("12");
-                        Get.to(() => Notifications());
-                      },
-                      child: const Text(
-                        '12',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          notificationButton()
         ],
 
         bottom: PreferredSize(

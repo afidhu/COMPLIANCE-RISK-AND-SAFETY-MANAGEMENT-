@@ -1,4 +1,5 @@
 import '../../../assets/data/models/assets_model.dart';
+import '../../../auths/data/models/users_model.dart';
 import '../../../risks/data/models/risks_model.dart';
 import '../../domain/entities/incident_entity.dart';
 
@@ -25,6 +26,7 @@ class IncidentModel extends IncidentEntity{
       super.incidentDate,
       super.severity,
       super.reportedById,
+      super.reportedBy,
       super.status,
       super.createdAt,
       super.asset,
@@ -37,6 +39,7 @@ class IncidentModel extends IncidentEntity{
         riskId : json['riskId'],
         incidentTitle : json['incidentTitle'],
         description : json['description'],
+        reportedBy : json['reportedBy'] != null ? UsersModel.fromJson(json['reportedBy']) : null,
         incidentDate : json['incidentDate'],
         severity : json['severity'],
         reportedById : json['reportedById'],
@@ -46,7 +49,6 @@ class IncidentModel extends IncidentEntity{
          risk : json['risk'] != null ? RisksModel.fromJson(json['risk']) : null,
     );
   }
-
 
   Map<String, dynamic> toJson() {
     // final map = <String, dynamic>{};

@@ -23,9 +23,9 @@ class _RiskScreenState extends State<RiskScreen> {
     // TODO: implement initState
     super.initState();
 
-    if (2 == 2) {
-      // context.read<RisksBloc>().add(GetRiskAllEvent());
-    }
+
+      context.read<RisksBloc>().add(GetRiskAllEvent());
+
   }
 
   Color getRiskColor(String severity) {

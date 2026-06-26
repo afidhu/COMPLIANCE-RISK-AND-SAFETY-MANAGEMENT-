@@ -1,16 +1,10 @@
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/CAPA/domain/entities/capa_entity.dart';
-import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:popup_menu/popup_menu.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../notifications/presentation/bloc/notification_bloc.dart';
-import '../../../notifications/presentation/screens/notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../notifications/presentation/widgets/notification_button.dart';
 import '../bloc/capa_bloc.dart';
 import '../widgets/asset_capa.dart';
@@ -52,7 +46,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
       GetCapaByTechnicianEvent(userId.toString()),
     );
 
-    context.read<NotificationBloc>().add(GetNotificationByUserEvent());
+    // context.read<NotificationBloc>().add(GetNotificationByUserEvent());
   }
   @override
   Widget build(BuildContext context) {

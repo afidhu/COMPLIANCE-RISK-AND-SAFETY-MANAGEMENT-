@@ -1,5 +1,6 @@
 import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/auths/presentation/widgets/logout_button.dart';
+import 'package:assets_mgs/features/notifications/presentation/widgets/notification_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -68,52 +69,7 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
         ),
 
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.notifications_active,
-                    color: Colors.white,
-                    size: 24, // 🔥 reduced size
-                  ),
-                ),
-
-                Positioned(
-                  right: 4,
-                  top: 4,
-                  child: GestureDetector(
-                    onTap: () {
-                      debugPrint("12");
-                      Get.to(() => Notifications());
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 5,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        '12',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10, // 🔥 smaller badge text
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          notificationButton()
         ],
 
         bottom: PreferredSize(

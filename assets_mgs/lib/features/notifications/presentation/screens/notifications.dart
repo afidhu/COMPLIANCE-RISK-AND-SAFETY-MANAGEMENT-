@@ -13,28 +13,28 @@ class Notifications extends StatefulWidget {
 
 class _NotificationsState extends State<Notifications> {
 
-  final List<Map<String, dynamic>> notifications = [
-
-    {
-      "notify_id": 1,
-      "sender": "System",
-      "receiver": "Inspector",
-      "content": "Fire extinguisher certificate will expire in 3 days.",
-      "notify_type": "Compliance",
-      "is_read": false,
-      "createdAt": "2026-05-25 09:30 AM",
-    },
-
-    {
-      "notify_id": 2,
-      "sender": "Inspector",
-      "receiver": "Technician",
-      "content": "CAPA task assigned for Lift A malfunction repair.",
-      "notify_type": "Task",
-      "is_read": false,
-      "createdAt": "2026-05-25 10:10 AM",
-    },
-  ];
+  // final List<Map<String, dynamic>> notifications = [
+  //
+  //   {
+  //     "notify_id": 1,
+  //     "sender": "System",
+  //     "receiver": "Inspector",
+  //     "content": "Fire extinguisher certificate will expire in 3 days.",
+  //     "notify_type": "Compliance",
+  //     "is_read": false,
+  //     "createdAt": "2026-05-25 09:30 AM",
+  //   },
+  //
+  //   {
+  //     "notify_id": 2,
+  //     "sender": "Inspector",
+  //     "receiver": "Technician",
+  //     "content": "CAPA task assigned for Lift A malfunction repair.",
+  //     "notify_type": "Task",
+  //     "is_read": false,
+  //     "createdAt": "2026-05-25 10:10 AM",
+  //   },
+  // ];
 
   Color getColor(String type) {
     switch (type) {

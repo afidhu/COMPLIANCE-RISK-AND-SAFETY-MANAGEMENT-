@@ -1,5 +1,9 @@
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+import '../../../Incidents/presentation/bloc/incident_bloc.dart';
 
 class IncidentReport extends StatefulWidget {
   const IncidentReport({super.key});
@@ -10,41 +14,16 @@ class IncidentReport extends StatefulWidget {
 
 class _IncidentReportState extends State<IncidentReport> {
 
-  /// SAMPLE INCIDENT DATA
-  final List<Map<String, dynamic>> incidents = [
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<IncidentBloc>().add(GetIncidentEvent());
+  }
 
-    {
-      "incident_name": "Fire Alarm Failure",
-      "asset_name": "Fire System",
-      "location": "Building A",
-      "date_reported": "2026-05-15",
-    },
-
-    {
-      "incident_name": "Lift Stuck",
-      "asset_name": "Passenger Lift",
-      "location": "Main Lobby",
-      "date_reported": "2026-05-18",
-    },
-
-    {
-      "incident_name": "Water Leakage",
-      "asset_name": "Boiler Machine",
-      "location": "Mechanical Room",
-      "date_reported": "2026-05-20",
-    },
-
-    {
-      "incident_name": "Electrical Shock",
-      "asset_name": "Electrical Panel",
-      "location": "Floor 2",
-      "date_reported": "2026-05-22",
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
 
       backgroundColor: const Color(0xFFF5F7FA),
@@ -95,35 +74,27 @@ class _IncidentReportState extends State<IncidentReport> {
 
                 /// EXPORT BUTTON
                 ElevatedButton.icon(
-
                   style: ElevatedButton.styleFrom(
-
-                    backgroundColor:
-                    const Color(0xFF0000BA),
-
+                    backgroundColor: const Color(0xFF0000BA),
                     foregroundColor: Colors.white,
-
-                    padding:
-                    const EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 18,
                       vertical: 12,
                     ),
-
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-
                   onPressed: () {
+                    final state = context.read<IncidentBloc>().state;
 
-                    /// EXPORT LOGIC
+                    if (state is IncidentLoaded) {
+                      exportIncidentPdf(state.incidents);
+                    }
                   },
-
-                  icon: const Icon(Icons.download),
-
-                  label: const Text("Export"),
-                ),
+                  icon: const Icon(Icons.picture_as_pdf),
+                  label: const Text("Export PDF"),
+                )
               ],
             ),
 
@@ -200,81 +171,97 @@ class _IncidentReportState extends State<IncidentReport> {
             /// INCIDENT LIST
             Expanded(
 
-              child: ListView.builder(
+              child:  BlocBuilder<IncidentBloc, IncidentState>(
+                  builder: (context, state) {
+                    if(state is IncidentLoading){
+                      return Center(child: CircularProgressIndicator(),);
+                    }
+                    else if(state is IncidentMessage){
+                      return Center(child: Text(state.message.toString()),);
+                    }
+                    else if (state is IncidentLoaded) {
+                      if (state.incidents.isEmpty) {
+                        return Center(child: Text('No Incident found'),);
+                      }
+                      else {
+                        return ListView.builder(
 
-                itemCount: incidents.length,
+                          itemCount: state.incidents.length,
 
-                itemBuilder: (context, index) {
+                          itemBuilder: (context, index) {
+                            final incident = state.incidents[index];
 
-                  final incident = incidents[index];
+                            return Container(
 
-                  return Container(
+                              margin:
+                              const EdgeInsets.only(bottom: 12),
 
-                    margin:
-                    const EdgeInsets.only(bottom: 12),
+                              padding:
+                              const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 16,
+                              ),
 
-                    padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 16,
-                    ),
+                              decoration: BoxDecoration(
 
-                    decoration: BoxDecoration(
+                                color: Colors.white,
 
-                      color: Colors.white,
+                                borderRadius:
+                                BorderRadius.circular(16),
 
-                      borderRadius:
-                      BorderRadius.circular(16),
+                                boxShadow: [
 
-                      boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 3),
+                                    color: Colors.black
+                                        .withOpacity(0.04),
+                                  ),
+                                ],
+                              ),
 
-                        BoxShadow(
-                          blurRadius: 6,
-                          offset: const Offset(0, 3),
-                          color: Colors.black
-                              .withOpacity(0.04),
-                        ),
-                      ],
-                    ),
+                              child: Row(
 
-                    child: Row(
+                                children: [
 
-                      children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      incident.incidentTitle.toString(),
+                                      style: const TextStyle(
+                                        fontWeight:
+                                        FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
 
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            incident["incident_name"],
-                            style: const TextStyle(
-                              fontWeight:
-                              FontWeight.w600,
-                            ),
-                          ),
-                        ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      incident.asset!.assetName.toString(),
+                                    ),
+                                  ),
 
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            incident["asset_name"],
-                          ),
-                        ),
-
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            incident["location"],
-                          ),
-                        ),
-
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            dateFormater(incident["date_reported"])
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      incident.asset!.location.toString(),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                        dateFormater(incident.createdAt.toString())
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    }
+                    return SizedBox.shrink();
                 },
               ),
             ),
@@ -283,4 +270,56 @@ class _IncidentReportState extends State<IncidentReport> {
       ),
     );
   }
+
+  Future<void> exportIncidentPdf(List incidents) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.MultiPage(
+        build: (context) => [
+
+          pw.Text(
+            "Incident Report",
+            style: pw.TextStyle(
+              fontSize: 22,
+              fontWeight: pw.FontWeight.bold,
+            ),
+          ),
+
+          pw.SizedBox(height: 20),
+
+          pw.Table.fromTextArray(
+            border: pw.TableBorder.all(),
+
+            headerStyle: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+            ),
+
+            headers: const [
+              "Incident",
+              "Asset",
+              "Location",
+              "Reported",
+            ],
+
+            data: incidents.map<List<String>>((incident) {
+              return [
+                incident.incidentTitle.toString(),
+                incident.asset?.assetName.toString() ?? "",
+                incident.asset?.location.toString() ?? "",
+                dateFormater(
+                  incident.createdAt.toString(),
+                ),
+              ];
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (format) async => pdf.save(),
+    );
+  }
+
 }
