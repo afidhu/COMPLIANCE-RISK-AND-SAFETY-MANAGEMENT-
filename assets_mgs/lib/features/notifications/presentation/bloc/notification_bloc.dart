@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +39,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   FutureOr<void> _updateNotificationByUser(UpdateNotificationByUserEvent event, Emitter<NotificationState> emit) async{
       try{
         bool isRead = await _updateNotificationAsReadCase.call(event.notId.toString().trim());
-        print('booooooooool: $isRead');
+        debugPrint('isRead: $isRead');
       } catch(e){
         print('error in get notifies: $e');
         emit(NotificationError('Fail to load notification'));

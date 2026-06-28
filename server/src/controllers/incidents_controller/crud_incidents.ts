@@ -142,6 +142,7 @@ export const getIncidentByIdWithDetails = async (req: Request, resp: Response) =
                 risk: true,
                 reportedBy: true
             }
+            
         });
         if (!incident) {
             return resp.status(404).json({ message: "Incident not found" });

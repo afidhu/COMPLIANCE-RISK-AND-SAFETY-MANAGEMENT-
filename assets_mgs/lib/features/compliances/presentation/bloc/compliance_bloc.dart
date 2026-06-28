@@ -35,8 +35,6 @@ class ComplianceBloc extends Bloc<ComplianceEvent, ComplianceState> {
 
     try{
       final bool isUpdated = await _updateComplianceCase.getCompliance(event.compliance, event.id);
-      print('_updateComplianceCase :$isUpdated');
-      // Future.delayed(Duration(seconds: 7));
       final compliance = await _getComplianceCase.getCompliance();
       emit(ComplianceLoaded(compliance));
       emit(ComplianceUpdated(isUpdated));

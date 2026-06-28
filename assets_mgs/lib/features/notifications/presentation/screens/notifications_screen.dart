@@ -83,338 +83,354 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           }
           else if (state is NotificationLoaded){
            if(state.notification.isNotEmpty){
-             return ListView.builder(
-               padding: const EdgeInsets.all(16),
-               itemCount: state.notification.length,
-               itemBuilder: (context, index) {
-                 final n = state.notification[index];
-                 final color = getColor(n.notifyType.toString());
+             return RefreshIndicator(
+               backgroundColor: Colors.blue,
+               color: Colors.white,
+               onRefresh: () async{
+                 context.read<NotificationBloc>().add(GetNotificationByUserEvent());
+               },
+               child: ListView.builder(
+                 physics: BouncingScrollPhysics(),
+                 padding: const EdgeInsets.all(16),
+                 itemCount: state.notification.length,
+                 itemBuilder: (context, index) {
+                   final n = state.notification[index];
+                   final color = getColor(n.notifyType.toString());
 
-                 return GestureDetector(
-                   onTap: () {},
-                   child: AnimatedContainer(
-                     duration: const Duration(milliseconds: 300),
-                     curve: Curves.easeOutCubic,
-                     margin: const EdgeInsets.only(bottom: 18),
-                     padding: const EdgeInsets.all(18),
-                     decoration: BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.circular(28),
+                   return GestureDetector(
+                     onTap: () {
+                       context.read<NotificationBloc>().add(UpdateNotificationByUserEvent(n.notifyId.toString()));
+                       if(n.notifyType =='CAPA'){
+                         assetCapa(asset: n.capa!.hazards!.asset);
+                       }
+                       else if(n.notifyType =='COMPLIANCE'){
+                         Get.to(()=>NotificationComplianceView(),arguments: n.compliance);
+                       }
+                     },
+                     child: AnimatedContainer(
+                       duration: const Duration(milliseconds: 300),
+                       curve: Curves.easeOutCubic,
+                       margin: const EdgeInsets.only(bottom: 18),
+                       padding: const EdgeInsets.all(18),
+                       decoration: BoxDecoration(
+                         color: Colors.white,
+                         borderRadius: BorderRadius.circular(28),
 
-                       border: Border.all(
-                         color: n.isRead ==true
-                             ? Colors.grey.shade200
-                             : color.withOpacity(.25),
-                         width: 1.2,
+                         border: Border.all(
+                           color: n.isRead ==true
+                               ? Colors.grey.shade200
+                               : color.withOpacity(.25),
+                           width: 1.2,
+                         ),
+
+                         boxShadow: [
+                           BoxShadow(
+                             color: Colors.black.withOpacity(.04),
+                             blurRadius: 25,
+                             spreadRadius: 2,
+                             offset: const Offset(0, 10),
+                           ),
+                           BoxShadow(
+                             color: color.withOpacity(.05),
+                             blurRadius: 30,
+                             offset: const Offset(0, 12),
+                           ),
+                         ],
                        ),
 
-                       boxShadow: [
-                         BoxShadow(
-                           color: Colors.black.withOpacity(.04),
-                           blurRadius: 25,
-                           spreadRadius: 2,
-                           offset: const Offset(0, 10),
-                         ),
-                         BoxShadow(
-                           color: color.withOpacity(.05),
-                           blurRadius: 30,
-                           offset: const Offset(0, 12),
-                         ),
-                       ],
-                     ),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
 
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
+                           /// TOP SECTION
+                           Row(
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             children: [
 
-                         /// TOP SECTION
-                         Row(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
+                               /// ICON
+                               Container(
+                                 height: 64,
+                                 width: 64,
+                                 decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.circular(20),
 
-                             /// ICON
-                             Container(
-                               height: 64,
-                               width: 64,
-                               decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(20),
-
-                                 gradient: LinearGradient(
-                                   begin: Alignment.topLeft,
-                                   end: Alignment.bottomRight,
-                                   colors: [
-                                     color.withOpacity(.18),
-                                     color.withOpacity(.08),
-                                   ],
-                                 ),
-
-                                 border: Border.all(
-                                   color: color.withOpacity(.15),
-                                 ),
-
-                                 boxShadow: [
-                                   BoxShadow(
-                                     color: color.withOpacity(.15),
-                                     blurRadius: 18,
-                                     offset: const Offset(0, 6),
-                                   )
-                                 ],
-                               ),
-                               child: Icon(
-                                 getIcon(n.notifyType.toString()),
-                                 color: Color(0xFF0D47A1),
-                                 size: 30,
-                               ),
-                             ),
-
-                             const SizedBox(width: 14),
-
-                             Expanded(
-                               child: Column(
-                                 crossAxisAlignment:
-                                 CrossAxisAlignment.start,
-                                 children: [
-
-                                   Row(
-                                     children: [
-
-                                       Container(
-                                         padding:
-                                         const EdgeInsets.symmetric(
-                                           horizontal: 12,
-                                           vertical: 6,
-                                         ),
-                                         decoration: BoxDecoration(
-                                           color:
-                                           color.withOpacity(.08),
-                                           borderRadius:
-                                           BorderRadius.circular(
-                                               100),
-                                         ),
-                                         child: Text(
-                                           n.notifyType
-                                               .toString()
-                                               .toUpperCase(),
-                                           style: TextStyle(
-                                             color: color,
-                                             fontWeight:
-                                             FontWeight.w800,
-                                             fontSize: 10,
-                                             letterSpacing: 1,
-                                           ),
-                                         ),
-                                       ),
-
-                                       const Spacer(),
-
-                                       if (n.isRead ==false)
-                                         Container(
-                                           padding:
-                                           const EdgeInsets.symmetric(
-                                             horizontal: 10,
-                                             vertical: 5,
-                                           ),
-                                           decoration:
-                                           BoxDecoration(
-                                             color: Colors.red
-                                                 .withOpacity(.08),
-                                             borderRadius:
-                                             BorderRadius
-                                                 .circular(50),
-                                           ),
-                                           child: Row(
-                                             mainAxisSize:
-                                             MainAxisSize.min,
-                                             children: [
-
-                                               Container(
-                                                 width: 8,
-                                                 height: 8,
-                                                 decoration:
-                                                 const BoxDecoration(
-                                                   color: Colors.red,
-                                                   shape:
-                                                   BoxShape.circle,
-                                                 ),
-                                               ),
-
-                                               const SizedBox(
-                                                   width: 6),
-
-                                               const Text(
-                                                 "NEW",
-                                                 style: TextStyle(
-                                                   color: Colors.red,
-                                                   fontSize: 10,
-                                                   fontWeight:
-                                                   FontWeight
-                                                       .bold,
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
+                                   gradient: LinearGradient(
+                                     begin: Alignment.topLeft,
+                                     end: Alignment.bottomRight,
+                                     colors: [
+                                       color.withOpacity(.18),
+                                       color.withOpacity(.08),
                                      ],
                                    ),
 
-                                   const SizedBox(height: 10),
-
-                                   Text(
-                                     n.content.toString(),
-                                     maxLines: 3,
-                                     overflow:
-                                     TextOverflow.ellipsis,
-                                     style: const TextStyle(
-                                       fontSize: 15.5,
-                                       fontWeight:
-                                       FontWeight.w700,
-                                       height: 1.5,
-                                     ),
-                                   ),
-                                 ],
-                               ),
-                             ),
-                           ],
-                         ),
-
-                         const SizedBox(height: 18),
-
-                         /// DIVIDER
-                         Container(
-                           height: 1,
-                           decoration: BoxDecoration(
-                             gradient: LinearGradient(
-                               colors: [
-                                 Colors.transparent,
-                                 Colors.grey.shade300,
-                                 Colors.transparent,
-                               ],
-                             ),
-                           ),
-                         ),
-
-                         const SizedBox(height: 14),
-
-                         /// FOOTER
-                         Row(
-                           children: [
-
-                             Container(
-                               padding:
-                               const EdgeInsets.all(8),
-                               decoration: BoxDecoration(
-                                 color: Colors.grey.shade100,
-                                 shape: BoxShape.circle,
-                               ),
-                               child: Icon(
-                                 Icons.person_outline,
-                                 size: 16,
-                                 color: const Color(0xFF0D47A1),
-                               ),
-                             ),
-
-                             const SizedBox(width: 8),
-
-                             Expanded(
-                               child: Column(
-                                 crossAxisAlignment:
-                                 CrossAxisAlignment.start,
-                                 children: [
-
-                                   Text(
-                                     n.sender?.fullName!.toLowerCase() ??
-                                         "",
-                                     maxLines: 1,
-                                     overflow:
-                                     TextOverflow.ellipsis,
-                                     style: const TextStyle(
-                                       fontSize: 13,
-                                       fontWeight:
-                                       FontWeight.w700,
-                                     ),
+                                   border: Border.all(
+                                     color: color.withOpacity(.15),
                                    ),
 
-                                   const SizedBox(height: 2),
-
-                                   Text(
-                                     "From: ${n.sender?.role ?? ''}",
-                                     style: TextStyle(
-                                       color:
-                                       Colors.grey.shade600,
-                                       fontSize: 11,
-                                     ),
-                                   ),
-                                 ],
+                                   boxShadow: [
+                                     BoxShadow(
+                                       color: color.withOpacity(.15),
+                                       blurRadius: 18,
+                                       offset: const Offset(0, 6),
+                                     )
+                                   ],
+                                 ),
+                                 child: Icon(
+                                   getIcon(n.notifyType.toString()),
+                                   color: Color(0xFF0D47A1),
+                                   size: 30,
+                                 ),
                                ),
-                             ),
 
-                             Column(
-                               crossAxisAlignment:
-                               CrossAxisAlignment.end,
-                               children: [
+                               const SizedBox(width: 14),
 
-                                 Row(
-                                   mainAxisSize:
-                                   MainAxisSize.min,
+                               Expanded(
+                                 child: Column(
+                                   crossAxisAlignment:
+                                   CrossAxisAlignment.start,
                                    children: [
 
-                                     Icon(
-                                       Icons.access_time,
-                                       size: 14,
-                                       color:
-                                       Colors.grey.shade500,
+                                     Row(
+                                       children: [
+
+                                         Container(
+                                           padding:
+                                           const EdgeInsets.symmetric(
+                                             horizontal: 12,
+                                             vertical: 6,
+                                           ),
+                                           decoration: BoxDecoration(
+                                             color:
+                                             color.withOpacity(.08),
+                                             borderRadius:
+                                             BorderRadius.circular(
+                                                 100),
+                                           ),
+                                           child: Text(
+                                             n.notifyType
+                                                 .toString()
+                                                 .toUpperCase(),
+                                             style: TextStyle(
+                                               color: color,
+                                               fontWeight:
+                                               FontWeight.w800,
+                                               fontSize: 10,
+                                               letterSpacing: 1,
+                                             ),
+                                           ),
+                                         ),
+
+                                         const Spacer(),
+
+                                         if (n.isRead ==false)
+                                           Container(
+                                             padding:
+                                             const EdgeInsets.symmetric(
+                                               horizontal: 10,
+                                               vertical: 5,
+                                             ),
+                                             decoration:
+                                             BoxDecoration(
+                                               color: Colors.red
+                                                   .withOpacity(.08),
+                                               borderRadius:
+                                               BorderRadius
+                                                   .circular(50),
+                                             ),
+                                             child: Row(
+                                               mainAxisSize:
+                                               MainAxisSize.min,
+                                               children: [
+
+                                                 Container(
+                                                   width: 8,
+                                                   height: 8,
+                                                   decoration:
+                                                   const BoxDecoration(
+                                                     color: Colors.red,
+                                                     shape:
+                                                     BoxShape.circle,
+                                                   ),
+                                                 ),
+
+                                                 const SizedBox(
+                                                     width: 6),
+
+                                                 const Text(
+                                                   "NEW",
+                                                   style: TextStyle(
+                                                     color: Colors.red,
+                                                     fontSize: 10,
+                                                     fontWeight:
+                                                     FontWeight
+                                                         .bold,
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+                                           ),
+                                       ],
                                      ),
 
-                                     const SizedBox(width: 4),
+                                     const SizedBox(height: 10),
 
                                      Text(
-                                       dateFormater(
-                                         n.createdAt.toString(),
-                                       ),
-                                       style: TextStyle(
-                                         color: Colors
-                                             .grey.shade600,
-                                         fontSize: 11,
+                                       n.content.toString(),
+                                       maxLines: 3,
+                                       overflow:
+                                       TextOverflow.ellipsis,
+                                       style: const TextStyle(
+                                         fontSize: 15.5,
                                          fontWeight:
-                                         FontWeight.w500,
+                                         FontWeight.w700,
+                                         height: 1.5,
                                        ),
                                      ),
                                    ],
                                  ),
+                               ),
+                             ],
+                           ),
 
-                                 const SizedBox(height: 8),
+                           const SizedBox(height: 18),
 
-                                 Container(
-                                   height: 34,
-                                   width: 34,
-                                   decoration: BoxDecoration(
-                                     color:
-                                     color.withOpacity(.08),
-                                     shape: BoxShape.circle,
-                                   ),
-                                   child:IconButton(onPressed: (){
-                                     context.read<NotificationBloc>().add(UpdateNotificationByUserEvent(n.notifyId.toString()));
-                                     if(n.notifyType =='CAPA'){
-                                       assetCapa(asset: n.capa!.hazards!.asset);
-                                     }
-                                     else if(n.notifyType =='COMPLIANCE'){
-                                       Get.to(()=>NotificationComplianceView(),arguments: n.compliance);
-                                     }
-                                   }, icon:  Icon(
-                                     Icons.arrow_forward,
-                                     color: Color(0xFF0D47A1),
-                                     size: 18.sp,
-                                   )),
-                                 ),
-                               ],
+                           /// DIVIDER
+                           Container(
+                             height: 1,
+                             decoration: BoxDecoration(
+                               gradient: LinearGradient(
+                                 colors: [
+                                   Colors.transparent,
+                                   Colors.grey.shade300,
+                                   Colors.transparent,
+                                 ],
+                               ),
                              ),
-                           ],
-                         ),
-                       ],
+                           ),
+
+                           const SizedBox(height: 14),
+
+                           /// FOOTER
+                           Row(
+                             children: [
+
+                               Container(
+                                 padding:
+                                 const EdgeInsets.all(8),
+                                 decoration: BoxDecoration(
+                                   color: Colors.grey.shade100,
+                                   shape: BoxShape.circle,
+                                 ),
+                                 child: Icon(
+                                   Icons.person_outline,
+                                   size: 16,
+                                   color: const Color(0xFF0D47A1),
+                                 ),
+                               ),
+
+                               const SizedBox(width: 8),
+
+                               Expanded(
+                                 child: Column(
+                                   crossAxisAlignment:
+                                   CrossAxisAlignment.start,
+                                   children: [
+
+                                     Text(
+                                       n.sender?.fullName!.toLowerCase() ??
+                                           "",
+                                       maxLines: 1,
+                                       overflow:
+                                       TextOverflow.ellipsis,
+                                       style: const TextStyle(
+                                         fontSize: 13,
+                                         fontWeight:
+                                         FontWeight.w700,
+                                       ),
+                                     ),
+
+                                     const SizedBox(height: 2),
+
+                                     Text(
+                                       "From: ${n.sender?.role ?? ''}",
+                                       style: TextStyle(
+                                         color:
+                                         Colors.grey.shade600,
+                                         fontSize: 11,
+                                       ),
+                                     ),
+                                   ],
+                                 ),
+                               ),
+
+                               Column(
+                                 crossAxisAlignment:
+                                 CrossAxisAlignment.end,
+                                 children: [
+
+                                   Row(
+                                     mainAxisSize:
+                                     MainAxisSize.min,
+                                     children: [
+
+                                       Icon(
+                                         Icons.access_time,
+                                         size: 14,
+                                         color:
+                                         Colors.grey.shade500,
+                                       ),
+
+                                       const SizedBox(width: 4),
+
+                                       Text(
+                                         dateFormater(
+                                           n.createdAt.toString(),
+                                         ),
+                                         style: TextStyle(
+                                           color: Colors
+                                               .grey.shade600,
+                                           fontSize: 11,
+                                           fontWeight:
+                                           FontWeight.w500,
+                                         ),
+                                       ),
+                                     ],
+                                   ),
+
+                                   const SizedBox(height: 8),
+
+                                   Container(
+                                     height: 34,
+                                     width: 34,
+                                     decoration: BoxDecoration(
+                                       color:
+                                       color.withOpacity(.08),
+                                       shape: BoxShape.circle,
+                                     ),
+                                     child:IconButton(onPressed: (){
+                                       context.read<NotificationBloc>().add(UpdateNotificationByUserEvent(n.notifyId.toString()));
+                                       if(n.notifyType =='CAPA'){
+                                         assetCapa(asset: n.capa!.hazards!.asset);
+                                       }
+                                       else if(n.notifyType =='COMPLIANCE'){
+                                         Get.to(()=>NotificationComplianceView(),arguments: n.compliance);
+                                       }
+                                     }, icon:  Icon(
+                                       Icons.arrow_forward,
+                                       color: Color(0xFF0D47A1),
+                                       size: 18.sp,
+                                     )),
+                                   ),
+                                 ],
+                               ),
+                             ],
+                           ),
+                         ],
+                       ),
                      ),
-                   ),
-                 );
-               },
+                   );
+                 },
+               ),
              );
            }
            return Center(child: Text('NO notification available'),);

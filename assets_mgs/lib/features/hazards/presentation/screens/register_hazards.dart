@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -345,6 +346,7 @@ class _RegisterHazardsState extends State<RegisterHazards> {
           ),
         ),
       ),
+      drawer: DrawerWidget(),
     );
   }
 

@@ -330,7 +330,7 @@ class LoginScreen extends StatelessWidget {
                               context.read<AuthBloc>().add(
                                 LoginUserEvent(
                                   UserEntity(
-                                    email: emailController.text,
+                                    email: emailController.text.trim(),
                                   ),
                                 ),
                               );

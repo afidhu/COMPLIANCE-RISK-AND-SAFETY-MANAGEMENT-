@@ -2,30 +2,51 @@ import type { Request,Response } from "express";
 import { prisma } from "../../index.ts";
 
 
-
-
 // register a new user
-export const registerUser = async(req:Request, resp:Response)=>{
+export const registerUser = async (req: Request, resp: Response) => {
     try {
-        const { fullName, email, role, phone,playerId,password } = req.body;
-        const datBody ={
-          fullName:fullName,
-          email:email,
-          role:role,
-          phone:phone,
-            playerId,
-          password:password,
+        const { fullName, email, role, phone, playerId, password } = req.body;
+        
+        const datBody = {
+            fullName,
+            email,
+            role,
+            phone,
+            playerId: playerId || null, // Stores as null in DB if missing
+            password,
+        };
+
+        let user;
+
+        // If the user has a playerId (Mobile App Users)
+        if (playerId) {
+            user = await prisma.user.upsert({
+                where: {
+                    email: email,
+                },
+                update: datBody, // Updates the existing user with this device ID
+                create: datBody, // Creates a new user if device ID is new
+            });
+        } else {
+            // If playerId is missing (Web Users)
+            user = await prisma.user.create({
+                data: datBody,
+            });
         }
-       const newUser = await prisma.user.create({
-        data: datBody,
-       });
-       console.log(newUser)
-       return resp.status(201).json(newUser);
-    } catch (error) {
+
+        console.log(user);
+        return resp.status(201).json(user);
+    } catch (error: any) {
         console.error("Error registering user:", error);
+
+        // Optional: Catch accidental duplicate email crashes
+        if (error.code === 'P2002') {
+            return resp.status(400).json({ message: "User registration conflict." });
+        }
+
         return resp.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 // login a user
 export const loginUser = async(req:Request, resp:Response)=>{

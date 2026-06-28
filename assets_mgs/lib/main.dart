@@ -1,12 +1,9 @@
-import 'package:assets_mgs/config/themes/app_themes.dart';
+
 import 'package:assets_mgs/features/assets/domain/use_cases/get_assets_case.dart';
-import 'package:assets_mgs/features/auths/presentation/screens/login.dart';
 import 'package:assets_mgs/features/mitigations/data/repo_impl/mitigation_repo_impl.dart';
-import 'package:assets_mgs/features/notifications/presentation/screens/notification_demo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'core/screens/splash_screen.dart';
 import 'features/CAPA/data/data_sources/remote_capa_data_remote.dart';
 import 'features/CAPA/data/repo_impl/capa_repo_impl.dart';
@@ -31,7 +28,6 @@ import 'features/auths/domain/use_cases/login_case.dart';
 import 'features/auths/domain/use_cases/register_case.dart';
 import 'features/auths/presentation/bloc/auth_bloc.dart';
 import 'features/auths/presentation/cubit/auth_cubit.dart';
-import 'features/auths/presentation/screens/register_screen.dart';
 import 'features/compliances/data/data_sources/compliance_remote_data_source.dart';
 import 'features/compliances/data/repo_impl/compliance_repo_impl.dart';
 import 'features/compliances/domain/repository/compliance_repo.dart';
@@ -56,7 +52,7 @@ import 'features/notifications/domain/repository/notification_repo.dart';
 import 'features/notifications/domain/use_cases/get_user_notification_case.dart';
 import 'features/notifications/domain/use_cases/update_notification_as_read_case.dart';
 import 'features/notifications/presentation/bloc/notification_bloc.dart';
-import 'features/notifications/presentation/getx/notification_controller.dart';
+
 import 'features/notifications/presentation/getx/notification_initialization.dart';
 import 'features/risks/data/data_sources/risk_remote_data.dart';
 import 'features/risks/data/repo_impl/risk_repo_impl.dart';
@@ -65,6 +61,11 @@ import 'features/risks/domain/use_cases/add_risk_case.dart';
 import 'features/risks/domain/use_cases/get_all_risk_case.dart';
 import 'features/risks/domain/use_cases/get_risk_case.dart';
 import 'features/risks/presentation/bloc/risks_bloc.dart';
+import 'features/searchings/data/data_sources/search_remote_data.dart';
+import 'features/searchings/data/repo_impl/search_repo_impl.dart';
+import 'features/searchings/domain/repository/search_repo.dart';
+import 'features/searchings/domain/use_cases/get_search_case.dart';
+import 'features/searchings/presentation/cubit/search_cubit.dart';
 
 void main() {
 
@@ -74,7 +75,7 @@ void main() {
   Get.put(NotificationInitializationController());
 
   //Called function that work when user click notification message
-  Get.put(NotificationController());
+  // Get.put(NotificationController());
 
   runApp(
 
@@ -107,6 +108,10 @@ void main() {
 
         RepositoryProvider<NotificationRepo>(
           create: (_) => NotificationRepoImpl(NotificationRemoteData()),
+        ),
+
+        RepositoryProvider<SearchRepo>(
+          create: (_) => SearchRepoImpl(SearchRemoteData()),
         ),
       ],
 
@@ -158,6 +163,10 @@ void main() {
 
           BlocProvider<NotificationBloc>(
             create: (context) => NotificationBloc(GetUserNotificationCase(context.read<NotificationRepo>()),UpdateNotificationAsReadCase(context.read<NotificationRepo>())),
+          ),
+
+          BlocProvider<SearchCubit>(
+            create: (context) => SearchCubit(GetSearchCase(context.read<SearchRepo>())),
           ),
         ],
 

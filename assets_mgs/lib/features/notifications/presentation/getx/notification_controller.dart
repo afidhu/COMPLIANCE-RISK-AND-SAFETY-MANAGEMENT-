@@ -1,4 +1,5 @@
 
+import 'package:assets_mgs/features/auths/presentation/screens/login.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -43,7 +44,11 @@ class NotificationController  extends GetxController {
             // Trigger your navigation logic here (e.g., Navigator, GoRouter)
             print('Navigate to $notificationType with ID: $itemReferenceId');
 
-            Get.offAll(()=>NotificationsScreen());
+            // 1. Wipe out everything and open the Login screen first
+              Get.offAll(() => LoginScreen());
+              // 2. Instantly slide the Notifications screen over the login page
+            Get.to(() => NotificationsScreen());
+
           }
         }
         else if(notificationType == 'COMPLIANCE') {
@@ -54,7 +59,10 @@ class NotificationController  extends GetxController {
               // Trigger your navigation logic here (e.g., Navigator, GoRouter)
               print('Navigate to $notificationType with ID: $itemReferenceId');
 
-              Get.offAll(()=>NotificationsScreen());
+              // 1. Wipe out everything and open the Login screen first
+              Get.offAll(() => LoginScreen());
+              // 2. Instantly slide the Notifications screen over the login page
+              Get.to(() => NotificationsScreen());
             }
           }
       }

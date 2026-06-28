@@ -15,6 +15,7 @@ import compliance_routers from './routers/compliance_routers.ts';
 import capa_routers from './routers/capa_routers.ts';
 import assets_routers from './routers/assets_routers.ts';
 import notification_router from './routers/notification_router.ts'
+import searchs_routers from './routers/searchs_routers.ts';
 import fetch from "node-fetch";
 import { complianceReminder } from "./controllers/schedulers/Compliance_reminders.ts";
 
@@ -54,6 +55,7 @@ app.use('/compliance', compliance_routers);
 app.use('/capa', capa_routers);
 app.use('/assets', assets_routers);
 app.use('/notification', notification_router);
+app.use('/search', searchs_routers);
 
 
 //Here call Comppliance CRON

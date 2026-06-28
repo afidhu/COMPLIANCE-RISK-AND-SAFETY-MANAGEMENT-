@@ -1,5 +1,9 @@
-import 'package:assets_mgs/features/searchings/presentation/screens/searched_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../domain/entities/search_entity.dart';
+import '../cubit/search_cubit.dart';
+import 'searched_details.dart';
 
 class AllSearching extends StatefulWidget {
   const AllSearching({super.key});
@@ -9,92 +13,63 @@ class AllSearching extends StatefulWidget {
 }
 
 class _AllSearchingState extends State<AllSearching> {
-
   final TextEditingController searchController = TextEditingController();
 
-  final List<Map<String, String>> allData = [
-    {
-      'title': 'Lift A',
-      'type': 'Asset',
-    },
-    {
-      'title': 'Boiler Inspection',
-      'type': 'Inspection',
-    },
-    {
-      'title': 'Fire Incident',
-      'type': 'Incident',
-    },
-    {
-      'title': 'Electrical Shock Risk',
-      'type': 'Risk',
-    },
-    {
-      'title': 'Expired Fire Certificate',
-      'type': 'Certification',
-    },
-  ];
-
-  List<Map<String, String>> filteredData = [];
+  List<SearchEntity> allResults = [];
+  List<SearchEntity> filteredResults = [];
 
   @override
   void initState() {
     super.initState();
-    filteredData = allData;
+    context.read<SearchCubit>().getAllSearch();
   }
 
-  void searchItems(String query) {
-    final results = allData.where((item) {
-      final title = item['title']!.toLowerCase();
-      final type = item['type']!.toLowerCase();
+  void filterSearch(String value) {
+    if (value.trim().isEmpty) {
+      setState(() {
+        filteredResults = List.from(allResults);
+      });
+      return;
+    }
 
-      return title.contains(query.toLowerCase()) ||
-          type.contains(query.toLowerCase());
-    }).toList();
+    final query = value.toLowerCase();
 
     setState(() {
-      filteredData = results;
+      filteredResults = allResults.where((e) {
+        return (e.title ?? "").toLowerCase().contains(query) ||
+            (e.subtitle ?? "").toLowerCase().contains(query) ||
+            (e.type ?? "").toLowerCase().contains(query) ||
+            (e.status ?? "").toLowerCase().contains(query);
+      }).toList();
     });
   }
 
-  Color getTypeColor(String type) {
+  Color getColor(String type) {
     switch (type) {
-      case 'Asset':
+      case "ASSET":
         return Colors.blue;
 
-      case 'Inspection':
+      case "RISK":
         return Colors.orange;
 
-      case 'Incident':
+      case "INCIDENT":
         return Colors.red;
-
-      case 'Risk':
-        return Colors.purple;
-
-      case 'Certification':
-        return Colors.green;
 
       default:
         return Colors.grey;
     }
   }
 
-  IconData getTypeIcon(String type) {
+  IconData getIcon(String type) {
     switch (type) {
-      case 'Asset':
+      case "ASSET":
         return Icons.apartment;
 
-      case 'Inspection':
-        return Icons.fact_check;
-
-      case 'Incident':
-        return Icons.warning;
-
-      case 'Risk':
+      case "RISK":
         return Icons.security;
 
-      case 'Certification':
-        return Icons.verified;
+      case "INCIDENT":
+        return Icons.warning_amber_rounded;
 
       default:
         return Icons.info;
@@ -105,83 +80,242 @@ class _AllSearchingState extends State<AllSearching> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF4F7FC),
+
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0000BA),
-        leading: SizedBox.shrink(),
-        elevation: 9,
-        // backgroundColor: Colors.blue.shade900,
+        title: const Text("Global Search"),
         centerTitle: true,
-        surfaceTintColor: Colors.white,
+        backgroundColor: const Color(0xff0000BA),
         foregroundColor: Colors.white,
-        title: const Text('Global Search'),
       ),
 
-      body: Column(
-        children: [
+      body: BlocConsumer<SearchCubit, SearchState>(
+        listener: (context, state) {
+          if (state is SearchLoaded) {
+            allResults = state.search;
+            filteredResults = List.from(state.search);
+          }
+        },
 
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: TextField(
-              controller: searchController,
-              onChanged: searchItems,
-              decoration: InputDecoration(
-                hintText: 'Search assets, risks, incidents...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ),
+        builder: (context, state) {
+          if (state is SearchLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-          Expanded(
-            child: filteredData.isEmpty
-                ? const Center(
-              child: Text('No Results Found'),
-            )
-                : ListView.builder(
-              itemCount: filteredData.length,
-              itemBuilder: (context, index) {
+          if (state is SearchError) {
+            return Center(
+              child: Text(state.message),
+            );
+          }
 
-                final item = filteredData[index];
-
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 8,
-                  ),
-
-                  child: ListTile(
-
-                    leading: CircleAvatar(
-                      backgroundColor:
-                      getTypeColor(item['type']!),
-
-                      child: Icon(
-                        getTypeIcon(item['type']!),
-                        color: Colors.white,
+          if (state is SearchLoaded) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextField(
+                    controller: searchController,
+                    onChanged: filterSearch,
+                    decoration: InputDecoration(
+                      hintText:
+                      "Search Asset, Risk, Incident...",
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: searchController.text.isEmpty
+                          ? null
+                          : IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          searchController.clear();
+                          filterSearch("");
+                        },
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius:
+                        BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
                       ),
                     ),
+                  ),
+                ),
 
-                    title: Text(item['title']!),
+                Expanded(
+                  child: filteredResults.isEmpty
+                      ? const Center(
+                    child: Column(
+                      mainAxisAlignment:
+                      MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search_off,
+                          size: 80,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          "No results found",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight:
+                            FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                      : ListView.builder(
+                    padding: const EdgeInsets.only(
+                      bottom: 20,
+                    ),
+                    itemCount:
+                    filteredResults.length,
+                    itemBuilder:
+                        (context, index) {
+                      final item =
+                      filteredResults[index];
 
-                    subtitle: Text(item['type']!),
+                      return Container(
+                        margin:
+                        const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                          BorderRadius.circular(
+                              18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey
+                                  .withOpacity(.12),
+                              blurRadius: 10,
+                              offset:
+                              const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          contentPadding:
+                          const EdgeInsets.all(
+                              15),
 
-                    trailing: IconButton(onPressed: (){
-                      searchedDetails(
-                        title: item['title']!,
-                        type: item['type']!,
+                          leading: CircleAvatar(
+                            radius: 28,
+                            backgroundColor:
+                            getColor(
+                                item.type ??
+                                    "")
+                                .withOpacity(.15),
+                            child: Icon(
+                              getIcon(
+                                  item.type ?? ""),
+                              color: getColor(
+                                  item.type ?? ""),
+                            ),
+                          ),
+
+                          title: Text(
+                            item.title ?? "",
+                            style:
+                            const TextStyle(
+                              fontWeight:
+                              FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+
+                          subtitle: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment
+                                .start,
+                            children: [
+                              const SizedBox(
+                                  height: 4),
+
+                              Text(
+                                  item.subtitle ??
+                                      ""),
+
+                              const SizedBox(
+                                  height: 6),
+
+                              Row(
+                                children: [
+                                  Container(
+                                    padding:
+                                    const EdgeInsets.symmetric(
+                                        horizontal:
+                                        10,
+                                        vertical:
+                                        4),
+                                    decoration:
+                                    BoxDecoration(
+                                      color: getColor(item
+                                          .type ??
+                                          "")
+                                          .withOpacity(
+                                          .15),
+                                      borderRadius:
+                                      BorderRadius
+                                          .circular(
+                                          30),
+                                    ),
+                                    child: Text(
+                                      item.type ??
+                                          "",
+                                      style:
+                                      TextStyle(
+                                        color:
+                                        getColor(item.type ??
+                                            ""),
+                                        fontWeight:
+                                        FontWeight
+                                            .bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                      width: 8),
+                                  Text(
+                                    item.status ??
+                                        "",
+                                    style:
+                                    const TextStyle(
+                                      color:
+                                      Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+
+                          trailing:
+                          const Icon(
+                            Icons
+                                .arrow_forward_ios_rounded,
+                            size: 18,
+                          ),
+
+                          onTap: () {
+                            // Call the static helper method instantly
+                            SearchedDetails.open(item);
+
+                          },
+                        ),
                       );
                     },
-                        icon:  Icon(Icons.arrow_forward_ios),
-                    )
-
                   ),
-                );
-              },
-            ),
-          ),
-        ],
+                )
+              ],
+            );
+          }
+
+          return const SizedBox();
+        },
       ),
     );
   }

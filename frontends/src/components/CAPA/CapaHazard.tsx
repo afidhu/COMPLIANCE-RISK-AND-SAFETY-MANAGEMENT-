@@ -12,7 +12,7 @@ export default function CapaHazard({hazardid,hadazardTitle}:any) {
 
       const fetchCapa = async () => {
         try {
-            const response = await axios.get(`${BaseUrl}capa/get-by-hazardid/${hazardid}`)
+            const response = await axios.get(`${BaseUrl}/capa/get-by-hazardid/${hazardid}`)
 console.log('CAPA',response.data)
             setCapa(response.data);
             

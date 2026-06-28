@@ -66,7 +66,7 @@ console.log("Selected User ID:", selectedUser?.userId);
       console.log('payload',payload)
 
       const response = await axios.post(
-        `${BaseUrl}capa/add`,
+        `${BaseUrl}/capa/add`,
         payload
       );
 

@@ -339,13 +339,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthBloc>().add(RegisterUserEvent(
                             UserEntity(
-                                email: emailController.text,
-                                phone: phoneController.text,
+                                email: emailController.text.trim(),
+                                phone: phoneController.text.trim(),
                                 role: role,
-                                fullName: fullNameController.text,
+                                fullName: fullNameController.text.trim(),
                                 status: "INACTIVE",
-                                password: passwordController.text,
-                                playerId: playerId
+                                password: passwordController.text.trim(),
+                                playerId: playerId.trim()
                             )
                         ));
                         // RegisterUserEvent
