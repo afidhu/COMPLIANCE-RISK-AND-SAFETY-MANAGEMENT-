@@ -21,6 +21,7 @@ export default function ViewAssetCompliance() {
     lastDueDate: "",
     dueDate: "",
   });
+  const [editingCompliance, setEditingCompliance] = useState<any>(null);
 
   // Destructure the name from the state object safely
   const { assetName } = state || {};
@@ -108,12 +109,22 @@ export default function ViewAssetCompliance() {
   ) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (editingCompliance) {
+      setEditingCompliance((prev: any) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
+  const openEditModal = (item: any) => {
+    setEditingCompliance({ ...item });
+  };
 
   const filteredData = useMemo(() => {
     return assetsCompliance.filter(
@@ -154,6 +165,51 @@ export default function ViewAssetCompliance() {
 
       default:
         return "bg-secondary";
+    }
+  };
+
+
+
+
+  // Update Compliance
+
+  const updateComplianceHandle = async (id: string, e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!editingCompliance) {
+      alert("No compliance selected for update.");
+      return;
+    }
+
+    setIsClicked(true);
+
+    try {
+      const response = await axios.put(
+        `${BaseUrl}/compliance/update/${id}`,
+        {
+          complianceName: editingCompliance.complianceName,
+          frequency: editingCompliance.frequency,
+          lastDueDate: editingCompliance.lastDueDate,
+          dueDate: editingCompliance.dueDate,
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Compliance updated successfully.");
+        await fetchAssetsCompliance();
+        setEditingCompliance(null);
+        document
+          .querySelector(`#${id} .btn-close`)
+          ?.click();
+      }
+    } catch (error: any) {
+      console.log(error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to update compliance."
+      );
+    } finally {
+      setIsClicked(false);
     }
   };
 
@@ -259,7 +315,7 @@ export default function ViewAssetCompliance() {
               Compliance Register
             </h4>
 
-            <button type={'button'} style={{ float: 'right' }} className="btn btn-primary mb0" data-bs-toggle="modal" data-bs-target="#Compliance">
+            <button type={'button'} style={{ float: 'right' }} className="btn btn-primary mb0" data-bs-toggle="modal" data-bs-target="#Compliance" onClick={() => setEditingCompliance(null)}>
               <i className="fa fa-plus" ></i> Add Compliance
             </button>
 
@@ -295,8 +351,8 @@ export default function ViewAssetCompliance() {
                   {
                     filteredData.length > 0 ?
                       filteredData.map((item, index) => {
-                        const formaterlastDueDate =dateFormater(item.lastDueDate)
-                        const formaterdueDate =dateFormater(item.dueDate)
+                        const formaterlastDueDate = dateFormater(item.lastDueDate)
+                        const formaterdueDate = dateFormater(item.dueDate)
                         return <>
                           <tr>
                             <td> {item.complianceName} </td>
@@ -313,15 +369,208 @@ export default function ViewAssetCompliance() {
                             </td>
 
                             <td>
-                              <button className="btn btn-link btn-primary">
+
+                              <button
+                                type={'button'}
+                                className="btn btn-link btn-primary"
+                                onClick={() => openEditModal(item)}
+                                data-bs-toggle="modal"
+                                data-bs-target={`#${item.complianceId}`}
+                              >
                                 <i className="fa fa-eye"></i>
                               </button>
 
-                              <button className="btn btn-link btn-warning">
+                              <button
+                                type="button"
+                                className="btn btn-link btn-warning"
+                                onClick={() => openEditModal(item)}
+                                data-bs-toggle="modal"
+                                data-bs-target={`#${item.complianceId}`}
+                              >
                                 <i className="fa fa-pen"></i>
                               </button>
                             </td>
                           </tr>
+
+
+
+                          {/* <!-- Edit asset Cmpliance modal --> */}
+                          <div className="modal fade" id={`${item.complianceId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            {/* Combined sizing (modal-lg or modal-xl) and scrollable utility directly here */}
+                            <div className="modal-dialog modal-xl modal-dialog-scrollable">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <h1 className="modal-title fs-5 text-primary ms-5" id="staticBackdropLabel"><b> Add  Compliance Information for <u>{assetName}</u> </b></h1>
+                                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div className="modal-body w-100">
+
+                                  <div className="card shadow-sm border-0">
+
+                                    <div className="card-body">
+
+                                      <form onSubmit={(e) => updateComplianceHandle(item.complianceId, e)}>
+
+                                        {/*Assset name */}
+                                        <div className="mb-4">
+                                          <label className="form-label fw-semibold">
+                                            Asset nem
+                                          </label>
+
+                                          <div className="input-group">
+                                            <span className="input-group-text bg-light">
+                                              <i className="fas fa-font-awesome text-primary"></i>
+                                            </span>
+
+                                            <input
+                                              type="text"
+                                              className="form-control"
+                                              value={assetName}
+                                              name="assetName"
+                                              readOnly
+                                              onChange={handleInputChange}
+                                            />
+                                          </div>
+                                        </div>
+                                        {/* Compliance Name */}
+                                        <div className="mb-4">
+                                          <label className="form-label fw-semibold">
+                                            Compliance Name
+                                          </label>
+
+                                          <div className="input-group">
+                                            <span className="input-group-text bg-light">
+                                              <i className="fas fa-clipboard-check text-primary"></i>
+                                            </span>
+
+                                            <input
+                                              type="text"
+                                              className="form-control"
+                                              placeholder="Annual Lift Inspection"
+                                              onChange={handleInputChange}
+                                              name={"complianceName"}
+                                              value={editingCompliance?.complianceName ?? ""}
+                                            />
+                                          </div>
+                                        </div>
+
+                                        {/* Frequency */}
+                                        <div className="mb-4">
+                                          <label className="form-label fw-semibold">
+                                            Frequency
+                                          </label>
+
+                                          <div className="input-group">
+                                            <span className="input-group-text bg-light">
+                                              <i className="fas fa-repeat text-primary"></i>
+                                            </span>
+
+                                            <select className="form-select"
+                                              onChange={handleInputChange}
+                                              name={"frequency"}
+                                              required
+                                              value={editingCompliance?.frequency ?? ""}>
+                                              <option>Select Frequency</option>
+                                              <option>Monthly</option>
+                                              <option>Quarterly</option>
+                                              <option>Bi-Annual</option>
+                                              <option>Annual</option>
+                                            </select>
+                                          </div>
+                                        </div>
+
+                                        {/* Last Due Date */}
+                                        <div className="mb-4">
+                                          <label className="form-label fw-semibold">
+                                            Last Inspection Date <br />
+                                            <small>{dateFormater(item.lastDueDate)}</small>
+                                          </label>
+
+                                          <div className="input-group">
+                                            <span className="input-group-text bg-light">
+                                              <i className="fas fa-calendar-check text-primary"></i>
+
+                                            </span>
+
+                                            <input
+                                              type="date"
+                                              className="form-control"
+                                              style={{ colorScheme: 'light' }}
+                                              onChange={handleInputChange}
+                                              name={"lastDueDate"}
+                                              value={editingCompliance?.lastDueDate?.split('T')[0] ?? ""}
+                                            />
+                                          </div>
+                                        </div>
+
+                                        {/* Due Date */}
+                                        <div className="mb-4">
+                                          <label className="form-label fw-semibold">
+                                            Next Due Date <br />
+                                            <small>{dateFormater(item.dueDate)}</small>
+                                          </label>
+
+                                          <div className="input-group">
+                                            <span className="input-group-text bg-light">
+                                              <i className="fas fa-calendar-days text-primary"></i>
+                                            </span>
+
+                                            <input
+                                              type="date"
+                                              className="form-control"
+                                              style={{ colorScheme: 'light' }}
+                                              onChange={handleInputChange}
+                                              name={"dueDate"}
+                                              value={editingCompliance?.dueDate?.split('T')[0] ?? ""}
+                                            />
+
+                                          </div>
+                                        </div>
+
+                                        {/* Status */}
+                                        <div className="mb-4">
+                                          <label className="form-label fw-semibold">
+                                            Compliance Status
+                                          </label>
+
+                                          <div className="input-group">
+                                            <span className="input-group-text bg-light">
+                                              <i className="fas fa-circle-check text-primary"></i>
+                                            </span>
+
+                                            <select className="form-select">
+                                              <option>Select Status</option>
+                                              <option>Compliant</option>
+                                              <option>Due Soon</option>
+                                              <option>Overdue</option>
+                                            </select>
+                                          </div>
+                                        </div>
+
+                                        <div className="d-flex justify-content-end gap-3 mt-5">
+                                          <button
+                                            // onClick={updateComplianceHandle(item.complianceId)}
+                                            type="submit"
+                                            className="btn text-white"
+                                            style={{ background: "#1e66ff" }}
+                                          >
+                                            <i className="fas fa-save me-2"></i>
+                                            Update Compliance
+                                          </button>
+
+                                        </div>
+
+                                      </form>
+
+                                    </div>
+                                  </div>
+
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         </>
                       })
 
@@ -343,7 +592,7 @@ export default function ViewAssetCompliance() {
 
 
 
-      {/* <!-- Scrollable modal --> */}
+      {/* <!-- ADD compliance modal --> */}
       <div className="modal fade" id="Compliance" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
         {/* Combined sizing (modal-lg or modal-xl) and scrollable utility directly here */}
         <div className="modal-dialog modal-xl modal-dialog-scrollable">

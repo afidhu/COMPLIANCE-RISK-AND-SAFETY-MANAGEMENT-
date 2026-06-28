@@ -68,10 +68,10 @@ export const getCapas = async (req: Request, resp: Response) => {
 // get a CAPA action by ID
 export const getCapaById = async (req: Request, resp: Response) => {
     try {
-        const { id } = req.params;
+        const { capaId } = req.params;
         const capa = await prisma.capaAction.findUnique({
             where: {
-                capaId: `${id}`
+                capaId: `${capaId}`
             }
 
         });
@@ -193,3 +193,97 @@ export const getCapasByTechnicianId = async (req: Request, resp: Response) => {
     }
 }
 
+
+// update CAPA ation as approved 
+export const approveCapasByEstateMenager = async (req: Request, resp: Response) => {
+    const { capaId } = req.params;
+    try {
+        const capa = await prisma.capaAction.findUnique({
+            where: {
+                capaId: `${capaId}`
+            }
+        });
+
+        if (!capa) {
+            return resp.status(404).json({ message: "CAPA action not found" });
+        }
+
+        let updatedCapa;
+
+        if (capa.isApproved === false) {
+            updatedCapa = await prisma.capaAction.update({
+                where: {
+                    capaId: `${capaId}`
+                },
+                data: {
+                    isApproved: true
+                }
+            });
+            console.log('capa approved', updatedCapa);
+
+            if (capa.hazardId) {
+                await prisma.hazard.update({
+                    where: {
+                        hazardId: capa.hazardId
+                    },
+                    data: {
+                        status: "CLOSED"
+                    }
+                });
+            }
+        } else if (capa.isApproved === true) {
+            updatedCapa = await prisma.capaAction.update({
+                where: {
+                    capaId: `${capaId}`
+                },
+                data: {
+                    isApproved: false
+                }
+            });
+            console.log('capa unapproved', updatedCapa);
+
+            if (capa.hazardId) {
+                await prisma.hazard.update({
+                    where: {
+                        hazardId: capa.hazardId
+                    },
+                    data: {
+                        status: 'OPEN'
+                    }
+                });
+            }
+        }
+
+        return resp.status(200).json(updatedCapa ?? capa);
+    } catch (error) {
+        console.error("Error approving CAPA action:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// get all capa where status is completed and isApproved false
+export const getCompletedUnapprovedCapas = async (req: Request, resp: Response) => {
+    try {
+        const capas = await prisma.capaAction.findMany({
+            where: {
+                status: "COMPLETED",
+                isApproved: false,
+            },
+            include: {
+                assignedTo: true,
+                hazard: {
+                    include: {
+                        asset: true,
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+        return resp.status(200).json(capas);
+    } catch (error) {
+        console.error("Error fetching completed unapproved CAPA actions:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+};

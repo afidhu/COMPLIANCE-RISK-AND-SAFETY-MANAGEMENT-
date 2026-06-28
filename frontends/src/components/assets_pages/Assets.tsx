@@ -214,7 +214,7 @@ const inActiveCount = assets.filter((a:any) => (a.status || '').toString().toLow
                         </div>
                       </td>
 
-                      <td>{item.assetType}</td>
+                      <td>{item.assetType.toLowerCase()}</td>
 
                       <td>{item.location}</td>
 

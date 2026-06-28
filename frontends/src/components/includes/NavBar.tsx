@@ -1,19 +1,44 @@
 import { use, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./AuthContext";
+import EmanagerHeaderNotification from "../notifications/EmanagerHeaderNotification";
+import InspectorHeaderNotification from "../notifications/InspectorHeaderNotification";
+import axios from 'axios';
+import BaseUrl from '../utils/api_provider/ApiProviders';
 
 
 export default function NavBar() {
 
     const navigation = useNavigate()
-const context = useContext(UserContext);
-// Destructure properties from your specific API response user object
-  const { user } = context;
+    const context = useContext(UserContext);
+    // Destructure properties from your specific API response user object
+    const { user } = context;
 
-  const logOut = async()=>{
-    localStorage.removeItem('user')
-    navigation('/Login')
-  }
+    const [notificationCount, setNotificationCount] = useState<number>(0);
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+            try {
+                const usersResp = await axios.get(`${BaseUrl}/auth/users`);
+                const users = Array.isArray(usersResp.data) ? usersResp.data : [];
+                const unapproved = users.filter((u: any) => u.isApproved === false).length;
+
+                const capasResp = await axios.get(`${BaseUrl}/capa/get-completed-unapproved`);
+                const capas = Array.isArray(capasResp.data) ? capasResp.data : [];
+                const completedUnapproved = capas.length;
+
+                setNotificationCount(unapproved + completedUnapproved);
+            } catch (error) {
+                console.error('Failed to fetch notification counts', error);
+            }
+        };
+        fetchCounts();
+    }, []);
+
+    const logOut = async () => {
+        localStorage.removeItem('user')
+        navigation('/Login')
+    }
 
     return (
         <div>
@@ -113,60 +138,26 @@ const context = useContext(UserContext);
                         <li className="nav-item topbar-icon dropdown hidden-caret">
                             <a className="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <i className="fa fa-bell"></i>
-                                <span className="notification">4</span>
+                                <i className={`bi bi-lightbulb-fill notif-bulb ${notificationCount > 0 ? 'bulb-pulse ping' : ''}`} aria-hidden="true"></i>
+                                {notificationCount > 0 && (
+                                    // <span className="notification">{notificationCount}</span>
+                                    <span className="notification"><small>New</small></span>
+                                )}
                             </a>
                             <ul className="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                                 <li>
                                     <div className="dropdown-title">
-                                        You have 4 new notification
+                                        {/* You have {notificationCount} new notification */}
+                                        You have new notification
                                     </div>
                                 </li>
                                 <li>
-                                    <div className="notif-scroll scrollbar-outer">
-                                        <div className="notif-center">
-                                            <a href="#">
-                                                <div className="notif-icon notif-primary">
-                                                    <i className="fa fa-user-plus"></i>
-                                                </div>
-                                                <div className="notif-content">
-                                                    <span className="block"> New user registered </span>
-                                                    <span className="time">5 minutes ago</span>
-                                                </div>
-                                            </a>
-                                            <a href="#">
-                                                <div className="notif-icon notif-success">
-                                                    <i className="fa fa-comment"></i>
-                                                </div>
-                                                <div className="notif-content">
-                                                    <span className="block">
-                                                        Rahmad commented on Admin
-                                                    </span>
-                                                    <span className="time">12 minutes ago</span>
-                                                </div>
-                                            </a>
-                                            <a href="#">
-                                                <div className="notif-img">
-                                                    <img src="assets/img/profile2.jpg" alt="Img Profile" />
-                                                </div>
-                                                <div className="notif-content">
-                                                    <span className="block">
-                                                        Reza send messages to you
-                                                    </span>
-                                                    <span className="time">12 minutes ago</span>
-                                                </div>
-                                            </a>
-                                            <a href="#">
-                                                <div className="notif-icon notif-danger">
-                                                    <i className="fa fa-heart"></i>
-                                                </div>
-                                                <div className="notif-content">
-                                                    <span className="block"> Farrah liked Admin </span>
-                                                    <span className="time">17 minutes ago</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
+                                   {/* notification bar */}
+                                    {
+                                        user.role ==='ESTATE_MANAGER' ?  <EmanagerHeaderNotification/>: (user.role =='INSPECTOR'? <InspectorHeaderNotification />: <><small>SAFETY_OFFICER wait</small></>)
+                                    }
+                                    {/* <EmanagerHeaderNotification/> */}
+                                    {/* <InspectorHeaderNotification /> */}
                                 </li>
                                 <li>
                                     <a className="see-all" href="javascript:void(0);">See all notifications<i className="fa fa-angle-right"></i>
@@ -266,9 +257,9 @@ const context = useContext(UserContext);
                                     </li>
                                     <li>
                                         <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">My Profile</a>
-                                        <a className="dropdown-item" href="#">My Balance</a>
-                                        <a className="dropdown-item" href="#">Inbox</a>
+                                        <a className="dropdown-item" href="#">Role: <small><b>{user.role}</b></small></a>
+                                        {/* <a className="dropdown-item" href="#">My Balance</a> */}
+                                        {/* <a className="dropdown-item" href="#">Inbox</a> */}
                                         <div className="dropdown-divider"></div>
                                         <a className="dropdown-item" href="#">Account Setting</a>
                                         <div className="dropdown-divider"></div>

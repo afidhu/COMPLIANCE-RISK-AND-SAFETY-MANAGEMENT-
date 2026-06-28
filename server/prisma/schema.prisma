@@ -272,6 +272,7 @@ model CapaAction {
 
   dueDate        DateTime
 
+  isApproved    Boolean @default(false)
   status         ActionStatus @default(PENDING)
 
   createdAt DateTime @default(now())

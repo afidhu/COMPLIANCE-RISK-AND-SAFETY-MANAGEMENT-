@@ -84,7 +84,14 @@ export default function RiskHazard({hadazardId}) {
                                         </>
                                     })
                                     :
-                                    <><tr><td><h5 className='text-danger' >No risk yet</h5></td></tr></>
+                                    <tr>
+                                        <td colSpan="5" className="text-center py-4">
+                                            <h5 className='text-muted'>
+                                                <i className="fa fa-info-circle me-2"></i>
+                                                No risk found yet
+                                            </h5>
+                                        </td>
+                                    </tr>
                             }
 
                         </tbody>

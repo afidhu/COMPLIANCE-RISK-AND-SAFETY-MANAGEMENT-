@@ -35,9 +35,9 @@ export default function Hazards() {
   user.role ==='STAFF_MEMBER'?fetchHazardByStaffMember():  fetchHazard();
   }, []);
 
-  const goTo = async (hazardId: any, hazardTitle: any) => {
+  const goTo = async (hazardId: any, hazardTitle: any,hazardDescription:any) => {
     navigation(`/Hazard/${hazardId}`, {
-      state: { hazardTitle: hazardTitle }
+      state: { hazardTitle: hazardTitle,hazardDescription:hazardDescription }
     });
   }
 
@@ -102,7 +102,7 @@ export default function Hazards() {
                     <th>Location</th>
 
                     <th>Hazard Title</th>
-                    <th>Description</th>
+                    {/* <th>Description</th> */}
                     <th>Reported By</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -118,18 +118,18 @@ export default function Hazards() {
                           <td>{item.asset.assetName}</td>
                           <td> {item.asset.location}</td>
                           <td> {item.hazardTitle}</td>
-                          <td> {item.hazardDescription} </td>
+                          {/* <td> {item.hazardDescription} </td> */}
                           
                           <td>
                             <span > {item.reportedBy.fullName}</span>
                           </td>
                           <td>
-                            <span  className="badge bg-danger" >{item.status}</span>
+                            <span className={item.status === "CLOSED" ? "badge bg-success" : "badge bg-danger"}>{item.status}</span>
                              </td>
                           <td>
 
 
-                            <button onClick={() => goTo(item.hazardId, item.hazardTitle)} className="btn btn-link text-primary">
+                            <button onClick={() => goTo(item.hazardId, item.hazardTitle,item.hazardDescription)} className="btn btn-link text-primary">
                               <i className="fa fa-eye"></i>
                             </button>
 
@@ -140,6 +140,19 @@ export default function Hazards() {
                             </button>
 
                           </td>
+
+                           {/* <td>
+                            <div className="d-flex align-items-center gap-2">
+                              <button onClick={() => goTo(item.hazardId, item.hazardTitle, item.hazardDescription)} className="btn btn-link text-primary p-0">
+                                <i className="fa fa-eye"></i>
+                              </button>
+                              <button className="btn btn-link text-warning p-0">
+                                <i className="fa fa-pen"></i>
+                              </button>
+                            </div>
+                          </td> */}
+
+
                         </tr>
                       })
                       :

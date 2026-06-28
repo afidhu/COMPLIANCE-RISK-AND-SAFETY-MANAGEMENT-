@@ -21,12 +21,17 @@ export default function ViewHazard() {
           <div
             className="card-body text-white"
             style={{
-              background: "#1e66ff",
+              background: "linear-gradient(135deg, #1e66ff 0%, #4a97ff 100%)",
               borderRadius: "10px",
+              minHeight: "140px",
             }}
           >
-            <h3 className="mb-1 fw-bold">{state.hazardTitle}</h3>
-            <small>Hazard Detail Overview</small>
+            <div className="d-flex flex-column justify-content-between h-100">
+              <div>
+                <h3 className="mb-2 fw-bold">{state.hazardTitle}</h3>
+                <p className="mb-0 fs-6 text-white-75">{state.hazardDescription}</p>
+              </div>
+            </div>
           </div>
         </div>
 

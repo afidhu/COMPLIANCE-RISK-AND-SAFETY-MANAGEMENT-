@@ -53,7 +53,7 @@ if (response.data.isApproved === true) {
       setTimeout(() => { navigate("/techdashboard"); }, 1000);
       break;
     case 'SAFETY_OFFICER':
-      setTimeout(() => { navigate("/sfetdashboard"); }, 1000);
+      setTimeout(() => { navigate("/Incidents"); }, 1000);
       break;
     case 'STAFF_MEMBER':
       setTimeout(() => { navigate("/Hazards"); }, 1000);
