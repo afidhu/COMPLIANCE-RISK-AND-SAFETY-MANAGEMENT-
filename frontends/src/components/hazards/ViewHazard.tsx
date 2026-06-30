@@ -6,6 +6,7 @@ import { useLocation, useParams } from "react-router-dom";
 import AddCAPA from "../CAPA/AddCapa";
 import RiskHazard from "../risks/RiskHazard";
 import CapaHazard from "../CAPA/CapaHazard";
+import HazardMitigation from "../mitigations/HazardMitigation";
 
 export default function ViewHazard() {
 
@@ -40,51 +41,7 @@ export default function ViewHazard() {
           <RiskHazard hadazardId ={hazardId}/>
 
         {/* ================= MITIGATION ================= */}
-        <div className="card mb-4 border-0 shadow-sm">
-          <div className="card-header bg-info text-white fw-bold">
-            Mitigation Actions
-             <button type={'button'} style={{ float: 'right' }} className="btn btn-primary mb0" data-bs-toggle="modal" data-bs-target="#mitgationModel">
-              <i className="fa fa-plus" ></i> Add Actions 
-            </button>
-          </div>
-
-          <div className="card-body">
-            <table className="table table-hover align-middle">
-              <thead className="table-info">
-                <tr>
-                  <th>Action Title </th>
-                  <th>Assigned To</th>
-                  <th>Target Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>Inspect Control Panel</td>
-                  <td>Maintenance Team</td>
-                  <td>2026-06-20</td>
-                  <td>
-                    <span className="badge bg-warning text-dark">
-                      Pending
-                    </span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Check Sensor Wiring</td>
-                  <td>Technician Team</td>
-                  <td>2026-06-22</td>
-                  <td>
-                    <span className="badge bg-primary">
-                      In Progress
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+       <HazardMitigation hazardId={hazardId} />
 
         {/* ================= CAPA ================= */}
         <CapaHazard hazardid={hazardId} hadazardTitle={state.hazardTitle} />

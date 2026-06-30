@@ -96,7 +96,7 @@ export const getHazardsByReportedById = async(req:Request, resp:Response)=>{
             },
             orderBy: {
                 createdAt: "desc",
-                    status: "desc"
+  
             }
         });
         return resp.status(200).json(hazards);

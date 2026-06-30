@@ -13,7 +13,6 @@ export default function CapaHazard({hazardid,hadazardTitle}:any) {
       const fetchCapa = async () => {
         try {
             const response = await axios.get(`${BaseUrl}/capa/get-by-hazardid/${hazardid}`)
-console.log('CAPA',response.data)
             setCapa(response.data);
             
         } catch (error) {
@@ -41,7 +40,7 @@ console.log('CAPA',response.data)
         <div className="card mb-4 border-0 shadow-sm">
           <div className="card-header bg-danger text-white fw-bold d-flex justify-content-between align-items-center">
             <span>CAPA Actions (Corrective & Preventive)</span>
-            <button type="button" className="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <button type="button" className="btn btn-primary btn-sm-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
               Assign <i className="fa fa-arrow-right"></i>
             </button>
           </div>

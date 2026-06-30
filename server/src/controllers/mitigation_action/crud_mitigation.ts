@@ -7,15 +7,16 @@ import { prisma } from "../../index.ts";
 // add a new mitigation action
 export const addMitigationAction = async(req:Request, resp:Response)=>{
     try {
-        const { riskId, actionTitle, assignedToId, targetDate } = req.body;
+        const { actionTitle, assignedToId,hazardId, targetDate } = req.body;
        const newMitigationAction = await prisma.mitigationAction.create({
            data: {
-               riskId,
                actionTitle,
                assignedToId,
-               targetDate
+               targetDate:  new Date(targetDate),
+               hazardId,
            }
        });
+       console.log(newMitigationAction)
        return resp.status(201).json(newMitigationAction);
     } catch (error) {
         console.error("Error adding mitigation action:", error);
@@ -124,7 +125,8 @@ export const getMitigationActionsByHazardId = async(req:Request, resp:Response)=
                     include:{
                         asset:true
                     }
-                }
+                },
+                assignedTo:true
              }
         });
 

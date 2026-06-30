@@ -32,6 +32,7 @@ export default function Hazards() {
   };
 
   useEffect(() => {
+    console.log(" user.role", user.role)
   user.role ==='STAFF_MEMBER'?fetchHazardByStaffMember():  fetchHazard();
   }, []);
 
