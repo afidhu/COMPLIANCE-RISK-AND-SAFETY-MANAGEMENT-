@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class _IncidentReportState extends State<IncidentReport> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
 
       body: Padding(
 
@@ -204,7 +205,7 @@ class _IncidentReportState extends State<IncidentReport> {
 
                               decoration: BoxDecoration(
 
-                                color: Colors.white,
+                                color: themeSurfaceColor(context),
 
                                 borderRadius:
                                 BorderRadius.circular(16),

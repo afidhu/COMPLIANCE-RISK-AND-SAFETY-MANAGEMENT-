@@ -1,3 +1,4 @@
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/reports/presentation/screens/risk_reports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,9 +40,19 @@ class _ReportsState extends State<Reports>
     return Scaffold(
 
       backgroundColor: const Color(0xffF4F7FC),
-
       appBar: AppBar(
-        leading: const SizedBox.shrink(),
+
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
         elevation: 0,
         backgroundColor: const Color(0xFF0000BA),
         centerTitle: true,
@@ -140,6 +151,7 @@ class _ReportsState extends State<Reports>
           RiskReports()
         ],
       ),
+      drawer: DrawerWidget(),
     );
   }
 }

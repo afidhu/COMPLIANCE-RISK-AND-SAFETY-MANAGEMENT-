@@ -1,5 +1,6 @@
 
 
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/notifications/presentation/widgets/notification_button.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +45,19 @@ class _HomeScreenInspectorState extends State<HomeScreenInspector>
 
       // backgroundColor: const Color(0xffF4F7FC),
       // backgroundColor: const Color(0xFF0000BA),
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
         elevation: 0,
         backgroundColor: const Color(0xFF0000BA),
         surfaceTintColor: Colors.transparent,

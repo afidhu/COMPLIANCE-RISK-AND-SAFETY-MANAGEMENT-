@@ -66,9 +66,9 @@ export default function RiskHazard({hadazardId}) {
 
                                                     <p className="d-inline-flex gap-1">
 
-                                                        <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target={`#${item.riskId}`} aria-expanded="false" aria-controls="collapseExample">
-                                                            <small>read</small>
-                                                        </button>
+                                                        <span className="text-primary" type="button" data-bs-toggle="collapse" data-bs-target={`#${item.riskId}`} aria-expanded="false" aria-controls="collapseExample">
+                                                            <i className="fas fa-eye"></i>
+                                                        </span>
                                                     </p>
                                                     <div className="collapse" id={`${item.riskId}`}>
                                                         <div className="card card-body">

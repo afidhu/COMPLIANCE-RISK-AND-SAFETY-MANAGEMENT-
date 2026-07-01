@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +60,7 @@ class _ComplianceScreenState extends State<ComplianceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
 
       body: BlocBuilder<ComplianceBloc, ComplianceState>(
         builder: (context, state) {
@@ -82,7 +83,7 @@ class _ComplianceScreenState extends State<ComplianceScreen> {
               return Container(
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:themeSurfaceColor(context),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(

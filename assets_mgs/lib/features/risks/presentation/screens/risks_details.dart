@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/features/mitigations/presentation/screens/all_mitigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,8 +65,8 @@ class _RisksDetailsState extends State<RisksDetails>
 
     return Scaffold(
 
-      // backgroundColor: const Color(0xFFF5F7FA),
-      backgroundColor: const Color(0xFF0000BA),
+      backgroundColor: themeSurfaceColor(context),
+      // backgroundColor: const Color(0xFF0000BA),
       appBar: AppBar(
         leadingWidth: 100,
         actions: [

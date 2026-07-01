@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +23,7 @@ class _RiskScreenState extends State<RiskScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
       context.read<RisksBloc>().add(GetRiskAllEvent());
-
   }
 
   Color getRiskColor(String severity) {
@@ -89,13 +87,9 @@ class _RiskScreenState extends State<RiskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
 
-      body: RefreshIndicator(
-        onRefresh: () async {
-          context.read<RisksBloc>().add(GetRiskEvent(widget.hazardId));
-        },
-        child: BlocBuilder<RisksBloc, RisksState>(
+      body:  BlocBuilder<RisksBloc, RisksState>(
           builder: (context, state) {
             if (state is RisksLoading) {
               return Center(child: CircularProgressIndicator(),);
@@ -108,287 +102,291 @@ class _RiskScreenState extends State<RiskScreen> {
                 return Center(child: Text('No Risks'),);
               }
               else {
-                return ListView.builder(
+                return RefreshIndicator(
+                  onRefresh: () async{
+                    // context.read<RisksBloc>().add(GetRiskEvent(widget.hazardId));
+                  },
+                  child: ListView.builder(
+                    key: ValueKey(Theme.of(context).brightness),
+                    physics: BouncingScrollPhysics(),
+                    padding: const EdgeInsets.all(16),
 
-                  padding: const EdgeInsets.all(16),
+                    itemCount: state.risks.length,
 
-                  itemCount: state.risks.length,
-
-                  itemBuilder: (context, index) {
-                    final risk = state.risks[index];
+                    itemBuilder: (context, index) {
+                      final risk = state.risks[index];
 
 
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 18),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white,
-                            Color(0xFFF8FAFC),
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 18),
+                        decoration: BoxDecoration(
+                          color: themeSurfaceColor(context),
+                          borderRadius: BorderRadius.circular(24),
+                          // gradient: const LinearGradient(
+                          //   begin: Alignment.topLeft,
+                          //   end: Alignment.bottomRight,
+                          //   colors: [
+                          //     Colors.white,
+                          //     Color(0xFFF8FAFC),
+                          //   ],
+                          // ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(.05),
+                              blurRadius: 20,
+                              offset: const Offset(0, 8),
+                            ),
                           ],
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.05),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(24),
-                        child: Column(
-                          children: [
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: Column(
+                            children: [
 
-                            /// TOP SEVERITY LINE
-                            Container(
-                              height: 5,
-                              color: getRiskColor(
-                                risk.severity.toString(),
+                              /// TOP SEVERITY LINE
+                              Container(
+                                height: 5,
+                                color: getRiskColor(
+                                  risk.severity.toString(),
+                                ),
                               ),
-                            ),
 
-                            Padding(
-                              padding: const EdgeInsets.all(18),
-                              child: Column(
-                                children: [
+                              Padding(
+                                padding: const EdgeInsets.all(18),
+                                child: Column(
+                                  children: [
 
-                                  /// HEADER
-                                  Row(
-                                    children: [
+                                    /// HEADER
+                                    Row(
+                                      children: [
 
-                                      Container(
-                                        height: 55,
-                                        width: 55,
-                                        decoration: BoxDecoration(
-                                          color: getRiskColor(
-                                            risk.severity.toString(),
-                                          ).withOpacity(.12),
-                                          borderRadius:
-                                          BorderRadius.circular(16),
-                                        ),
-                                        child: Icon(
-                                          getRiskIcon(
-                                            risk.severity.toString(),
+                                        Container(
+                                          height: 55,
+                                          width: 55,
+                                          decoration: BoxDecoration(
+                                            color: getRiskColor(
+                                              risk.severity.toString(),
+                                            ).withOpacity(.12),
+                                            borderRadius:
+                                            BorderRadius.circular(16),
                                           ),
-                                          size: 28,
-                                          color: getRiskColor(
-                                            risk.severity.toString(),
-                                          ),
-                                        ),
-                                      ),
-
-                                      const SizedBox(width: 14),
-
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-
-                                            Text(
-                                              risk.riskTitle.toString(),
-                                              maxLines: 2,
-                                              overflow:
-                                              TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                fontSize: 17,
-                                                fontWeight:
-                                                FontWeight.w700,
-                                                height: 1.3,
-                                              ),
+                                          child: Icon(
+                                            getRiskIcon(
+                                              risk.severity.toString(),
                                             ),
-
-                                            const SizedBox(height: 4),
-
-                                            Text(
-                                              "Risk Assessment",
-                                              style: TextStyle(
-                                                color:
-                                                Colors.grey.shade600,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      Container(
-                                        padding:
-                                        const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 7,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: getRiskColor(
-                                            risk.severity.toString(),
-                                          ).withOpacity(.12),
-                                          borderRadius:
-                                          BorderRadius.circular(30),
-                                        ),
-                                        child: Text(
-                                          risk.severity.toString(),
-                                          style: TextStyle(
+                                            size: 28,
                                             color: getRiskColor(
                                               risk.severity.toString(),
                                             ),
-                                            fontWeight:
-                                            FontWeight.bold,
-                                            fontSize: 11,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
 
-                                  const SizedBox(height: 20),
-
-                                  /// INFO AREA
-                                  Container(
-                                    padding: const EdgeInsets.all(14),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade50,
-                                      borderRadius:
-                                      BorderRadius.circular(18),
-                                    ),
-                                    child: Column(
-                                      children: [
-
-                                        _modernInfoRow(
-                                          Icons.analytics_outlined,
-                                          "Likelihood",
-                                          risk.likelihood.toString(),
-                                        ),
-
-                                        const Divider(),
-
-                                        _modernInfoRow(
-                                          Icons.priority_high,
-                                          "Severity",
-                                          risk.severity.toString(),
-                                        ),
-
-                                        const Divider(),
-
-                                        _modernInfoRow(
-                                          Icons.flag_outlined,
-                                          "Status",
-                                          risk.status.toString(),
-                                          valueColor:
-                                          getStatusColor(
-                                            risk.status.toString(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  const SizedBox(height: 16),
-
-                                  /// ASSET PREVIEW
-                                  Container(
-                                    padding: const EdgeInsets.all(14),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(18),
-                                      color: const Color(
-                                        0xFF0000BA,
-                                      ).withOpacity(.05),
-                                    ),
-                                    child: Row(
-                                      children: [
-
-                                        const Icon(
-                                          Icons.apartment,
-                                          color: Color(0xFF0000BA),
-                                        ),
-
-                                        const SizedBox(width: 10),
+                                        const SizedBox(width: 14),
 
                                         Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+
+                                              Text(
+                                                risk.riskTitle.toString(),
+                                                maxLines: 2,
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                  height: 1.3,
+                                                ),
+                                              ),
+
+                                              const SizedBox(height: 4),
+
+                                              Text(
+                                                "Risk Assessment",
+                                                style: TextStyle(
+                                                  color:
+                                                  Colors.grey.shade600,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        Container(
+                                          padding:
+                                          const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 7,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: getRiskColor(
+                                              risk.severity.toString(),
+                                            ).withOpacity(.12),
+                                            borderRadius:
+                                            BorderRadius.circular(30),
+                                          ),
                                           child: Text(
-                                            risk.hazard?.asset
-                                                ?.assetName ??
-                                                "No Asset",
-                                            maxLines: 1,
-                                            overflow:
-                                            TextOverflow.ellipsis,
-                                            style:
-                                            const TextStyle(
+                                            risk.severity.toString(),
+                                            style: TextStyle(
+                                              color: getRiskColor(
+                                                risk.severity.toString(),
+                                              ),
                                               fontWeight:
-                                              FontWeight.w600,
+                                              FontWeight.bold,
+                                              fontSize: 11,
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
 
-                                  const SizedBox(height: 18),
+                                    const SizedBox(height: 20),
 
-                                  /// BUTTONS
-                                  Row(
-                                    children: [
+                                    /// INFO AREA
+                                    Container(
+                                      padding: const EdgeInsets.all(14),
+                                      decoration: BoxDecoration(
+                                        color: themeSurfaceColor(context),
+                                        borderRadius:
+                                        BorderRadius.circular(18),
+                                      ),
+                                      child: Column(
+                                        children: [
 
-                                      Expanded(
-                                        child: OutlinedButton.icon(
-                                          onPressed: () {
-                                            assetDetails(
-                                              risk.hazard!.asset,
-                                            );
-                                          },
-                                          icon: const Icon(
-                                            Icons.visibility,
-                                            size: 18,
+                                          _modernInfoRow(
+                                            Icons.analytics_outlined,
+                                            "Likelihood",
+                                            risk.likelihood.toString(),
                                           ),
-                                          label: const Text(
-                                            "View Asset",
+
+                                          const Divider(),
+
+                                          _modernInfoRow(
+                                            Icons.priority_high,
+                                            "Severity",
+                                            risk.severity.toString(),
                                           ),
-                                          style:
-                                          OutlinedButton.styleFrom(
-                                            foregroundColor:
-                                            const Color(
-                                              0xFF0000BA,
+
+                                          const Divider(),
+
+                                          _modernInfoRow(
+                                            Icons.flag_outlined,
+                                            "Status",
+                                            risk.status.toString(),
+                                            valueColor:
+                                            getStatusColor(
+                                              risk.status.toString(),
                                             ),
-                                            // backgroundColor: Colors.blue[700],
-                                            side:
-                                            const BorderSide(
-                                              color:
-                                              Color(0xFF0000BA),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 16),
+
+                                    /// ASSET PREVIEW
+                                    Container(
+                                      padding: const EdgeInsets.all(14),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(18),
+                                        color: const Color(
+                                          0xFF0000BA,
+                                        ).withOpacity(.05),
+                                      ),
+                                      child: Row(
+                                        children: [
+
+                                          const Icon(
+                                            Icons.apartment,
+                                            color: Color(0xFF0000BA),
+                                          ),
+
+                                          const SizedBox(width: 10),
+
+                                          Expanded(
+                                            child: Text(
+                                              risk.hazard?.asset
+                                                  ?.assetName ??
+                                                  "No Asset",
+                                              maxLines: 1,
+                                              overflow:
+                                              TextOverflow.ellipsis,
+                                              style:
+                                              const TextStyle(
+                                                fontWeight:
+                                                FontWeight.w600,
+                                              ),
                                             ),
-                                            shape:
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(
-                                                14,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 18),
+
+                                    /// BUTTONS
+                                    Row(
+                                      children: [
+
+                                        Expanded(
+                                          child: OutlinedButton.icon(
+                                            onPressed: () {
+                                              assetDetails(
+                                                risk.hazard!.asset,
+                                              );
+                                            },
+                                            icon: const Icon(
+                                              Icons.visibility,
+                                              size: 18,
+                                            ),
+                                            label: const Text(
+                                              "View Asset",
+                                            ),
+                                            style:
+                                            OutlinedButton.styleFrom(
+                                              foregroundColor:
+                                              const Color(
+                                                0xFF0000BA,
+                                              ),
+                                              // backgroundColor: Colors.blue[700],
+                                              side:
+                                              const BorderSide(
+                                                color:
+                                                Color(0xFF0000BA),
+                                              ),
+                                              shape:
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(
+                                                  14,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               }
             }
             return SizedBox.shrink();
           }
-
-          ,
         ),
-      ),
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0000BA),

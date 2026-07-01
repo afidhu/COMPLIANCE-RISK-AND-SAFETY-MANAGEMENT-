@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,7 +28,8 @@ class _AssetsReportState extends State<AssetsReport> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
+
 
       body: Padding(
 
@@ -188,7 +190,7 @@ class _AssetsReportState extends State<AssetsReport> {
 
                             decoration: BoxDecoration(
 
-                              color: Colors.white,
+                              color: themeSurfaceColor(context),
 
                               borderRadius:
                               BorderRadius.circular(16),

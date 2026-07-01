@@ -71,7 +71,7 @@ export default function CapaHazard({hazardid,hadazardTitle}:any) {
                           <td>{item.actionTitle}</td>
                           <td>{item.assignedTo?.fullName || 'Unassigned'}</td>
                           <td>
-                            <span className="badge bg-warning text-dark">
+                            <span className={`badge ${item.status === 'COMPLETED' ? 'bg-success' : 'bg-warning'} text-dark`}>
                               {item.status}
                             </span>
                           </td>

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addCapa, approveCapasByEstateMenager, getCapaById, getCapas, getCapasByHazardId, getCapasByRiskId, getCapasByTechnicianId, updateCapa, getCompletedUnapprovedCapas } from "../controllers/capa_controller/crup_controller.ts";
+import { addCapa, approveCapasByEstateMenager, getCapaById, getCapas, getCapasByHazardId, getCapasByRiskId, getCapasByTechnicianId, updateCapa, getCompletedUnapprovedCapas, getCompletedApprovedCapasByTechnicianId } from "../controllers/capa_controller/crup_controller.ts";
 import { deleteAsset } from "../controllers/assets_controllers/crud_assets.ts";
 
 
@@ -18,5 +18,6 @@ router.get('/get-completed-unapproved', getCompletedUnapprovedCapas)
 router.delete('/delete/:id',deleteAsset)
 router.put('/update/:id',addCapa)
 router.patch('/isapproved/:capaId',approveCapasByEstateMenager)
+router.get('/get-completed-approved/:userId', getCompletedApprovedCapasByTechnicianId)
 
 export default router;

@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 
 class AddCompliance extends StatefulWidget {
@@ -24,7 +25,7 @@ class _AddComplianceState extends State<AddCompliance> {
 
     return Scaffold(
 
-      backgroundColor: const Color(0xffF4F7FC),
+      backgroundColor: themeSurfaceColor(context),
 
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
@@ -39,7 +40,6 @@ class _AddComplianceState extends State<AddCompliance> {
       ),
 
       body: SingleChildScrollView(
-
         padding: const EdgeInsets.all(16),
 
         child: Form(

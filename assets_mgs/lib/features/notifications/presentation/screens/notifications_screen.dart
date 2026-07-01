@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:assets_mgs/features/CAPA/presentation/widgets/asset_capa.dart';
 import 'package:flutter/material.dart';
@@ -59,9 +60,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6FA),
-
+      backgroundColor: themeSurfaceColor(context),
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ),
         elevation: 0,
         backgroundColor: const Color(0xFF0000BA),
         foregroundColor: Colors.white,
@@ -107,13 +118,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                          Get.to(()=>NotificationComplianceView(),arguments: n.compliance);
                        }
                      },
+
                      child: AnimatedContainer(
                        duration: const Duration(milliseconds: 300),
                        curve: Curves.easeOutCubic,
                        margin: const EdgeInsets.only(bottom: 18),
                        padding: const EdgeInsets.all(18),
                        decoration: BoxDecoration(
-                         color: Colors.white,
+                         color: themeSurfaceColor(context),
                          borderRadius: BorderRadius.circular(28),
 
                          border: Border.all(

@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/features/auths/domain/entities/user_entity.dart';
 import 'package:assets_mgs/features/auths/presentation/bloc/auth_bloc.dart';
 import 'package:assets_mgs/features/auths/presentation/screens/register_screen.dart';
@@ -25,7 +26,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFCFCFC),
+      backgroundColor: themeSurfaceColor(context),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -34,7 +35,7 @@ class LoginScreen extends StatelessWidget {
               width: 400,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: themeSurfaceColor(context),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(

@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 
 class AddIncident extends StatefulWidget {
@@ -45,7 +46,7 @@ class _AddIncidentState extends State<AddIncident> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: themeSurfaceColor(context),
 
       appBar: AppBar(
         backgroundColor: primaryColor,

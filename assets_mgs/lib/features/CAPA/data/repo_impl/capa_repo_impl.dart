@@ -6,13 +6,13 @@ import '../data_sources/remote_capa_data_remote.dart';
 import '../models/capa_model.dart';
 
 class CapaRepoImpl extends CapaRepo{
-  final RemoteCapaDataRemote remoteCapaDataRemote;
+  final RemoteCapaDataRemote _remoteCapaDataRemote;
 
-  CapaRepoImpl(this.remoteCapaDataRemote);
+  CapaRepoImpl(this._remoteCapaDataRemote);
   @override
   Future<bool> addCapa(capa) async{
     try{
-      final resp = await remoteCapaDataRemote.addCapa(capa);
+      final resp = await _remoteCapaDataRemote.addCapa(capa);
       if(resp.statusCode ==201){
         return true;
       }
@@ -27,7 +27,7 @@ class CapaRepoImpl extends CapaRepo{
   @override
   Future<List<CapaEntity>> getCapa(String hazardId) async {
     try{
-      final response = await remoteCapaDataRemote.getCapa(hazardId);
+      final response = await _remoteCapaDataRemote.getCapa(hazardId);
       if(response.statusCode == 200 || response.statusCode ==201){
         List<dynamic> assetJson = response.data;
         // print('ComplianceModel ${response.data}');
@@ -43,7 +43,7 @@ class CapaRepoImpl extends CapaRepo{
   @override
   Future<List<CapaEntity>> getCapaByTechnician(String userId)async {
     try{
-      final response = await remoteCapaDataRemote.getCapaByTechnician(userId);
+      final response = await _remoteCapaDataRemote.getCapaByTechnician(userId);
       if(response.statusCode == 200 || response.statusCode ==201){
         List<dynamic> assetJson = response.data;
         // print('ComplianceModel ${response.data}');
@@ -64,7 +64,7 @@ class CapaRepoImpl extends CapaRepo{
         status: capa.status
       );
 
-      final response = await remoteCapaDataRemote.updateCapaByTechnician(capaId, capaModel);
+      final response = await _remoteCapaDataRemote.updateCapaByTechnician(capaId, capaModel);
       if(response.statusCode == 200 || response.statusCode ==201){
        return true;
       }
@@ -72,6 +72,22 @@ class CapaRepoImpl extends CapaRepo{
     } catch(e){
       print('error at : $e');
       throw Exception(' error $e');
+    }
+  }
+
+  @override
+  Future<List<CapaEntity>> getCompletedApprovedCapaByTechnician(String userId) async{
+    try{
+      final response = await _remoteCapaDataRemote.getCompleteApprovedCapa(userId);
+      if(response.statusCode == 200 || response.statusCode ==201){
+        List<dynamic> assetJson = response.data;
+        // print('ComplianceModel ${response.data}');
+        return assetJson.map((e)=>CapaModel.fromJson(e)).toList();
+      }
+      throw Exception('error to getCompleteApprovedCapa capa');
+    } catch(e){
+    print('error at : $e');
+    throw Exception(' error $e');
     }
   }
 

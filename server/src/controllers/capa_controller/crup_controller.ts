@@ -287,3 +287,33 @@ export const getCompletedUnapprovedCapas = async (req: Request, resp: Response) 
         return resp.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+// get all capa where status is completed and isApproved true by technician ID
+export const getCompletedApprovedCapasByTechnicianId = async (req: Request, resp: Response) => {
+    try {
+        const { userId } = req.params;
+        const capas = await prisma.capaAction.findMany({
+            where: {
+                status: "COMPLETED",
+                isApproved: true,
+                assignedToId: `${userId}`
+            },
+            include: {
+                assignedTo: true,
+                hazard: {
+                    include: {
+                        asset: true,
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+        return resp.status(200).json(capas);
+    } catch (error) {
+        console.error("Error fetching completed approved CAPA actions by technician ID:", error);
+        return resp.status(500).json({ message: "Internal server error" });
+    }
+};

@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/features/auths/domain/entities/user_entity.dart';
 import 'package:assets_mgs/features/auths/presentation/screens/login.dart';
 import 'package:flutter/material.dart';
@@ -63,14 +64,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xffF4F7FC),
+      backgroundColor: themeSurfaceColor(context),
 
       body: SafeArea(
 
         child: SingleChildScrollView(
-
           child: Column(
-
             children: [
 
             /// HEADER
@@ -82,8 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               bottom: 50,
             ),
 
-            decoration: const BoxDecoration(
-
+            decoration:  BoxDecoration(
+              color: themeSurfaceColor(context),
               gradient: LinearGradient(
                 colors: [
                   Color(0xff001F8B),

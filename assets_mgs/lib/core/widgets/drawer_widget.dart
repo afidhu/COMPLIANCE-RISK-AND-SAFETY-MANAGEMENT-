@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../config/themes/themes_bloc/theme_bloc.dart';
 import '../../features/auths/presentation/widgets/logout_button.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
 
+  @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
   Future<Map<String, String?>> _getUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return {
@@ -15,9 +22,11 @@ class DrawerWidget extends StatelessWidget {
     };
   }
 
+  final isDark = Get.isDarkMode;
+
   @override
   Widget build(BuildContext context) {
-    var _isThemed = false.obs;
+
     return Drawer(
       child: SafeArea(
         child: FutureBuilder<Map<String, String?>>(
@@ -89,40 +98,34 @@ class DrawerWidget extends StatelessWidget {
                       color: Colors.grey.shade300,
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      /// ICON
-                      Icon(
-                        Get.isDarkMode
-                            ? Icons.dark_mode_rounded
-                            : Icons.light_mode_rounded,
-                        color: Get.isDarkMode ? Colors.amber : Colors.blue,
-                      ),
+                  child: BlocBuilder<ThemeBloc, ThemeMode>(
+                    builder: (context, themeMode) {
+                      // Calculate if dark mode is active (handles system settings fallbacks cleanly)
+                      final isDark = themeMode == ThemeMode.dark ||
+                          (themeMode == ThemeMode.system && MediaQuery.platformBrightnessOf(context) == Brightness.dark);
 
-                      const SizedBox(width: 12),
-
-                      /// LABEL
-                      Expanded(
-                        child: Text(
-                          Get.isDarkMode ? "Dark Mode" : "Light Mode",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              isDark ? "Dark Mode" : "Light Mode",
+                              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                            ),
                           ),
-                        ),
-                      ),
 
-                      /// SWITCH
-                      Obx(()=> Switch(
-                          value: _isThemed.value,
-                          onChanged: (val){
-                            _isThemed.value =val;
-                            _isThemed.value? Get.changeThemeMode(ThemeMode.light): Get.changeThemeMode(ThemeMode.dark);
-                            // Get.changeThemeMode(ThemeMode.light);
-                          }
-                      ))
-                    ],
-                  ),
+                          /// SWITCH
+                          Switch(
+                            value: isDark,
+                            onChanged: (val) {
+                              // 🛠️ Fire the Bloc event instantly!
+                              context.read<ThemeBloc>().add(ToggleThemeEvent());
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  )
+
                 ),
 
                 const SizedBox(height: 20),

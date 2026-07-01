@@ -8,11 +8,9 @@ class GetCapaEvent extends CapaEvent{
 
   GetCapaEvent(this.hazardId);
 }
-class GetCapaByTechnicianEvent extends CapaEvent{
-  final String userId;
+class GetCapaByTechnicianEvent extends CapaEvent{}
 
-  GetCapaByTechnicianEvent(this.userId);
-}
+class GetCompletedApprovedCapaByTechnicianEvent extends CapaEvent{}
 
 class AddCapaEvent extends CapaEvent{}
 
@@ -21,5 +19,4 @@ class UpdateCapaByTechnicianEvent extends CapaEvent{
   final CapaEntity capa;
 
   UpdateCapaByTechnicianEvent({required this.capaId, required this.capa});
-
 }

@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 
 class AddCapa extends StatefulWidget {
@@ -53,7 +54,7 @@ class _AddCapaState extends State<AddCapa> {
 
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
 
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -70,6 +71,7 @@ class _AddCapaState extends State<AddCapa> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
           ),
+          color: themeSurfaceColor(context),
 
           child: Padding(
             padding: const EdgeInsets.all(18),

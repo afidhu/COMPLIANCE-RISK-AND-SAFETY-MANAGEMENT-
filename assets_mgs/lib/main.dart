@@ -1,15 +1,18 @@
 
+import 'package:assets_mgs/config/themes/app_themes.dart';
 import 'package:assets_mgs/features/assets/domain/use_cases/get_assets_case.dart';
 import 'package:assets_mgs/features/mitigations/data/repo_impl/mitigation_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'config/themes/themes_bloc/theme_bloc.dart';
 import 'core/screens/splash_screen.dart';
 import 'features/CAPA/data/data_sources/remote_capa_data_remote.dart';
 import 'features/CAPA/data/repo_impl/capa_repo_impl.dart';
 import 'features/CAPA/domain/repository/capa_repo.dart';
 import 'features/CAPA/domain/use_cases/get_capa_by_technician.dart';
 import 'features/CAPA/domain/use_cases/get_capa_case.dart';
+import 'features/CAPA/domain/use_cases/get_complete_approved_capa_case.dart';
 import 'features/CAPA/domain/use_cases/update_capa_technician.dart';
 import 'features/CAPA/presentation/bloc/capa_bloc.dart';
 import 'features/Incidents/data/data_sources/incident_remote_data.dart';
@@ -117,6 +120,9 @@ void main() {
 
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (context) => ThemeBloc(),
+          ),
           BlocProvider<HazardsBloc>(
             create: (context) => HazardsBloc(
               GetHazardsCase(context.read<HazardRepo>()),
@@ -145,6 +151,7 @@ void main() {
               GetCapaCase(context.read<CapaRepo>()),
               GetCapaByTechnician((context.read<CapaRepo>())),
               UpdateCapaTechnicianCase((context.read<CapaRepo>())),
+              GetCompleteApprovedCapaCase((context.read<CapaRepo>())),
             ),
           ),
           BlocProvider<MitigationBloc>(
@@ -170,24 +177,41 @@ void main() {
           ),
         ],
 
-        child: ScreenUtilInit(
-          designSize: const Size(249, 419),
-          child: GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Project',
-            // theme: AppTheme.dark,
-            themeMode: ThemeMode.system,
-              // theme: AppTheme.light,
-              // darkTheme: AppTheme.dark,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            ),
-            // home: HomeBottomNav()
-            home: SplashScreen()
-            // home: LoginScreen(),
-            // home: RegisterScreen(),
-          ),
+        child: BlocBuilder<ThemeBloc, ThemeMode>(
+          builder: (context, themeMode) {
+            return ScreenUtilInit(
+                designSize: const Size(249, 419),
+
+             child:  GetMaterialApp(  // Kept GetMaterialApp to support your notification controllers
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Project',
+              themeMode: themeMode,        // 🛠️ Bound directly to Bloc state
+              theme: AppTheme.light,       // Your FlexColorScheme Light Theme
+              darkTheme: AppTheme.dark,    // Your FlexColorScheme Dark Theme
+
+              // Keep whatever home or routing properties you originally had here
+              home: const SplashScreen(), // Replace with your actual startup screen widget
+            )
+            );
+          },
         ),
+
+        // child: ScreenUtilInit(
+        //   designSize: const Size(249, 419),
+        //   child: GetMaterialApp(
+        //     debugShowCheckedModeBanner: false,
+        //     title: 'Flutter Project',
+        //       theme: AppTheme.light,
+        //       darkTheme: AppTheme.dark,
+        //
+        //       // 🛠️ Force GetX to check the device's system setting on boot
+        //       themeMode: ThemeMode.system,
+        //       // home: HomeBottomNav()
+        //     home: SplashScreen()
+        //     // home: LoginScreen(),
+        //     // home: RegisterScreen(),
+        //   ),
+        // ),
       ),
     ),
 

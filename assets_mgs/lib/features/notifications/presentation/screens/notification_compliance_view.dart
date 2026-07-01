@@ -128,6 +128,17 @@ class _NotificationComplianceViewState
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6FA),
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () {
+             Get.back();
+            },
+          ),
+        ),
         elevation: 0,
         backgroundColor: const Color(0xFF0000BA),
         foregroundColor: Colors.white,

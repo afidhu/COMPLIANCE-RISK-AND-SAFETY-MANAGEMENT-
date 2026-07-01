@@ -1,3 +1,5 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
+import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -79,9 +81,20 @@ class _AllSearchingState extends State<AllSearching> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF4F7FC),
+      backgroundColor: themeSurfaceColor(context),
 
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
         title: const Text("Global Search"),
         centerTitle: true,
         backgroundColor: const Color(0xff0000BA),
@@ -113,10 +126,12 @@ class _AllSearchingState extends State<AllSearching> {
             return Column(
               children: [
                 Padding(
+
                   padding: const EdgeInsets.all(15),
                   child: TextField(
                     controller: searchController,
                     onChanged: filterSearch,
+                    cursorColor: themeSurfaceColor(context),
                     decoration: InputDecoration(
                       hintText:
                       "Search Asset, Risk, Incident...",
@@ -131,7 +146,7 @@ class _AllSearchingState extends State<AllSearching> {
                         },
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: themeSurfaceColor(context),
                       border: OutlineInputBorder(
                         borderRadius:
                         BorderRadius.circular(16),
@@ -183,7 +198,7 @@ class _AllSearchingState extends State<AllSearching> {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color:themeSurfaceColor(context),
                           borderRadius:
                           BorderRadius.circular(
                               18),
@@ -317,6 +332,7 @@ class _AllSearchingState extends State<AllSearching> {
           return const SizedBox();
         },
       ),
+      drawer: DrawerWidget(),
     );
   }
 }

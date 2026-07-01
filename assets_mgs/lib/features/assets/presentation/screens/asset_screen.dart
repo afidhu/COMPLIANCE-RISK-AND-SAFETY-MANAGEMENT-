@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +58,7 @@ class _AssetScreenState extends State<AssetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
 
       body: BlocBuilder<AssetsBloc, AssetsState>(
         builder: (context, state) {
@@ -79,7 +80,7 @@ class _AssetScreenState extends State<AssetScreen> {
                   margin: const EdgeInsets.only(bottom: 14),
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: themeSurfaceColor(context),
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
@@ -196,13 +197,13 @@ class _AssetScreenState extends State<AssetScreen> {
         },
       ),
 
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF0000BA),
-        onPressed: () {
-          // Add Asset
-        },
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: const Color(0xFF0000BA),
+      //   onPressed: () {
+      //     // Add Asset
+      //   },
+      //   child: const Icon(Icons.add, color: Colors.white),
+      // ),
     );
   }
 }

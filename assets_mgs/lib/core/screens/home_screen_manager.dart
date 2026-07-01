@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../config/themes/color_theme.dart';
 import '../../features/Incidents/presentation/screens/all_incidents.dart';
 import '../../features/assets/presentation/screens/asset_screen.dart';
 import '../../features/hazards/presentation/screens/hazards.dart';
@@ -49,9 +50,20 @@ class _HomeScreenManagerState extends State<HomeScreenManager>
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xffF4F7FC),
+      backgroundColor: themeSurfaceColor(context),
 
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
         elevation: 0,
         backgroundColor: const Color(0xFF0000BA),
         centerTitle: true,

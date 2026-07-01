@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdf/pdf.dart';
@@ -26,7 +27,7 @@ class _RiskReportsState extends State<RiskReports> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: themeSurfaceColor(context),
 
       body: Padding(
 
@@ -191,7 +192,6 @@ class _RiskReportsState extends State<RiskReports> {
                             final risk = state.risks[index];
 
                             return Container(
-
                               margin:
                               const EdgeInsets.only(bottom: 12),
 
@@ -203,7 +203,7 @@ class _RiskReportsState extends State<RiskReports> {
 
                               decoration: BoxDecoration(
 
-                                color: Colors.white,
+                                color: themeSurfaceColor(context),
 
                                 borderRadius:
                                 BorderRadius.circular(16),

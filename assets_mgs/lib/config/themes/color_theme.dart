@@ -106,3 +106,9 @@ const ColorScheme darkColorScheme = ColorScheme(
   inversePrimary: Color(0xFF6A536B),
   surfaceTint: Color(0xFFEFB7FF),
 );
+
+
+
+Color themeSurfaceColor(BuildContext context) {
+  return Theme.of(context).colorScheme.surface;
+}

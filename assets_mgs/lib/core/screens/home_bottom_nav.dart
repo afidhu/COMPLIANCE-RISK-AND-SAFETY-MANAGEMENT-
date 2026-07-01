@@ -35,41 +35,90 @@ class _HomeBottomNavState extends State<HomeBottomNav> {
     return Scaffold(
       body: pages[currentIndex],
 
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-
-        onTap: (val) {
-          setState(() {
-            currentIndex = val;
-          });
-        },
-
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 20,
+                offset: const Offset(0, -4),
+              ),
+            ],
           ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              currentIndex: currentIndex,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              selectedItemColor: const Color(0xFF0000BA),
+              unselectedItemColor: Colors.grey.shade500,
+              selectedLabelStyle: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+              showUnselectedLabels: true,
+              onTap: (val) {
+                setState(() {
+                  currentIndex = val;
+                });
+              },
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_outlined),
-            label: 'Search',
+              items: [
+                BottomNavigationBarItem(
+                  icon: _navIcon(Icons.home_outlined, 0),
+                  activeIcon: _navIcon(Icons.home, 0, active: true),
+                  label: 'Home',
+                ),
+
+                BottomNavigationBarItem(
+                  icon: _navIcon(Icons.search_outlined, 1),
+                  activeIcon: _navIcon(Icons.search, 1, active: true),
+                  label: 'Search',
+                ),
+
+                BottomNavigationBarItem(
+                  icon: _navIcon(Icons.picture_as_pdf_outlined, 2),
+                  activeIcon: _navIcon(Icons.picture_as_pdf, 2, active: true),
+                  label: 'Reports',
+                ),
+              ],
+            ),
           ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.picture_as_pdf_sharp),
-            label: 'Reports',
-          ),
-
-
-
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.warning),
-          //   label: 'Risk',
-          // ),
-        ],
-      ),
+        ),
       drawer:DrawerWidget()
+    );
+  }
+  Widget _navIcon(IconData icon, int index, {bool active = false}) {
+    final isSelected = currentIndex == index;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: isSelected
+            ? const Color(0xFF0000BA).withOpacity(0.12)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Icon(
+        icon,
+        size: isSelected ? 26 : 22,
+        color: isSelected ? const Color(0xFF0000BA) : Colors.grey,
+      ),
     );
   }
 }

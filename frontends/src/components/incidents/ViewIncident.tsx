@@ -1,64 +1,191 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BaseUrl from "../utils/api_provider/ApiProviders";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 export default function ViewIncident() {
+
+  const { id } = useParams();
+
+  const [incident, setIncident] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const incidentDetails = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.get(
+        `${BaseUrl}/incidents/get/${id}`
+      );
+
+      setIncident(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    incidentDetails();
+  }, [id]);
+
+  const formatDate = (date) => {
+    if (!date) return "-";
+
+    return new Date(date).toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const severityBadge = (severity) => {
+    switch (severity) {
+      case "LOW":
+        return "success";
+
+      case "MEDIUM":
+        return "warning";
+
+      case "HIGH":
+        return "danger";
+
+      case "CRITICAL":
+        return "dark";
+
+      default:
+        return "secondary";
+    }
+  };
+
+  const statusBadge = (status) => {
+    switch (status) {
+      case "ACTIVE":
+        return "success";
+
+      case "INACTIVE":
+        return "secondary";
+
+      case "OUT_OF_SERVICE":
+        return "danger";
+
+      default:
+        return "primary";
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="container mt-5 text-center">
+        <div
+          className="spinner-border text-primary"
+          style={{ width: 60, height: 60 }}
+        ></div>
+
+        <h4 className="mt-4">
+          Loading Incident...
+        </h4>
+      </div>
+    );
+  }
+
+  if (!incident) {
+    return (
+      <div className="container mt-5">
+        <div className="alert alert-danger">
+          Incident not found.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <div className="page-inner">
 
-        {/* PAGE HEADER */}
-        <div className="page-header">
-          <h3 className="fw-bold mb-3">Incident Details</h3>
+        {/* HEADER */}
+
+        <div className="page-header mb-4">
+
+          <h2 className="fw-bold text-primary">
+            <i className="fa fa-triangle-exclamation me-2"></i>
+
+            Incident Details
+          </h2>
+
         </div>
 
-        {/* INCIDENT HEADER */}
-        <div className="card border-0 shadow-sm mb-4">
+        {/* TOP HEADER */}
+
+        <div className="card border-0 shadow mb-4">
 
           <div
             className="card-body text-white"
             style={{
-              background: "#1e66ff",
-              borderRadius: "10px",
+              background:
+                "linear-gradient(135deg,#1e66ff,#0d47a1)",
+              borderRadius: 10,
             }}
           >
-            <div className="d-flex justify-content-between align-items-center flex-wrap">
 
-              <div>
-                <h2 className="fw-bold mb-2">
-                  Lift Sudden Shutdown During Operation
+            <div className="row align-items-center">
+
+              <div className="col-md-8">
+
+                <h2 className="fw-bold">
+                  {incident.incidentTitle}
                 </h2>
 
                 <p className="mb-0">
-                  Incident ID: INC-001
+                  description:{" "}
+                  <strong>
+                   {incident.description}
+                  </strong>
                 </p>
+
               </div>
 
-              <div className="text-end">
+              <div className="col-md-4 text-end">
 
-                <span className="badge bg-danger fs-6 px-3 py-2 mb-2">
-                  High Severity
+                <span
+                  className={`badge bg-${severityBadge(
+                    incident.severity
+                  )} fs-6 px-3 py-2`}
+                >
+                  {incident.severity}
                 </span>
 
                 <br />
 
-                <span className="badge bg-warning text-dark fs-6 px-3 py-2">
-                  Open
+                <span className="badge bg-secondary fs-6 mt-3 px-3 py-2">
+
+                  {incident.status || "OPEN"}
+
                 </span>
 
               </div>
 
             </div>
+
           </div>
 
         </div>
 
-        {/* RELATED ASSET */}
-        <div className="card shadow-sm border-0 mb-4">
+        {/* ASSET CARD */}
 
-          <div className="card-header">
-            <h4 className="card-title mb-0">
+        <div className="card border-0 shadow mb-4">
+
+          <div className="card-header bg-primary text-white">
+
+            <h4 className="mb-0">
+
+              <i className="fa fa-building me-2"></i>
+
               Related Asset
+
             </h4>
+
           </div>
 
           <div className="card-body">
@@ -68,17 +195,16 @@ export default function ViewIncident() {
               <div className="col-md-2 text-center">
 
                 <div
-                  className="d-flex align-items-center justify-content-center mx-auto"
+                  className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto"
                   style={{
-                    width: "80px",
-                    height: "80px",
-                    borderRadius: "20px",
-                    background: "#edf3ff",
-                    color: "#1e66ff",
-                    fontSize: "32px",
+                    width: 90,
+                    height: 90,
+                    fontSize: 35,
                   }}
                 >
-                  <i className="fas fa-elevator"></i>
+
+                  <i className="fa fa-industry"></i>
+
                 </div>
 
               </div>
@@ -87,54 +213,179 @@ export default function ViewIncident() {
 
                 <div className="row">
 
-                  <div className="col-md-4 mb-3">
-                    <small className="text-muted">
-                      Asset ID
-                    </small>
-                    <h6>AST-001</h6>
-                  </div>
+                  <div className="col-md-4 mb-4">
 
-                  <div className="col-md-4 mb-3">
                     <small className="text-muted">
+
                       Asset Name
+
                     </small>
-                    <h6>Main Passenger Lift</h6>
+
+                    <h5>
+
+                      {incident.asset.assetName}
+
+                    </h5>
+
                   </div>
 
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-4 mb-4">
+
                     <small className="text-muted">
+
                       Asset Type
+
                     </small>
-                    <h6>Lift</h6>
+
+                    <h5>
+
+                      {incident.asset.assetType}
+
+                    </h5>
+
                   </div>
 
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-4 mb-4">
+
                     <small className="text-muted">
+
                       Location
+
                     </small>
-                    <h6>Block A</h6>
+
+                    <h5>
+
+                      {incident.asset.location}
+
+                    </h5>
+
                   </div>
 
-                  <div className="col-md-4 mb-3">
-                    <small className="text-muted">
-                      Serial Number
-                    </small>
-                    <h6>LF-2026-001</h6>
-                  </div>
+                  <div className="col-md-4 mb-4">
 
-                  <div className="col-md-4 mb-3">
                     <small className="text-muted">
+
                       Asset Status
+
+                    </small>
+
+                    <br />
+
+                    <span
+                      className={`badge bg-${statusBadge(
+                        incident.asset.status
+                      )}`}
+                    >
+                      {incident.asset.status}
+                    </span>
+
+                  </div>
+
+                  <div className="col-md-4 mb-4">
+
+                    <small className="text-muted">
+
+                      Serial Number
+
+                    </small>
+
+                    <h5>
+
+                      {incident.asset.serialNo || "N/A"}
+
+                    </h5>
+
+                  </div>
+
+                  <div className="col-md-4 mb-4">
+
+                    <small className="text-muted">
+
+                      Asset ID
+
                     </small>
 
                     <h6>
-                      <span className="badge bg-danger">
-                        Out of Service
-                      </span>
+
+                      {incident.asset.assetId}
+
                     </h6>
+
                   </div>
 
                 </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+                {/* REPORTER INFORMATION */}
+
+        <div className="card border-0 shadow mb-4">
+
+          <div className="card-header bg-success text-white">
+
+            <h4 className="mb-0">
+              <i className="fa fa-user me-2"></i>
+              Reporter Information
+            </h4>
+
+          </div>
+
+          <div className="card-body">
+
+            <div className="row">
+
+              <div className="col-md-3 mb-4">
+                <small className="text-muted">Full Name</small>
+
+                <h5>
+                  {incident.reportedBy?.fullName}
+                </h5>
+              </div>
+
+              <div className="col-md-3 mb-4">
+                <small className="text-muted">Email</small>
+
+                <h6>
+                  {incident.reportedBy?.email}
+                </h6>
+              </div>
+
+              <div className="col-md-2 mb-4">
+                <small className="text-muted">Role</small>
+
+                <h6>
+                  {incident.reportedBy?.role}
+                </h6>
+              </div>
+
+              <div className="col-md-2 mb-4">
+                <small className="text-muted">Phone</small>
+
+                <h6>
+                  {incident.reportedBy?.phone}
+                </h6>
+              </div>
+
+              <div className="col-md-2 mb-4">
+
+                <small className="text-muted">
+                  Account Status
+                </small>
+
+                <br />
+
+                <span
+                  className={`badge bg-${statusBadge(
+                    incident.reportedBy?.status
+                  )}`}
+                >
+                  {incident.reportedBy?.status}
+                </span>
 
               </div>
 
@@ -145,73 +396,139 @@ export default function ViewIncident() {
         </div>
 
         {/* INCIDENT DETAILS */}
-        <div className="card shadow-sm border-0">
 
-          <div className="card-header">
-            <h4 className="card-title mb-0">
+        <div className="card border-0 shadow">
+
+          <div className="card-header bg-danger text-white">
+
+            <h4 className="mb-0">
+
+              <i className="fa fa-file-circle-exclamation me-2"></i>
+
               Incident Information
+
             </h4>
+
           </div>
 
           <div className="card-body">
 
             <div className="row">
 
-              <div className="col-md-6 mb-4">
-                <label className="text-muted">
-                  Reported Date
-                </label>
+              <div className="col-md-4 mb-4">
 
-                <h6>12 May 2026</h6>
+                <small className="text-muted">
+                  Incident Date
+                </small>
+
+                <h5>
+                  {formatDate(incident.incidentDate)}
+                </h5>
+
               </div>
 
-              <div className="col-md-6 mb-4">
-                <label className="text-muted">
-                  Reported By
-                </label>
+              <div className="col-md-4 mb-4">
 
-                <h6>John Inspector</h6>
+                <small className="text-muted">
+                  Created At
+                </small>
+
+                <h5>
+                  {formatDate(incident.createdAt)}
+                </h5>
+
               </div>
 
-              <div className="col-md-6 mb-4">
-                <label className="text-muted">
-                  Related Risk
-                </label>
+              <div className="col-md-4 mb-4">
 
-                <h6>
-                  RSK-001 - Lift Sensor Failure
-                </h6>
-              </div>
-
-              <div className="col-md-6 mb-4">
-                <label className="text-muted">
+                <small className="text-muted">
                   Severity
-                </label>
+                </small>
 
-                <h6>
-                  <span className="badge bg-danger">
-                    High
-                  </span>
-                </h6>
+                <br />
+
+                <span
+                  className={`badge bg-${severityBadge(
+                    incident.severity
+                  )} fs-6`}
+                >
+                  {incident.severity}
+                </span>
+
+              </div>
+
+              <div className="col-md-6 mb-4">
+
+                <small className="text-muted">
+                  Related Risk
+                </small>
+
+                {incident.risk ? (
+
+                  <div className="mt-2">
+
+                    <h5>
+                      {incident.risk.riskTitle}
+                    </h5>
+
+                    <p className="text-muted mb-0">
+                      {incident.risk.riskDescription}
+                    </p>
+
+                  </div>
+
+                ) : (
+
+                  <div className="alert alert-warning mt-2 mb-0">
+
+                    <i className="fa fa-circle-info me-2"></i>
+
+                    No Risk Linked To This Incident
+
+                  </div>
+
+                )}
+
+              </div>
+
+              <div className="col-md-6 mb-4">
+
+                <small className="text-muted">
+
+                  Current Status
+
+                </small>
+
+                <br />
+
+                <span className="badge bg-primary fs-6">
+
+                  {incident.status || "OPEN"}
+
+                </span>
+
               </div>
 
               <div className="col-md-12">
 
-                <label className="text-muted">
-                  Incident Description
-                </label>
+                <small className="text-muted">
+
+                  Description
+
+                </small>
 
                 <div
-                  className="p-3 rounded mt-2"
+                  className="mt-2 p-4 rounded border"
                   style={{
-                    background: "#f8f9fa",
+                    background: "#f8fafc",
+                    minHeight: 120,
+                    fontSize: "15px",
+                    lineHeight: "28px",
                   }}
                 >
-                  During normal operation, the lift stopped
-                  unexpectedly between floors due to a sensor
-                  malfunction. Passengers were safely evacuated
-                  and the lift was removed from service pending
-                  inspection and corrective maintenance.
+
+                  {incident.description}
+
                 </div>
 
               </div>

@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,7 @@ class AllMitigations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+backgroundColor: themeSurfaceColor(context),
       body: BlocBuilder<MitigationBloc, MitigationState>(
   builder: (context, state) {
     if(state is MitigationLoading){
@@ -54,7 +55,7 @@ class AllMitigations extends StatelessWidget {
               ),
 
               child: ListTile(
-
+                textColor: themeSurfaceColor(context),
                   leading: CircleAvatar(
                     backgroundColor:
                     Colors.orange.withOpacity(0.1),
@@ -89,18 +90,18 @@ class AllMitigations extends StatelessWidget {
 return SizedBox.shrink();
   },
 ),
-      floatingActionButton: 1==1? FloatingActionButton(
-        backgroundColor: primaryColor,
-
-        onPressed: () {
-          // Get.to(()=>AddMitigation());
-        },
-
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ): null
+      // floatingActionButton: 1==1? FloatingActionButton(
+      //   backgroundColor: primaryColor,
+      //
+      //   onPressed: () {
+      //     // Get.to(()=>AddMitigation());
+      //   },
+      //
+      //   child: const Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      // ): null
 
 
 

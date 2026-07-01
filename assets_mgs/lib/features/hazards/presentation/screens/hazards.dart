@@ -1,3 +1,4 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:assets_mgs/features/hazards/presentation/screens/register_hazards.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,8 @@ class _HazardsState extends State<Hazards> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      backgroundColor: const Color(0xFFF5F7FA),
+
+      backgroundColor:themeSurfaceColor(context),
 
       body: BlocBuilder<HazardsBloc, HazardsState>(
         builder: (context, state) {
@@ -93,7 +95,7 @@ class _HazardsState extends State<Hazards> {
                 return Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color:themeSurfaceColor(context),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(

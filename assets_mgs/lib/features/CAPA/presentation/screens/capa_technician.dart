@@ -1,10 +1,12 @@
+import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/CAPA/domain/entities/capa_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../notifications/presentation/widgets/notification_button.dart';
 import '../bloc/capa_bloc.dart';
 import '../widgets/asset_capa.dart';
@@ -36,22 +38,35 @@ class _CapaTechnicianState extends State<CapaTechnician> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getTechnicianId();
-  }
-
-  void getTechnicianId ()async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-   final userId = prefs.getString('userId');
-    context.read<CapaBloc>().add(
-      GetCapaByTechnicianEvent(userId.toString()),
-    );
-
     // context.read<NotificationBloc>().add(GetNotificationByUserEvent());
+    context.read<CapaBloc>().add(GetCapaByTechnicianEvent());
   }
+
+  // void getTechnicianId ()async{
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //  final userId = prefs.getString('userId');
+  //   context.read<CapaBloc>().add(
+  //     GetCapaByTechnicianEvent(userId.toString()),
+  //   );
+  //
+  //   // context.read<NotificationBloc>().add(GetNotificationByUserEvent());
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+backgroundColor: themeSurfaceColor(context),
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
         elevation: 0,
 
         backgroundColor: const Color(0xFF0000BA),
@@ -95,6 +110,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                   return Center(child: Text('NO Task assigned to you'));
                 } else {
                   return ListView.builder(
+                    key: ValueKey(Theme.of(context).brightness),
                     physics: BouncingScrollPhysics(),
 
                     padding: const EdgeInsets.all(16),
@@ -107,7 +123,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                       return Container(
                         margin: const EdgeInsets.only(bottom: 15),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color:themeSurfaceColor(context),
                           borderRadius: BorderRadius.circular(18),
                           boxShadow: [
                             BoxShadow(
@@ -221,12 +237,105 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                       );
 
                                       if (selected != null)  {
-                                       context.read<CapaBloc>().add(
-                                          UpdateCapaByTechnicianEvent(
-                                            capaId: item.capaId.toString(),
-                                            capa: CapaEntity(status: selected.trim().toString()),
-                                          ),
-                                        );
+                                        if (selected != null) {
+                                          Get.defaultDialog(
+                                            title: "Update Status",
+                                            titleStyle: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF0000BA),
+                                            ),
+
+                                            radius: 18,
+
+                                            content: Column(
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: 32,
+                                                  backgroundColor: Colors.blue.shade50,
+                                                  child: const Icon(
+                                                    Icons.edit_note_rounded,
+                                                    size: 38,
+                                                    color: Color(0xFF0000BA),
+                                                  ),
+                                                ),
+
+                                                const SizedBox(height: 18),
+
+                                                Text(
+                                                  "Change task status to",
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.grey.shade700,
+                                                  ),
+                                                ),
+
+                                                const SizedBox(height: 10),
+
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 18,
+                                                    vertical: 10,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.blue.shade50,
+                                                    borderRadius: BorderRadius.circular(30),
+                                                  ),
+                                                  child: Text(
+                                                    selected.replaceAll("_", " "),
+                                                    style: const TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: Color(0xFF0000BA),
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                const SizedBox(height: 18),
+
+                                                Text(
+                                                  "Are you sure you want to update this CAPA task?",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.grey.shade700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+
+                                            textCancel: "Cancel",
+                                            textConfirm: "Update",
+                                            middleTextStyle: TextStyle(
+                                              color: Colors.red
+                                            ),
+
+                                            cancelTextColor: Colors.red,
+
+                                            confirmTextColor: Colors.white,
+
+                                            buttonColor: const Color(0xFF0000BA),
+
+                                            onConfirm: () {
+                                              Get.back();
+
+                                              context.read<CapaBloc>().add(
+                                                UpdateCapaByTechnicianEvent(
+                                                  capaId: item.capaId.toString(),
+                                                  capa: CapaEntity(
+                                                    status: selected,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                       // context.read<CapaBloc>().add(
+                                       //    UpdateCapaByTechnicianEvent(
+                                       //      capaId: item.capaId.toString(),
+                                       //      capa: CapaEntity(status: selected.trim().toString()),
+                                       //    ),
+                                       //  );
                                      // return context.read<CapaBloc>().add(GetCapaByTechnicianEvent(item.assignedTo!.userId.toString()));
                                                                           }
                                     },
