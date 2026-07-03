@@ -218,7 +218,34 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                              BorderRadius.circular(
                                                  100),
                                            ),
-                                           child: Text(
+                                           child:   n.receiver!.role.toString() =='ESTATE_MANAGER'?
+                                           Row(
+                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                             children: [
+                                               Text(
+                                                 n.title.toString(),
+                                                 maxLines: 3,
+                                                 overflow:
+                                                 TextOverflow.ellipsis,
+                                                 style: const TextStyle(
+                                                   fontSize: 15.5,
+                                                   fontWeight:
+                                                   FontWeight.w700,
+                                                   height: 1.5,
+                                                 ),
+                                               ),
+                                               if (n.isRead ==true)
+                                               SizedBox(
+                                                 width: 38.w,
+                                               ),
+
+                                               Padding(
+                                                 padding: const EdgeInsets.all(8.0),
+                                                 child: Icon(Icons.verified_outlined,color: Colors.green,),
+                                               )
+                                             ],
+                                           )
+                                               : Text(
                                              n.notifyType
                                                  .toString()
                                                  .toUpperCase(),

@@ -61,6 +61,7 @@ console.log("Selected User ID:", selectedUser?.userId);
         assignedToId: selectedUser?.userId,
         sender_id:user?.userId,
         playerId:selectedUser?.playerId,
+        assignedById:user?.userId,
         dueDate: new Date(dueDate).toISOString(),
       };
       console.log('payload',payload)

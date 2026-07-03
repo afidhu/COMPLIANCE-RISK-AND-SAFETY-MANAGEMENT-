@@ -98,6 +98,7 @@ enum NotificationType {
   INCIDENT
   INSPECTION
   CERTIFICATE
+  APPROVAL
 }
 
 model User {
@@ -115,10 +116,12 @@ model User {
   hazardsReported     Hazard[]
   incidentsReported   Incident[]
   mitigationAssigned  MitigationAction[]
-  capaAssigned        CapaAction[]
+  capaAssigned        CapaAction[] @relation("CapaAssignedTo")
+  capaAssignedBy     CapaAction[] @relation("CapaAssignedBy")
 
   sentNotifications     Notification[] @relation("SentNotifications")
   receivedNotifications Notification[] @relation("ReceivedNotifications")
+  
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -268,7 +271,9 @@ model CapaAction {
   actionType     CAPAType @default(CORRECTIVE)
 
   assignedToId   String 
-  assignedTo     User     @relation(fields: [assignedToId], references: [userId])
+  assignedTo     User     @relation("CapaAssignedTo", fields: [assignedToId], references: [userId])
+  assignedById   String @default("bda3a186-5e4d-44df-8312-911c68f6a97c")
+  assignedBy     User   @relation("CapaAssignedBy", fields: [assignedById], references: [userId])
 
   dueDate        DateTime
 
@@ -276,6 +281,7 @@ model CapaAction {
   status         ActionStatus @default(PENDING)
 
   createdAt DateTime @default(now())
+  @@unique([assignedById])
 }
 
 

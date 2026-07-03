@@ -1,5 +1,6 @@
 
 import 'package:assets_mgs/config/themes/app_themes.dart';
+import 'package:assets_mgs/core/utils/share_storage/share_user_details.dart';
 import 'package:assets_mgs/features/assets/domain/use_cases/get_assets_case.dart';
 import 'package:assets_mgs/features/mitigations/data/repo_impl/mitigation_repo_impl.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   //Notification initialization by onesignal
+  getUserDetails(); //initialize user data
   Get.put(NotificationInitializationController());
 
   //Called function that work when user click notification message

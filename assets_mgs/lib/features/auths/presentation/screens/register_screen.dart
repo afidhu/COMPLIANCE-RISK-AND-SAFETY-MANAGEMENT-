@@ -257,10 +257,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text("staff member"),
                     ),
 
-                    // DropdownMenuItem(
-                    //   value: "ESTATE_MANAGER",
-                    //   child: Text("Estate Manager"),
-                    // ),
+                    DropdownMenuItem(
+                      value: "ESTATE_MANAGER",
+                      child: Text("Estate Manager"),
+                    ),
                   ],
 
                   onChanged: (value) {

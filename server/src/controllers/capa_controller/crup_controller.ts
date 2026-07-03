@@ -30,6 +30,7 @@ export const addCapa = async (req: Request, resp: Response) => {
                 assignedToId: assignedToId,
                 dueDate: dueDate,
                 hazardId: hazardId,
+                assignedById: sender_id,
             },
             include: {
                 assignedTo: true
@@ -105,13 +106,38 @@ export const getCapasByRiskId = async (req: Request, resp: Response) => {
 export const updateCapa = async (req: Request, resp: Response) => {
     try {
         const { capaId } = req.params;
-        const { riskId, actionTitle, assignedToId, dueDate, status } = req.body;
+        const { status } = req.body;
         const updatedCapa = await prisma.capaAction.update({
             where: { capaId: `${capaId}` },
             data: {
                 status: status,
             }
         });
+
+        if (updatedCapa.status === 'COMPLETED') {
+            // If the status is updated to 'COMPLETED', send a notification to estate manager after the CAPA is completed
+            const capa = await prisma.capaAction.findUnique({
+                where: { capaId: `${capaId}` },
+                include: {
+                    assignedTo: true,
+                    hazard: true,
+                    assignedBy: true
+                }
+            });
+
+            if (capa && capa.assignedTo && capa.hazard && capa.assignedBy.playerId) {
+                const playerId = capa.assignedBy?.playerId; // Assuming assignedBy has a playerId field
+                const sender_id = capa.assignedTo.userId; // Assuming assignedTo has a userId field
+
+                if (playerId && sender_id) {
+                    const notificate = automaticNotification('Task completed', `${capa.actionTitle}`, `${playerId}`, 'APPROVAL', `${capa.capaId}`);
+                    notificate.then((data) => {
+                        console.log('createNotification:', data);
+                        createNotification(`${sender_id}`, `${capa.assignedBy?.userId}`, `Task completed`, `${capa.actionTitle}`, `CAPA`, `${capa.capaId}`);
+                    });
+                }
+            }
+        }
         console.log(updatedCapa)
         return resp.status(200).json(updatedCapa);
     } catch (error) {

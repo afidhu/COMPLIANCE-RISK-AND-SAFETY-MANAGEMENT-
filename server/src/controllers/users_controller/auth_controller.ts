@@ -269,15 +269,16 @@ export const approveUser = async(req:Request, resp:Response)=>{
                 userId:`${id}`
             }
         })
+        let updateData = {};
         if(getUser?.isApproved ===true){
-         await prisma.user.update({
+      updateData =   await prisma.user.update({
                     where: { userId: `${id}` },
                     data:{isApproved:false}
                 });
                 
         }
        else if(getUser?.isApproved ===false){
-        await prisma.user.update({
+        updateData = await prisma.user.update({
             where: { userId: `${id}` },
             data:{isApproved:true}
         });
@@ -285,7 +286,7 @@ export const approveUser = async(req:Request, resp:Response)=>{
        }
        console.log('Approved:',getUser)
         
-        return resp.status(200).json(getUser);
+        return resp.status(200).json(updateData);
     } catch (error) {
         console.error("Error approving user:", error);
         return resp.status(500).json({ message: "Internal server error" });
