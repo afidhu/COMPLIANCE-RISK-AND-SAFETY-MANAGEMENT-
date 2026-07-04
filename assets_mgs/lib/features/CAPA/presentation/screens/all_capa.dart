@@ -145,7 +145,7 @@ backgroundColor: themeSurfaceColor(context),
                     alignment: Alignment.centerRight,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        assetCapa(asset: item.hazards!.asset);
+                        hazardAssetCapa(context,hazard: item.hazards);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0000BA),

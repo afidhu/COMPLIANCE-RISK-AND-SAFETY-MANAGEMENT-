@@ -86,78 +86,80 @@ export const getNotificationById = async (req: Request, resp: Response) => {
 };
 
 // Get all notifications for a specific receiver (User Inbox)
-export const getNotificationsByReceiver = async ( req: Request,resp: Response) => {
-  try {
-    const { userId } = req.params;
+export const getNotificationsByReceiver = async (req: Request, resp: Response) => {
+    try {
+        const { userId } = req.params;
 
-    const notifications = await prisma.notification.findMany({
-      where: {
-        receiver_id: `${userId}`,
-        
-      },
-      include:{
-         receiver: true,
-                sender: true
-      },
-      
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    const result = await Promise.all(
-      notifications.map(async (notification) => {
-        let capaDetails = null;
-        let complianceDetails=null
-
-        // Only lookup CAPA notifications
-        if (
-          notification.notify_type === 'CAPA' &&
-          notification.reference_id
-        ) {
-          capaDetails = await prisma.capaAction.findUnique({
+        const notifications = await prisma.notification.findMany({
             where: {
-              capaId: notification.reference_id,
+                receiver_id: `${userId}`,
+
             },
             include: {
-              hazard: {
-                include: {
-                  asset: true,
-                },
-              },
+                receiver: true,
+                sender: true,
+            
             },
-          });
-        }
-        else if (
-          notification.notify_type === 'COMPLIANCE' &&
-          notification.reference_id
-        ) {
-          complianceDetails = await prisma.compliance.findUnique({
-            where: {
-                complianceId: notification.reference_id,
-            },
-            include: {
-                asset:true
-            },
-          });
-        }
 
-        return {
-          ...notification,
-          capa: capaDetails,
-          compliance:complianceDetails
-        };
-      })
-    );
-    console.log(result)
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
 
-    return resp.status(200).json(result);
-  } catch (error) {
-    console.error(error);
-    return resp.status(500).json({
-      message: "Internal server error",
-    });
-  }
+        const result = await Promise.all(
+            notifications.map(async (notification) => {
+                let capaDetails = null;
+                let complianceDetails = null
+
+                // Only lookup CAPA notifications
+                if (
+                    notification.notify_type === 'CAPA' &&
+                    notification.reference_id
+                ) {
+                    capaDetails = await prisma.capaAction.findUnique({
+                        where: {
+                            capaId: notification.reference_id,
+                        },
+                        include: {
+                            hazard: {
+                                include: {
+                                    asset: true,
+                                },
+                            },
+                        },
+                    });
+                    console.log(capaDetails)
+                }
+                else if (
+                    notification.notify_type === 'COMPLIANCE' &&
+                    notification.reference_id
+                ) {
+                    complianceDetails = await prisma.compliance.findUnique({
+                        where: {
+                            complianceId: notification.reference_id,
+                        },
+                        include: {
+                            asset: true
+                        },
+                    });
+                }
+
+                return {
+                    ...notification,
+                    capa: capaDetails,
+                    compliance: complianceDetails
+                };
+            })
+        );
+        console.log(result)
+
+        return resp.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+        return resp.status(500).json({
+            message: "Internal server error",
+        });
+    }
 };
 
 // Update a notification (e.g., Mark as read)
@@ -169,7 +171,7 @@ export const updateNotification = async (req: Request, resp: Response) => {
         const updatedNotification = await prisma.notification.update({
             where: { notify_id: `${id}` },
             data: {
-                is_read:true,
+                is_read: true,
             }
         });
 

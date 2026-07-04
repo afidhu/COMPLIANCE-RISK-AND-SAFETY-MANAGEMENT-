@@ -112,7 +112,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                      onTap: () {
                        context.read<NotificationBloc>().add(UpdateNotificationByUserEvent(n.notifyId.toString()));
                        if(n.notifyType =='CAPA'){
-                         assetCapa(asset: n.capa!.hazards!.asset);
+                         hazardAssetCapa(context, hazard: n.capa!.hazards);
                        }
                        else if(n.notifyType =='COMPLIANCE'){
                          Get.to(()=>NotificationComplianceView(),arguments: n.compliance);
@@ -325,6 +325,22 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                          height: 1.5,
                                        ),
                                      ),
+                                     const SizedBox(height: 10),
+                                         SizedBox(
+                                           width: 100.w,
+                                           child: Text(
+                                             n.capa!.hazards!.hazardTitle.toString(),
+                                             maxLines: 3,
+                                             overflow:
+                                             TextOverflow.ellipsis,
+                                             style: const TextStyle(
+                                               fontSize: 15.5,
+                                               fontWeight:
+                                               FontWeight.w700,
+                                               height: 1.5,
+                                             ),
+                                           ),
+                                     ),
                                    ],
                                  ),
                                ),
@@ -449,7 +465,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                      child:IconButton(onPressed: (){
                                        context.read<NotificationBloc>().add(UpdateNotificationByUserEvent(n.notifyId.toString()));
                                        if(n.notifyType =='CAPA'){
-                                         assetCapa(asset: n.capa!.hazards!.asset);
+                                         hazardAssetCapa(context,hazard: n.capa!.hazards);
                                        }
                                        else if(n.notifyType =='COMPLIANCE'){
                                          Get.to(()=>NotificationComplianceView(),arguments: n.compliance);

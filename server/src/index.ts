@@ -54,7 +54,7 @@ app.use('/risks', risks_routers);
 app.use('/compliance', compliance_routers);
 app.use('/capa', capa_routers);
 app.use('/assets', assets_routers);
-app.use('/notification', notification_router);
+app.use('/notifications', notification_router);
 app.use('/search', searchs_routers);
 
 

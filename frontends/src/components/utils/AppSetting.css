@@ -1,0 +1,87 @@
+:root{
+    --primary:#0000BA;
+    --card:white;
+    --bg:#f4f6fb;
+    --text:#222;
+}
+
+[data-theme="dark"]{
+    --card:#1d1d1d;
+    --bg:#111827;
+    --text:white;
+}
+
+.settings-page{
+    padding:30px;
+    background:var(--bg);
+    min-height:100vh;
+    color:var(--text);
+}
+
+.header{
+    margin-bottom:30px;
+}
+
+.card{
+    background:var(--card);
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card h3{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--primary);
+    margin-bottom:20px;
+}
+
+.theme-buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.theme-buttons button{
+    border:none;
+    padding:14px 25px;
+    border-radius:14px;
+    cursor:pointer;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    background:#ececff;
+}
+
+.theme-buttons .active{
+    background:var(--primary);
+    color:white;
+}
+
+.setting-row{
+    display:flex;
+    justify-content:space-between;
+    margin:18px 0;
+    font-weight:600;
+}
+
+select{
+    padding:10px;
+    border-radius:10px;
+}
+
+button{
+    padding:12px 20px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.logout{
+    width:100%;
+    background:#d32f2f;
+    color:white;
+    font-weight:bold;
+}

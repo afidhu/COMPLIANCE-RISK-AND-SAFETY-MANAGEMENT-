@@ -156,6 +156,7 @@ model Compliance {
   frequency       String
   lastDueDate     DateTime?
   dueDate         DateTime
+  expireDate      DateTime?
 
   status          ComplianceStatus @default(COMPLIANT)
 

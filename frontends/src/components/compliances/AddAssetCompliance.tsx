@@ -20,6 +20,7 @@ export default function AddAssetCompliance() {
     frequency: "",
     lastDueDate: "",
     dueDate: "",
+    expireDate: "",
   });
 
   const[ isClicked,setIsClicked]=useState(false)
@@ -56,6 +57,7 @@ const addComplianceHandle = async (e: React.FormEvent) => {
       frequency: "",
       lastDueDate: "",
       dueDate: "",
+      expireDate: "",
     });
     //navigate to
 
@@ -269,7 +271,7 @@ const handleInputChange = (
               {/* Status */}
               <div className="mb-4">
                 <label className="form-label fw-semibold">
-                  Compliance Status
+                 Expire Date
                 </label>
 
                 <div className="input-group">
@@ -277,12 +279,14 @@ const handleInputChange = (
                     <i className="fas fa-circle-check text-primary"></i>
                   </span>
 
-                  <select className="form-select">
-                    <option>Select Status</option>
-                    <option>Compliant</option>
-                    <option>Due Soon</option>
-                    <option>Overdue</option>
-                  </select>
+                  <input
+                    type="date"
+                    className="form-control"
+                    style={{colorScheme:'light'}}
+                    onChange={handleInputChange}
+                    name ={"expireDate"}
+                    value ={formData.expireDate}
+                  />
                 </div>
               </div>
 

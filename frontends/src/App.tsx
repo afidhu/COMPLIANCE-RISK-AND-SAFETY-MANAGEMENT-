@@ -33,6 +33,8 @@ import AllUsers from './components/auths/AllUsers';
 import ComplianceAnalysis from './components/compliances/ComplianceAnalysis';
 import DashboardAnalysis from './components/dashbaords/DashboardAnalysis';
 import UnapprovedScreen from './components/utils/UnapprovedScreen';
+import Notifications from './components/notifications/Notifications';
+import AppSetting from './components/utils/AppSetting';
 
 
 
@@ -77,7 +79,10 @@ function App() {
         <Route path="/Hazards" element={<Hazards />} />
         <Route path="/Hazard/:hazardId" element={<ViewHazard />} />
         <Route path="/risks" element={<Risks />} /> 
-        
+
+        <Route path="/Notifications" element={<Notifications />} />
+        <Route path="/appSetting" element={<AppSetting />} />
+      
         <Route path="/RisksReport" element={<RisksReport />} /> 
         <Route path="/IncidentsReport" element={<IncidentsReport />} /> 
         <Route path="/AssetsReport" element={<AssetsReport />} /> 

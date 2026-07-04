@@ -6,7 +6,7 @@ import { prisma } from "../../index.ts";
 // Controller function to add a new compliance
 export const addCompliance = async(req:Request, resp:Response)=>{
     try {
-        const { complianceName, assetId, frequency, lastDueDate, dueDate,status } = req.body;
+        const { complianceName, assetId, frequency, lastDueDate, dueDate, expireDate, status } = req.body;
         const newCompliance = await prisma.compliance.create({
             data: {
                 complianceName,
@@ -14,7 +14,8 @@ export const addCompliance = async(req:Request, resp:Response)=>{
                 frequency,
                 lastDueDate: lastDueDate ? new Date(lastDueDate) : null, 
                 dueDate: new Date(dueDate),
-                status:status,
+                expireDate: expireDate ? new Date(expireDate) : null,
+                status: status || 'COMPLIANT', // Default to 'COMPLIANT' if not provided
             }
         });
         console.log(newCompliance)
@@ -61,15 +62,16 @@ export const getComplianceById = async(req:Request, resp:Response)=>{
 export const updateCompliance = async(req:Request, resp:Response)=>{
     try {
         const { id } = req.params;
-        const { complianceName, frequency, lastDueDate, dueDate } = req.body;
+        const { complianceName, frequency, lastDueDate, dueDate, expireDate, status } = req.body;
         const updatedCompliance = await prisma.compliance.update({
             where: { complianceId: `${id}` },
             data: {
                 complianceName,
                 frequency,
-                status:'COMPLIANT',
-                  lastDueDate: lastDueDate ? new Date(lastDueDate) : null, 
+                status: status || 'COMPLIANT',
+                lastDueDate: lastDueDate ? new Date(lastDueDate) : null,
                 dueDate: new Date(dueDate),
+                expireDate: expireDate ? new Date(expireDate) : null,
             }
         });
         console.log(updatedCompliance)

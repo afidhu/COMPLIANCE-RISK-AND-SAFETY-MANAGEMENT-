@@ -154,17 +154,17 @@ export default function SideBar() {
                             </li>
 
                             <li className="nav-item">
-                                <a data-bs-toggle="collapse" href="#inspections">
-                                    <i className="fas fa-th-list"></i>
-                                    <p>Inspections</p>
+                                <a data-bs-toggle="collapse" href="#accounts">
+                                    <i className="fas fa-users"></i>
+                                    <p>Users & Accounts</p>
                                     <span className="caret"></span>
                                 </a>
-                                <div className="collapse" id="inspections">
+                                <div className="collapse" id="accounts">
                                     <ul className="nav nav-collapse">
                                         <li>
-                                            <a href="./inspections/inspection.html">
-                                                <span className="sub-item">Inspection</span>
-                                            </a>
+                                            <Link to={'/AllUsers'}>
+                                                <span className="sub-item">Users</span>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -172,39 +172,38 @@ export default function SideBar() {
 
 
                             <li className="nav-item">
-                                <a data-bs-toggle="collapse" href="#forms">
-                                    <i className="fas fa-pen-square"></i>
-                                    <p>Forms</p>
+                                <a data-bs-toggle="collapse" href="#notifications">
+                                    <i className="fas fa-bell"></i>
+                                    <p>Notifications</p>
                                     <span className="caret"></span>
                                 </a>
-                                <div className="collapse" id="forms">
+                                <div className="collapse" id="notifications">
                                     <ul className="nav nav-collapse">
                                         <li>
-                                            <a href="forms/forms.html">
-                                                <span className="sub-item">Basic Form</span>
-                                            </a>
+                                            <Link to={'/Notifications'}>
+                                                <span className="sub-item">Notifications</span>
+                                            </Link>
                                         </li>
+                                        
+
                                     </ul>
                                 </div>
                             </li>
+
                             <li className="nav-item">
-                                <a data-bs-toggle="collapse" href="#tables">
-                                    <i className="fas fa-table"></i>
-                                    <p>Tables</p>
+                                <a data-bs-toggle="collapse" href="#settings">
+                                    <i className="fas fa-cog"></i>
+                                    <p>Settings</p>
                                     <span className="caret"></span>
                                 </a>
-                                <div className="collapse" id="tables">
+                                <div className="collapse" id="settings">
                                     <ul className="nav nav-collapse">
                                         <li>
-                                            <a href="tables/tables.html">
-                                                <span className="sub-item">Basic Table</span>
-                                            </a>
+                                            <Link to={'/appSetting'}>
+                                                <span className="sub-item">General Settings</span>
+                                            </Link>
                                         </li>
-                                        <li>
-                                            <a href="tables/datatables.html">
-                                                <span className="sub-item">Datatables</span>
-                                            </a>
-                                        </li>
+                                    
                                     </ul>
                                 </div>
                             </li>

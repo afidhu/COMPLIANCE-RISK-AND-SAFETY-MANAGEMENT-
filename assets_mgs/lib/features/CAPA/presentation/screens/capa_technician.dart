@@ -4,6 +4,7 @@ import 'package:assets_mgs/core/widgets/drawer_widget.dart';
 import 'package:assets_mgs/features/CAPA/domain/entities/capa_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -54,7 +55,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-backgroundColor: themeSurfaceColor(context),
+      backgroundColor: themeSurfaceColor(context),
       appBar: AppBar(
         leading: Builder(
           builder: (context) => IconButton(
@@ -364,6 +365,17 @@ backgroundColor: themeSurfaceColor(context),
 
                               const SizedBox(height: 18),
 
+                              SizedBox(
+                                width: 170.w,
+                                height: 30.h,
+                                child: buildInfoRow(
+                                  Icons.description_outlined,
+                                 '',
+                                    item.hazards!.hazardTitle.toString()
+
+                                ),
+                              ), const SizedBox(height: 10),
+
                               buildInfoRow(
                                 Icons.build,
                                 "Action Type",
@@ -433,7 +445,7 @@ backgroundColor: themeSurfaceColor(context),
                                   ),
 
                                   onPressed: () {
-                                    assetCapa(asset: item.hazards!.asset);
+                                    hazardAssetCapa(context,hazard: item.hazards, );
                                   },
 
                                   icon: const Icon(
@@ -442,7 +454,7 @@ backgroundColor: themeSurfaceColor(context),
                                   ),
 
                                   label: const Text(
-                                    "View Asset",
+                                    "View Details",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -476,7 +488,7 @@ backgroundColor: themeSurfaceColor(context),
 
           const SizedBox(width: 10),
 
-          Text("$title: ", style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text("$title: ",maxLines: 1,overflow: TextOverflow.ellipsis,textAlign: TextAlign.start, style: const TextStyle(fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis,)),
 
           Expanded(child: Text(value)),
         ],
@@ -492,14 +504,15 @@ backgroundColor: themeSurfaceColor(context),
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
           Text(
             title,
-            style: TextStyle(color: Colors.grey.shade700, fontSize: 14),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.grey.shade700, fontSize: 14,overflow: TextOverflow.ellipsis),
           ),
 
           const SizedBox(height: 6),

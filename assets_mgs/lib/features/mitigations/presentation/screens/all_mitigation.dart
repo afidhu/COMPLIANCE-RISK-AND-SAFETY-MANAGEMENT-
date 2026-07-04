@@ -78,7 +78,7 @@ backgroundColor: themeSurfaceColor(context),
                   ),
                   trailing:TextButton.icon(
                       onPressed: (){
-                    assetCapa(asset:item.hazards!.asset)
+                        hazardAssetCapa(context,hazard:item.hazards,)
                     ;}, label: Icon(Icons.remove_red_eye_outlined, color: Colors.blue,size: 20.sp,))
 
               ),
