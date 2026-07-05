@@ -13,6 +13,7 @@ export default function SideBar() {
             <div className="sidebar" data-background-color="dark">
                 <div className="sidebar-logo">
                     {/* <!-- Logo Header --> */}
+
                     <div className="logo-header" data-background-color="dark">
 
                         <Link   to={user.role ==="ESTATE_MANAGER"?'/dashboard' :'/DashboardAnalysis'} className="logo">
@@ -34,6 +35,8 @@ export default function SideBar() {
                 </div>
                 <div className="sidebar-wrapper scrollbar scrollbar-inner">
                     <div className="sidebar-content">
+
+
                         <ul className="nav nav-secondary">
                             <li className="nav-item active">
                                 <a data-bs-toggle="collapse" href="#dashboard" className="collapsed" aria-expanded="false">
@@ -62,7 +65,7 @@ export default function SideBar() {
 
                             <li className="nav-item">
                                 <a data-bs-toggle="collapse" href="#assetCompliance">
-                                    <i className="fas fa-layer-group"></i>
+                                    <i className="fas fa-box"></i>
                                     <p>Asset & Compliance</p>
                                     <span className="caret"></span>
                                 </a>
@@ -84,7 +87,7 @@ export default function SideBar() {
 
                             <li className="nav-item">
                                 <a data-bs-toggle="collapse" href="#HazardIncident">
-                                    <i className="fas fa-layer-group"></i>
+                                    <i className="fas fa-exclamation-triangle"></i>
                                     <p>Hazard & Incident</p>
                                     <span className="caret"></span>
                                 </a>
@@ -106,7 +109,7 @@ export default function SideBar() {
 
                             <li className="nav-item">
                                 <a data-bs-toggle="collapse" href="#MitigationsRisks">
-                                    <i className="fas fa-layer-group"></i>
+                                    <i className="fas fa-shield-alt"></i>
                                     <p> Risks & Mitigation</p>
                                     <span className="caret"></span>
                                 </a>
@@ -207,113 +210,7 @@ export default function SideBar() {
                                     </ul>
                                 </div>
                             </li>
-                            <li className="nav-item">
-                                <a data-bs-toggle="collapse" href="#maps">
-                                    <i className="fas fa-map-marker-alt"></i>
-                                    <p>Maps</p>
-                                    <span className="caret"></span>
-                                </a>
-                                <div className="collapse" id="maps">
-                                    <ul className="nav nav-collapse">
-                                        <li>
-                                            <a href="maps/googlemaps.html">
-                                                <span className="sub-item">Google Maps</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="maps/jsvectormap.html">
-                                                <span className="sub-item">Jsvectormap</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className="nav-item">
-                                <a data-bs-toggle="collapse" href="#charts">
-                                    <i className="far fa-chart-bar"></i>
-                                    <p>Charts</p>
-                                    <span className="caret"></span>
-                                </a>
-                                <div className="collapse" id="charts">
-                                    <ul className="nav nav-collapse">
-                                        <li>
-                                            <a href="charts/charts.html">
-                                                <span className="sub-item">Chart Js</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="charts/sparkline.html">
-                                                <span className="sub-item">Sparkline</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className="nav-item">
-                                <a href="widgets.html">
-                                    <i className="fas fa-desktop"></i>
-                                    <p>Widgets</p>
-                                    <span className="badge badge-success">4</span>
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a href="../../documentation/index.html">
-                                    <i className="fas fa-file"></i>
-                                    <p>Documentation</p>
-                                    <span className="badge badge-secondary">1</span>
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a data-bs-toggle="collapse" href="#submenu">
-                                    <i className="fas fa-bars"></i>
-                                    <p>Menu Levels</p>
-                                    <span className="caret"></span>
-                                </a>
-                                <div className="collapse" id="submenu">
-                                    <ul className="nav nav-collapse">
-                                        <li>
-                                            <a data-bs-toggle="collapse" href="#subnav1">
-                                                <span className="sub-item">Level 1</span>
-                                                <span className="caret"></span>
-                                            </a>
-                                            <div className="collapse" id="subnav1">
-                                                <ul className="nav nav-collapse subnav">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="sub-item">Level 2</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="sub-item">Level 2</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <a data-bs-toggle="collapse" href="#subnav2">
-                                                <span className="sub-item">Level 1</span>
-                                                <span className="caret"></span>
-                                            </a>
-                                            <div className="collapse" id="subnav2">
-                                                <ul className="nav nav-collapse subnav">
-                                                    <li>
-                                                        <a href="#">
-                                                            <span className="sub-item">Level 2</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span className="sub-item">Level 1</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
