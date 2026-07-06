@@ -26,6 +26,7 @@ const selectedUser = technicians.find(
 );
 console.log("Selected User:", selectedUser);
 console.log("Selected User ID:", selectedUser?.userId);
+console.log("Selected User playerId:", selectedUser?.playerId);
 
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +36,7 @@ console.log("Selected User ID:", selectedUser?.userId);
     try {
      const response = await axios.get(`${BaseUrl}/auth/users/technician`)
     
-    console.log(response.data);
+    console.log(`technicia${response.data}`);
       setTechnicians(response.data);
       setAssignedToId(response.data[0].userId)
     } catch (error) {
@@ -64,7 +65,7 @@ console.log("Selected User ID:", selectedUser?.userId);
         assignedById:user?.userId,
         dueDate: new Date(dueDate).toISOString(),
       };
-      console.log('payload',payload)
+      console.log('payload_',payload)
 
       const response = await axios.post(
         `${BaseUrl}/capa/add`,
@@ -174,7 +175,7 @@ console.log("Selected User ID:", selectedUser?.userId);
                        value={userId}
                         onChange={(e) => setUserId(e.target.value)}
                     >
-                      <option disabled selected >
+                      <option >
                         Select Technician
                       </option>
                       {

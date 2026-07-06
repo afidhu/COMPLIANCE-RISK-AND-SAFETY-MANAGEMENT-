@@ -162,6 +162,9 @@ model Compliance {
 
   hazards         Hazard[]
 
+  // expiredCerts      Certificate[]
+  expiredDate DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -273,8 +276,8 @@ model CapaAction {
 
   assignedToId   String 
   assignedTo     User     @relation("CapaAssignedTo", fields: [assignedToId], references: [userId])
-  assignedById   String @default("bda3a186-5e4d-44df-8312-911c68f6a97c")
-  assignedBy     User   @relation("CapaAssignedBy", fields: [assignedById], references: [userId])
+  assignedById   String?
+  assignedBy     User?   @relation("CapaAssignedBy", fields: [assignedById], references: [userId])
 
   dueDate        DateTime
 
@@ -282,7 +285,7 @@ model CapaAction {
   status         ActionStatus @default(PENDING)
 
   createdAt DateTime @default(now())
-  @@unique([assignedById])
+  // @@unique([assignedById])
 }
 
 

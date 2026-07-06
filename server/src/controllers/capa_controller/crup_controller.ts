@@ -16,11 +16,13 @@ import { NotificationType } from "@prisma/client";
 
 // add a new CAPA action
 export const addCapa = async (req: Request, resp: Response) => {
-
+console.log('eeee')
 
     try {
         const { actionTitle, assignedToId, dueDate, hazardId, playerId, sender_id } = req.body;
+        console.log(req.body)
         if (playerId == null || sender_id == null) {
+            console.log(`playerId: ${playerId}, sender_id: ${sender_id}`);
             return resp.status(400).json('playerId & sender_id required')
         }
         const newCapa = await prisma.capaAction.create({

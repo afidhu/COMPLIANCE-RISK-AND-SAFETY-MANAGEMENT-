@@ -165,8 +165,7 @@ export default function NavBar() {
                                 </li>
                             </ul>
                         </li>
-
-                        {/* <li className="nav-item topbar-icon dropdown hidden-caret">
+                        <li className="nav-item topbar-icon dropdown hidden-caret">
                             <a className="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                                 <i className="fas fa-layer-group"></i>
                             </a>
@@ -230,7 +229,7 @@ export default function NavBar() {
                                     </div>
                                 </div>
                             </div>
-                        </li> */}
+                        </li>
 
                         <li className="nav-item topbar-user dropdown hidden-caret">
                             <a className="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">

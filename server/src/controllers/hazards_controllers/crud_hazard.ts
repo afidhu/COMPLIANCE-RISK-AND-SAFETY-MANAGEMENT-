@@ -5,11 +5,11 @@ import { prisma } from "../../index.ts";
 // Controller function to add a new hazard
 export const addHazard = async(req:Request, resp:Response)=>{
     try {   
-        const { assetId, complianceId, hazardTitle, hazardDescription, status, reportedById } = req.body;   
+        const { assetId, hazardTitle, hazardDescription, status, reportedById } = req.body;   
         const newHazard = await prisma.hazard.create({
             data: {
                 assetId,
-                complianceId,
+                // complianceId,
                 hazardTitle,
                 hazardDescription,
                 status,
