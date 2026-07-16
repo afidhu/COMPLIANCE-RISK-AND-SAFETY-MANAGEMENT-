@@ -1,0 +1,133 @@
+@startuml
+hide methods
+hide circle
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+class USERS{
++ user_id : PK
+--
+full_name
+email
+role
+phone
+status
+}
+
+class ASSETS{
++ asset_id : PK
+--
+asset_name
+asset_type
+location
+serial_no
+status
+created_by : FK
+}
+
+class COMPLIANCES{
++ compliance_id : PK
+--
+asset_id : FK
+compliance_name
+frequency
+last_due_date
+due_date
+status
+}
+
+class HAZARDS{
++ hazard_id : PK
+--
+asset_id : FK
+compliance_id : FK
+hazard_title
+hazard_description
+reported_by
+status
+created_at
+}
+
+class RISKS{
++ risk_id : PK
+--
+hazard_id : FK
+risk_title
+likelihood
+severity
+risk_level
+risk_description
+status
+}
+
+class MITIGATION_ACTIONS{
++ mitigation_id : PK
+--
+risk_id : FK
+action_title
+assigned_to : FK
+target_date
+status
+}
+
+class CAPA_ACTIONS{
++ capa_id : PK
+--
+risk_id : FK
+action_title
+action_type
+assigned_to : FK
+due_date
+status
+}
+
+class INCIDENTS{
++ incident_id : PK
+--
+asset_id : FK
+risk_id : FK
+incident_title
+description
+reported_date
+severity
+reported_by : FK
+status
+}
+
+class NOTIFICATIONS{
++ notification_id : PK
+--
+sender_id : FK
+receiver_id : FK
+content
+notify_type
+is_read
+created_at
+}
+
+USERS "1" -- "0..*" ASSETS
+
+USERS "1" -- "0..*" INCIDENTS
+
+USERS "1" -- "0..*" CAPA_ACTIONS
+
+USERS "1" -- "0..*" MITIGATION_ACTIONS
+
+USERS "1" -- "0..*" NOTIFICATIONS
+
+ASSETS "1" -- "0..*" COMPLIANCES
+
+ASSETS "1" -- "0..*" HAZARDS
+
+ASSETS "1" -- "0..*" INCIDENTS
+
+COMPLIANCES "1" -- "0..*" HAZARDS
+
+HAZARDS "1" -- "0..*" RISKS
+
+RISKS "1" -- "0..*" MITIGATION_ACTIONS
+
+RISKS "1" -- "0..*" CAPA_ACTIONS
+
+@enduml
