@@ -18,8 +18,10 @@ class AuthRemoteData {
   }
   Future<Response> loginUser(dynamic user) async{
     try{
+
       return await dioClient.dio.post('/auth/login',data: user.toJson());
     } catch(e){
+      print('error at:$e');
       throw Exception('Error at : $e');
     }
   }

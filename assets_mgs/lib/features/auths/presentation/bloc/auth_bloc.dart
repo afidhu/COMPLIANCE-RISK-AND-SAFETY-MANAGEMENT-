@@ -42,6 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> _loginUser(LoginUserEvent event, Emitter<AuthState> emit)async {
+
     emit(IsClickedAuthButton(isClicked: true));
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // emit(AuthLoading());
