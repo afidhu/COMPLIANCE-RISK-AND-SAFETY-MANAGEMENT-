@@ -3,7 +3,7 @@
 import "dotenv/config";
 import type { Request, Response } from "express";
 import dotenv from 'dotenv';
-import fetch from "node-fetch";
+// import fetch from "node-fetch";
 dotenv.config();
 
 export const automaticNotification = async ( title:any, message:any, playerId:any, type:any, referenceId:any ) => {
