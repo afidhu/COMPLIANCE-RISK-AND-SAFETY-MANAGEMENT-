@@ -1,10 +1,9 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../index.ts";
+import { prisma } from "../../index";
 import { automaticNotification } from "../notifications_controller/auto_notification_capa";
 import { createNotification } from "../notifications_controller/crud_controller";
 
-import { NotificationType } from "@prisma/client";
-import { uploadSingle } from "../../middlewares/file.upload.ts";
+// import { NotificationType } from "@prisma/client";
 
 // export interface NotificationData {
 //   sender_id: string;
