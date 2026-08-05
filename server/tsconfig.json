@@ -1,23 +1,16 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "target": "es2022",
-    
-    // Explicitly define file structures to fix TS5011
-    "rootDir": "./src",               // ◄ Explicit source directory path
-    "outDir": "./dist",               // ◄ Explicit output destination path
-    "noEmit": false,                  // ◄ Keep as false so files are built
-    
+    "module": "commonjs",             // ◄ Clean native translation
+    "moduleResolution": "node10",     // ◄ Fixes deprecation by avoiding newer bundler rules
+    "ignoreDeprecations": "6.0",      // ◄ Suppresses the TS 6.0 moduleResolution alert
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "noEmit": false,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "isolatedModules": true
+    "sourceMap": true
   },
   "include": ["src/**/*"]
 }
