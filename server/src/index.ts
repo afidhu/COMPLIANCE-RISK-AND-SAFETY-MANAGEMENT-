@@ -16,7 +16,6 @@ import capa_routers from './routers/capa_routers';
 import assets_routers from './routers/assets_routers';
 import notification_router from './routers/notification_router'
 import searchs_routers from './routers/searchs_routers';
-import fetch from "node-fetch";
 import { complianceReminder } from "./controllers/schedulers/Compliance_reminders";
 
 dotenv.config();
