@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "module": "esnext",               // ◄ Change from nodenext to esnext
-    "moduleResolution": "bundler",    // ◄ Combines perfectly with esnext
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "target": "es2022",
     
-    "noEmit": false,                  // ◄ MUST be false so Vercel can build your app files
-    "outDir": "./dist",               // ◄ Tells the compiler where to save the files
+    // Explicitly define file structures to fix TS5011
+    "rootDir": "./src",               // ◄ Explicit source directory path
+    "outDir": "./dist",               // ◄ Explicit output destination path
+    "noEmit": false,                  // ◄ Keep as false so files are built
     
     "strict": true,
     "esModuleInterop": true,
@@ -17,5 +19,5 @@
     "exactOptionalPropertyTypes": true,
     "isolatedModules": true
   },
-  "include": ["src/**/*"]             // ◄ Makes sure all files inside src are compiled
+  "include": ["src/**/*"]
 }
