@@ -1,7 +1,7 @@
 import "dotenv/config";
 import type { Request, Response } from "express";
 import dotenv from 'dotenv';
-import fetch from "node-fetch";
+// import fetch from "node-fetch";
 dotenv.config();
 
 export const technicianNotification = async (req: Request, res: Response) => {
