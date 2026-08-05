@@ -1,7 +1,7 @@
 
 
 import type { Request, Response } from "express";
-import { prisma } from "../../index.ts";
+import { prisma } from "../../index";
 
 // Create a new notification
 export const createNotification = async (sender_id: any, receiver_id: any, title: any, content: any, notify_type: any, reference_id: any) => {

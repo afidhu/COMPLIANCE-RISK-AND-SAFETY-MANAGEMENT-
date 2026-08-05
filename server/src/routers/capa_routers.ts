@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { addCapa, approveCapasByEstateMenager, getCapaById, getCapas, getCapasByHazardId, getCapasByRiskId, getCapasByTechnicianId, updateCapa, deleteCapa, getCompletedUnapprovedCapas, getCompletedApprovedCapasByTechnicianId } from "../controllers/capa_controller/crup_controller.ts";
-import { uploadSingle } from "../middlewares/file.upload.ts";
+import { addCapa, approveCapasByEstateMenager, getCapaById, getCapas, getCapasByHazardId, getCapasByRiskId, getCapasByTechnicianId, updateCapa, deleteCapa, getCompletedUnapprovedCapas, getCompletedApprovedCapasByTechnicianId } from "../controllers/capa_controller/crup_controller";
+import { uploadSingle } from "../middlewares/file.upload";
 
 
 

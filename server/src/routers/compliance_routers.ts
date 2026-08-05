@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addCompliance, deleteCompliance, getComplianceById, getCompliances, getCompliancesByAssetId, updateCompliance } from "../controllers/compliance_controller/crud_compliance.ts";
+import { addCompliance, deleteCompliance, getComplianceById, getCompliances, getCompliancesByAssetId, updateCompliance } from "../controllers/compliance_controller/crud_compliance";
 
 
 

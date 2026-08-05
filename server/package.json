@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "verbatimModuleSyntax": true,
-  "type": "module",
+
   "scripts": {
   "postinstall": "prisma generate",
   "build": "tsc",

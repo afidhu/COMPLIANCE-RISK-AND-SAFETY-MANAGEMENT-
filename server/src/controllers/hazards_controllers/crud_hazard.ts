@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../index.ts";
+import { prisma } from "../../index";
 
 
 // Controller function to add a new hazard

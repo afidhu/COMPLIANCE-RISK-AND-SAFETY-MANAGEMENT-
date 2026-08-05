@@ -1,6 +1,6 @@
 
 import { Router } from "express";
-import { addAsset, deleteAsset, getAssetByHazardId, getAssetById, getAssets, updateAsset } from "../controllers/assets_controllers/crud_assets.ts";
+import { addAsset, deleteAsset, getAssetByHazardId, getAssetById, getAssets, updateAsset } from "../controllers/assets_controllers/crud_assets";
 
 
 

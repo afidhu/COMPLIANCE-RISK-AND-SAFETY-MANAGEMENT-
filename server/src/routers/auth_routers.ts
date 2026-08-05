@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { activateUserDeactivate, allUserBasedOnRole, approveUser, countUsersByRole, deactivateUser, getTechnician, getUsers, loginUser, registerUser } from "../controllers/users_controller/auth_controller.ts";
+import { activateUserDeactivate, allUserBasedOnRole, approveUser, countUsersByRole, deactivateUser, getTechnician, getUsers, loginUser, registerUser } from "../controllers/users_controller/auth_controller";
 
 
 

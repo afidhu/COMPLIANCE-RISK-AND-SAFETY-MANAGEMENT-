@@ -6,18 +6,18 @@ import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-import hazards_routers from './routers/hazards_routers.ts';
-import auth_routers from './routers/auth_routers.ts';
-import incident_routers from './routers/incident_routers.ts';
-import mitigations_routers from './routers/mitigations_routers.ts';
-import risks_routers from './routers/risks_routers.ts';
-import compliance_routers from './routers/compliance_routers.ts';
-import capa_routers from './routers/capa_routers.ts';
-import assets_routers from './routers/assets_routers.ts';
-import notification_router from './routers/notification_router.ts'
-import searchs_routers from './routers/searchs_routers.ts';
+import hazards_routers from './routers/hazards_routers';
+import auth_routers from './routers/auth_routers';
+import incident_routers from './routers/incident_routers';
+import mitigations_routers from './routers/mitigations_routers';
+import risks_routers from './routers/risks_routers';
+import compliance_routers from './routers/compliance_routers';
+import capa_routers from './routers/capa_routers';
+import assets_routers from './routers/assets_routers';
+import notification_router from './routers/notification_router'
+import searchs_routers from './routers/searchs_routers';
 import fetch from "node-fetch";
-import { complianceReminder } from "./controllers/schedulers/Compliance_reminders.ts";
+import { complianceReminder } from "./controllers/schedulers/Compliance_reminders";
 
 dotenv.config();
 const app: Application = express();

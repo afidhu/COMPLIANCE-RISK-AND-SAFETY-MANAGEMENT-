@@ -7,7 +7,10 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
+
+      "module": "commonjs",            // ◄ Change from NodeNext to commonjs
+    "moduleResolution": "node10", 
+    // "module": "nodenext",
     "target": "esnext",
     "allowImportingTsExtensions": true,
     "noEmit": true,
@@ -26,6 +29,7 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
+    
     // Style Options
     // "noImplicitReturns": true,
     // "noImplicitOverride": true,
@@ -37,9 +41,10 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
+    "esModuleInterop": true,
+    // "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
   }

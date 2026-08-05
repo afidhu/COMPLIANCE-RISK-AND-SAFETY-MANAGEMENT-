@@ -1,7 +1,7 @@
 
 import type { Request, Response } from "express";
 import type { Prisma } from "@prisma/client";
-import { prisma } from "../../index.ts";
+import { prisma } from "../../index";
 
 // Return all assets, risks and incidents with optional search filtering
 export const searchesAllDetails = async (req: Request, resp: Response) => {

@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { prisma } from "../../index.ts";
-import { automaticNotification } from "../notifications_controller/auto_notification_capa.ts";
-import { createNotification } from "../notifications_controller/crud_controller.ts";
+import { automaticNotification } from "../notifications_controller/auto_notification_capa";
+import { createNotification } from "../notifications_controller/crud_controller";
 
 import { NotificationType } from "@prisma/client";
 import { uploadSingle } from "../../middlewares/file.upload.ts";
