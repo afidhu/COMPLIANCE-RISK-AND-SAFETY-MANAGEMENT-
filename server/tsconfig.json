@@ -1,23 +1,21 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node", 
+    "module": "esnext",               // ◄ Change from nodenext to esnext
+    "moduleResolution": "bundler",    // ◄ Combines perfectly with esnext
+    "target": "es2022",
     
-    "target": "esnext",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "types": [],
+    "noEmit": false,                  // ◄ MUST be false so Vercel can build your app files
+    "outDir": "./dist",               // ◄ Tells the compiler where to save the files
+    
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-    "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": false,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true
-  }
+    "isolatedModules": true
+  },
+  "include": ["src/**/*"]             // ◄ Makes sure all files inside src are compiled
 }
