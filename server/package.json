@@ -6,10 +6,11 @@
   "verbatimModuleSyntax": true,
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "vercel-build": "prisma generate && tsc",
-    "start": "node dist/index.js"
-  },
+  "postinstall": "prisma generate",
+  "build": "tsc",
+  "vercel-build": "prisma generate && tsc",
+  "start": "node dist/index.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
