@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:assets_mgs/config/themes/color_theme.dart';
 import 'package:assets_mgs/core/utils/date_formater/date_formater.dart';
 import 'package:assets_mgs/core/widgets/drawer_widget.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../notifications/presentation/widgets/notification_button.dart';
 import '../bloc/capa_bloc.dart';
@@ -22,6 +25,7 @@ class CapaTechnician extends StatefulWidget {
 class _CapaTechnicianState extends State<CapaTechnician> {
   final Color primaryColor = const Color(0xFF0000BA);
 
+  final  isCompleted =false.obs;
   Color myColor(String staus) {
     switch (staus) {
       case 'PENDING':
@@ -238,8 +242,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                       );
 
                                       if (selected != null)  {
-                                        if (selected != null) {
-                                          Get.defaultDialog(
+                                        Get.defaultDialog(
                                             title: "Update Status",
                                             titleStyle: const TextStyle(
                                               fontSize: 20,
@@ -251,14 +254,18 @@ class _CapaTechnicianState extends State<CapaTechnician> {
 
                                             content: Column(
                                               children: [
-                                                CircleAvatar(
-                                                  radius: 32,
-                                                  backgroundColor: Colors.blue.shade50,
-                                                  child: const Icon(
-                                                    Icons.edit_note_rounded,
-                                                    size: 38,
-                                                    color: Color(0xFF0000BA),
-                                                  ),
+                                                GestureDetector(
+                                                  // onTap:(){
+                                                  //   takeFile();
+                                                  // },
+
+                                                  child:Obx(()=> pictureCapturedPhase.value.isNotEmpty ? CircleAvatar(
+                                                    radius: 32,
+                                                    backgroundColor: Colors.blue.shade50,
+                                                    backgroundImage: FileImage(File(pictureCapturedPhase.value)),
+                                                    // Removed Icon child so the image is visible
+                                                    child: Container(alignment: Alignment.bottomRight, child: Icon(Icons.edit, size: 20, color: Colors.white)),
+                                                  ):OutlinedButton.icon(onPressed: (){ takeFile();}, label: Text('Take Image')))
                                                 ),
 
                                                 const SizedBox(height: 18),
@@ -272,7 +279,7 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                                 ),
 
                                                 const SizedBox(height: 10),
-
+                                       // selected == "COMPLETED"? isCompleted.value =true:isCompleted.value =false;
                                                 Container(
                                                   padding: const EdgeInsets.symmetric(
                                                     horizontal: 18,
@@ -325,12 +332,17 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                                   capaId: item.capaId.toString(),
                                                   capa: CapaEntity(
                                                     status: selected,
+                                                    imageFile: fileObject.value,
                                                   ),
                                                 ),
                                               );
+                                              pictureCapturedPhase.value ='';
+                                              setState(() {
+
+                                              });
                                             },
                                           );
-                                        }
+
                                        // context.read<CapaBloc>().add(
                                        //    UpdateCapaByTechnicianEvent(
                                        //      capaId: item.capaId.toString(),
@@ -360,6 +372,8 @@ class _CapaTechnicianState extends State<CapaTechnician> {
                                       ),
                                     ),
                                   ),
+
+
                                 ],
                               ),
 
@@ -529,4 +543,33 @@ class _CapaTechnicianState extends State<CapaTechnician> {
       ),
     );
   }
+
+final pictureCapturedPhase =''.obs;
+  final Rxn<File> fileObject = Rxn<File>();
+
+  Future<void> takeFile() async{
+    final picker = ImagePicker();
+// // Pick an image.
+//     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+// // Capture a photo.
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+    if (photo != null) {
+      pictureCapturedPhase.value = photo.path;
+      fileObject.value = File(photo.path);
+      setState(() {
+
+      });
+    }
+// // Pick a video.
+//     final XFile? galleryVideo = await picker.pickVideo(source: ImageSource.gallery);
+// // Capture a video.
+//     final XFile? cameraVideo = await picker.pickVideo(source: ImageSource.camera);
+// // Pick multiple images.
+//     final List<XFile> images = await picker.pickMultiImage();
+// // Pick singe image or video.
+//     final XFile? media = await picker.pickMedia();
+// // Pick multiple images and videos.
+//     final List<XFile> medias = await picker.pickMultipleMedia();
+  }
+
 }

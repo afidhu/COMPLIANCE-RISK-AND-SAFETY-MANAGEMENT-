@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { addCapa, approveCapasByEstateMenager, getCapaById, getCapas, getCapasByHazardId, getCapasByRiskId, getCapasByTechnicianId, updateCapa, getCompletedUnapprovedCapas, getCompletedApprovedCapasByTechnicianId } from "../controllers/capa_controller/crup_controller.ts";
-import { deleteAsset } from "../controllers/assets_controllers/crud_assets.ts";
+import { addCapa, approveCapasByEstateMenager, getCapaById, getCapas, getCapasByHazardId, getCapasByRiskId, getCapasByTechnicianId, updateCapa, deleteCapa, getCompletedUnapprovedCapas, getCompletedApprovedCapasByTechnicianId } from "../controllers/capa_controller/crup_controller.ts";
+import { uploadSingle } from "../middlewares/file.upload.ts";
 
 
 
@@ -10,12 +10,12 @@ const router = Router();
 router.post('/add',addCapa)
 router.get('/get',getCapas)
 router.get('/get/:capaId',getCapaById)
-router.put('/update/:capaId',updateCapa)
+router.put('/update/:capaId',uploadSingle, updateCapa)
 router.get('/get-by-riskid/:riskid',getCapasByRiskId )
 router.get('/get-by-hazardid/:hazardId',getCapasByHazardId)
 router.get('/get-by-userid/:userId',getCapasByTechnicianId)
 router.get('/get-completed-unapproved', getCompletedUnapprovedCapas)
-router.delete('/delete/:id',deleteAsset)
+router.delete('/delete/:id', deleteCapa)
 router.put('/update/:id',addCapa)
 router.patch('/isapproved/:capaId',approveCapasByEstateMenager)
 router.get('/get-completed-approved/:userId', getCompletedApprovedCapasByTechnicianId)

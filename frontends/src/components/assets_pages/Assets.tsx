@@ -32,6 +32,15 @@ const goTo = async(assetId:any,assetName:any,assetType:any,location:any )=>{
   });
 }
 
+const deteteItem = async (assetId:any) => {
+  try {
+    const response = await axios.delete(`${BaseUrl}/assets/delete/${assetId}`)
+    console.log(response.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const activeCount = assets.filter((a:any) => (a.status || '').toString().toLowerCase() === 'active').length
 
 const inActiveCount = assets.filter((a:any) => (a.status || '').toString().toLowerCase() === 'inactive').length
@@ -263,6 +272,7 @@ const inActiveCount = assets.filter((a:any) => (a.status || '').toString().toLow
                           </button>
 
                           <button
+                          onClick={()=>deteteItem(item.assetId)}
                             className="btn btn-danger btn-sm"
                             style={{
                               width: "40px",

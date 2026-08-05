@@ -281,6 +281,7 @@ model CapaAction {
 
   dueDate        DateTime
 
+  imageUrl       String?
   isApproved    Boolean @default(false)
   status         ActionStatus @default(PENDING)
 

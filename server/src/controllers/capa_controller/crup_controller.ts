@@ -4,6 +4,7 @@ import { automaticNotification } from "../notifications_controller/auto_notifica
 import { createNotification } from "../notifications_controller/crud_controller.ts";
 
 import { NotificationType } from "@prisma/client";
+import { uploadSingle } from "../../middlewares/file.upload.ts";
 
 // export interface NotificationData {
 //   sender_id: string;
@@ -109,10 +110,32 @@ export const updateCapa = async (req: Request, resp: Response) => {
     try {
         const { capaId } = req.params;
         const { status } = req.body;
+        const baseUrl = process.env.BASE_URL || 'http://localhost:51213';
+        console.log('Update CAPA request - capaId:', capaId, 'status:', status);
+        
+        // Handle file upload if present
+        let imageUrl = null;
+        if (req.file) {
+            imageUrl = `${baseUrl}/${req.file.path}`;
+
+            console.log('Image URL:', imageUrl);
+        }
+//  console.log('Image URL:', imageUrl);
+        // First check if the record exists
+        const existingCapa = await prisma.capaAction.findUnique({
+            where: { capaId: `${capaId}` }
+        });
+        
+        if (!existingCapa) {
+            console.log('CAPA not found with ID:', capaId);
+            return resp.status(404).json({ message: "CAPA action not found" });
+        }
+
         const updatedCapa = await prisma.capaAction.update({
             where: { capaId: `${capaId}` },
             data: {
                 status: status,
+                imageUrl: imageUrl
             }
         });
 
@@ -127,7 +150,7 @@ export const updateCapa = async (req: Request, resp: Response) => {
                 }
             });
 
-            if (capa && capa.assignedTo && capa.hazard && capa.assignedBy.playerId) {
+            if (capa && capa.assignedTo && capa.hazard && capa.assignedBy?.playerId) {
                 const playerId = capa.assignedBy?.playerId; // Assuming assignedBy has a playerId field
                 const sender_id = capa.assignedTo.userId; // Assuming assignedTo has a userId field
 
@@ -142,8 +165,8 @@ export const updateCapa = async (req: Request, resp: Response) => {
         }
         console.log(updatedCapa)
         return resp.status(200).json(updatedCapa);
-    } catch (error) {
-        console.error("Error updating CAPA action:", error);
+    } catch (error:any) {
+        console.error("Error updating CAPA action:", error.message);
         return resp.status(500).json({ message: "Internal server error" });
     }
 }

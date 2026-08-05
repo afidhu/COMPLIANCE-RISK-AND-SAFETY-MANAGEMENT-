@@ -2,7 +2,7 @@
 
 class ApiProvider {
   // static const String baseUrl = 'http://10.0.2.2:51213';
-  static const String baseUrl = 'http://10.13.153.103:51213';
+  static const String baseUrl = 'http://192.168.1.14:51213';
   // https://fdx5tc34-51213.inc1.devtunnels.ms/
   // static const String baseUrl = 'https://fdx5tc34-51213.inc1.devtunnels.ms';
   static const String allMedicines = '$baseUrl/medicines/all';

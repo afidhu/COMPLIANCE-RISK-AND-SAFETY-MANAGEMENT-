@@ -1,10 +1,11 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BaseUrl from "../utils/api_provider/ApiProviders";
 
 export default function Incidents() {
+  const navigate = useNavigate();
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -57,6 +58,28 @@ export default function Incidents() {
         return "badge bg-warning text-dark";
     }
   };
+
+// edit
+const editHandle = (incidentId,incidentTitle, description) => {
+  navigate(`/UpdateIncident/${incidentId}`, {
+    state: { incidentTitle, description }
+  });
+};
+
+// delete
+const deleteHandle = async (incidentId: string) => {
+  if (window.confirm('Are you sure you want to delete this incident?')) {
+    try {
+      await axios.delete(`${BaseUrl}/incidents/delete/${incidentId}`);
+      getIncidents(); // Refresh the list after deletion
+      console.log('Incident deleted successfully');
+    } catch (error) {
+      console.error("Failed to delete incident:", error);
+      alert('Failed to delete incident');
+    }
+  }
+};
+
 
   return (
     <div className="container-fluid">
@@ -349,6 +372,16 @@ export default function Incidents() {
                               </Link>
 
                               <button
+                                onClick={() => editHandle(incident.incidentId, incident.incidentTitle, incident.description)}
+                                className="btn btn-sm btn-warning"
+                                title="Edit"
+    
+                              >
+                                <i className="fa fa-pencil"></i>
+                              </button>
+
+                              <button
+                                onClick={() => deleteHandle(incident.incidentId)}
                                 className="btn btn-sm btn-danger"
                                 title="Delete"
                               >

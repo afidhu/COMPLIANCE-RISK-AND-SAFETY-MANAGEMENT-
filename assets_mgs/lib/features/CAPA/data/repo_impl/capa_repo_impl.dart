@@ -60,9 +60,7 @@ class CapaRepoImpl extends CapaRepo{
   Future<bool> updateCapaByTechnician({required String capaId, required CapaEntity capa}) async {
     try{
 
-      final capaModel =CapaModel(
-        status: capa.status
-      );
+     final capaModel = CapaModel.fromEntity(capa);
 
       final response = await _remoteCapaDataRemote.updateCapaByTechnician(capaId, capaModel);
       if(response.statusCode == 200 || response.statusCode ==201){

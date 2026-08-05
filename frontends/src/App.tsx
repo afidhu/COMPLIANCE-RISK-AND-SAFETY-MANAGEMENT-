@@ -35,7 +35,8 @@ import DashboardAnalysis from './components/dashbaords/DashboardAnalysis';
 import UnapprovedScreen from './components/utils/UnapprovedScreen';
 import Notifications from './components/notifications/Notifications';
 import AppSetting from './components/utils/AppSetting';
-
+import HazardUpdate from './components/hazards/HazardUpdate'
+import UpdateIncident from './components/incidents/UpdateIncident';
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
         <Route path="/ViewIncident/:id" element={<ViewIncident/>} /> 
         <Route path="/Hazards" element={<Hazards />} />
         <Route path="/Hazard/:hazardId" element={<ViewHazard />} />
+        <Route path="/HazardUpdate/:hazardId" element={<HazardUpdate />} />
         <Route path="/risks" element={<Risks />} /> 
 
         <Route path="/Notifications" element={<Notifications />} />
@@ -86,6 +88,7 @@ function App() {
         <Route path="/RisksReport" element={<RisksReport />} /> 
         <Route path="/IncidentsReport" element={<IncidentsReport />} /> 
         <Route path="/AssetsReport" element={<AssetsReport />} /> 
+        <Route path="/UpdateIncident/:incidentId" element={<UpdateIncident />} />
         {/* <Route path="/Incidents" element={<Incidents />} /> Risks */}
         {/* <Route path="/Risks" element={<Risks />} />  */}
         {/* <Route path="/AddRisk" element={<AddRisk  />} /> */}

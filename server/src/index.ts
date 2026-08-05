@@ -45,6 +45,9 @@ export { prisma };
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Serve static files from uploads directory
+app.use('/uploads', express.static('uploads'));
+
 // Routes
 app.use('/auth', auth_routers);
 app.use('/hazards', hazards_routers);

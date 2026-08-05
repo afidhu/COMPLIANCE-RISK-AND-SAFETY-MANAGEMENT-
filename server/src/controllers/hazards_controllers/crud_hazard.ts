@@ -32,8 +32,7 @@ export const getHazards = async(req:Request, resp:Response)=>{
             include: {
                 reportedBy:true,
                 asset:true
-            }
-            ,
+            },
               orderBy: {
     createdAt: "desc",
               }
@@ -66,20 +65,19 @@ export const getHazardById = async(req:Request, resp:Response)=>{
 export const updateHazard = async(req:Request, resp:Response)=>{
     try {
         const { id } = req.params;
-        const { assetId, complianceId, hazardTitle, hazardDescription, status } = req.body;
+        const { assetId, hazardTitle, hazardDescription } = req.body;
+        console.log('body',req.body);
         const updatedHazard = await prisma.hazard.update({
             where: { hazardId: `${id}` },
             data: {
                 assetId,
-                complianceId,
                 hazardTitle,
                 hazardDescription,
-                status
             }
         });
         return resp.status(200).json(updatedHazard);
-    } catch (error) {
-        console.error("Error updating hazard:", error);
+    } catch (error:any) {
+        console.error("Error updating hazard:", error.message);
         return resp.status(500).json({ message: "Internal server error" });
     }
 }

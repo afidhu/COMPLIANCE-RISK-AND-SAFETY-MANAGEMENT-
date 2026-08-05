@@ -35,9 +35,9 @@ export default function SideBar() {
                 </div>
                 <div className="sidebar-wrapper scrollbar scrollbar-inner">
                     <div className="sidebar-content">
-
-
-                        <ul className="nav nav-secondary">
+{/* 
+                        {user.role !='STAFF_MEMBER' && ( */}
+                            <ul className="nav nav-secondary">
                             <li className="nav-item active">
                                 <a data-bs-toggle="collapse" href="#dashboard" className="collapsed" aria-expanded="false">
                                     <i className="fas fa-home"></i>
@@ -212,6 +212,7 @@ export default function SideBar() {
                             </li>
 
                         </ul>
+                        {/* )} */}
                     </div>
                 </div>
             </div>

@@ -34,6 +34,26 @@ export default function CapaHazard({hazardid,hadazardTitle}:any) {
         }
     };
 
+    // edit handler - navigate to edit page with CAPA data
+    const editHandle = (capaId: string) => {
+        console.log('Edit CAPA with ID:', capaId);
+        // You can implement navigation to edit page here
+        // Example: navigation(`/edit-capa/${capaId}`, { state: { capaId } });
+    };
+
+    // delete handler
+    const deleteHandle = async (capaId: string) => {
+        if (window.confirm('Are you sure you want to delete this CAPA action?')) {
+            try {
+                await axios.delete(`${BaseUrl}/capa/delete/${capaId}`);
+                await fetchCapa();
+                console.log('CAPA deleted successfully');
+            } catch (error) {
+                console.error("Failed to delete CAPA:", error);
+                alert('Failed to delete CAPA action');
+            }
+        }
+    };
 
   return (
     <div>
@@ -77,7 +97,7 @@ export default function CapaHazard({hazardid,hadazardTitle}:any) {
                           </td>
                           <td>{dateformateDue}</td>
                           <td className="text-center">
-                            {item.isApproved? 
+                            {item.isApproved?
                             <span onClick={() => approveHandle(item.capaId)} className="badge btn btn-back-home bg-success text-white ms-3 py-2 px-4">
                               Approved
                             </span>
@@ -86,6 +106,12 @@ export default function CapaHazard({hazardid,hadazardTitle}:any) {
                               Approve
                             </span>
                             }
+                            <span onClick={() => editHandle(item.capaId)} className="btn btn-sm btn-outline-primary bg-primary ms-2">
+                              <i className="text-white fa fa-pencil"></i>
+                            </span>
+                            <span onClick={() => deleteHandle(item.capaId)} className="btn btn-sm btn-outline-danger bg-danger ms-2">
+                              <i className="text-white fa fa-trash"></i>
+                            </span>
                           </td>
                           <td>{dateformated}</td>
                         </tr>

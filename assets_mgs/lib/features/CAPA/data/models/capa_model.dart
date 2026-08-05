@@ -23,7 +23,10 @@ class CapaModel extends CapaEntity {
       super.dueDate,
       super.status,
       super.hazards,
+      super.imageFile,
       super.createdAt,});
+
+
 
  factory CapaModel.fromJson(dynamic json) {
     return CapaModel(
@@ -34,11 +37,20 @@ class CapaModel extends CapaEntity {
         assignedToId : json['assignedToId'],
         dueDate : json['dueDate'],
         status : json['status'],
+        // imageFile : json['imageUrl'],
         createdAt : json['createdAt'],
         assignedTo:json['assignedTo'] != null ? UsersModel.fromJson(json['assignedTo']) : null,
         hazards:json['hazard'] != null ? HazardModels.fromJson(json['hazard']) : null,
     );
   }
+
+  factory CapaModel.fromEntity(CapaEntity capa){
+   return CapaModel(
+     status: capa.status,
+     imageFile: capa.imageFile,
+   );
+  }
+
 
   Map<String, dynamic> toJson() {
     // final map = <String, dynamic>{};
@@ -48,6 +60,7 @@ class CapaModel extends CapaEntity {
       'actionTitle': actionTitle,
       'actionType' : actionType,
       'assignedToId': assignedToId,
+      'file':null,
       'dueDate': dueDate,
       'status' : status,
       'createdAt' : createdAt
