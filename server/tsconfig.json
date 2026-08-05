@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
 
       "module": "commonjs",            // ◄ Change from NodeNext to commonjs
-    "moduleResolution": "node10", 
+    "moduleResolution": "node", 
     // "module": "nodenext",
     "target": "esnext",
     "allowImportingTsExtensions": true,
