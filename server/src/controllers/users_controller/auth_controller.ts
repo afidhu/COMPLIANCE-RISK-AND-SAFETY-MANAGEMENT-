@@ -199,9 +199,7 @@ export const allUserBasedOnRole = async(req:Request, resp:Response)=>{
 
         const users = await prisma.user.findMany({
             where: {
-                role: {
-                    equals: role.toUpperCase(),
-                }
+                role: role as any,
             }
         });
 
