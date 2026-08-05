@@ -64,7 +64,7 @@ app.use('/search', searchs_routers);
 //Here call Comppliance CRON
 // complianceReminder()
 
-
+export default app; 
 app.listen(port, () => {
   console.log(`Server Running at http://localhost:${port}`);
 });
