@@ -88,7 +88,7 @@ function App() {
         <Route path="/RisksReport" element={<RisksReport />} /> 
         <Route path="/IncidentsReport" element={<IncidentsReport />} /> 
         <Route path="/AssetsReport" element={<AssetsReport />} /> 
-        <Route path="/UpdateIncident/:incidentId" element={<UpdateIncident />} />
+        <Route path="/UpdateIncident/:id" element={<UpdateIncident />} />
         {/* <Route path="/Incidents" element={<Incidents />} /> Risks */}
         {/* <Route path="/Risks" element={<Risks />} />  */}
         {/* <Route path="/AddRisk" element={<AddRisk  />} /> */}
