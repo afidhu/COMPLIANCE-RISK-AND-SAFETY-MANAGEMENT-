@@ -137,7 +137,7 @@ model Asset {
   status       AssetStatus @default(ACTIVE)
 
   createdById  String
-  createdBy    User        @relation(fields: [createdById], references: [userId])
+  createdBy    User        @relation(fields: [createdById], references: [userId],onDelete: Cascade)
 
   compliances  Compliance[]
   hazards      Hazard[]
@@ -152,7 +152,7 @@ model Compliance {
   complianceName  String
 
   assetId         String
-  asset           Asset            @relation(fields: [assetId], references: [assetId])
+  asset           Asset            @relation(fields: [assetId], references: [assetId],onDelete: Cascade)
 
   frequency       String
   lastDueDate     DateTime?
@@ -174,10 +174,10 @@ model Hazard {
   hazardId           String   @id @default(cuid())
 
   assetId            String
-  asset              Asset    @relation(fields: [assetId], references: [assetId])
+  asset              Asset    @relation(fields: [assetId], references: [assetId],onDelete: Cascade)
 
   complianceId       String?
-  compliance         Compliance? @relation(fields: [complianceId], references: [complianceId])
+  compliance         Compliance? @relation(fields: [complianceId], references: [complianceId],onDelete: Cascade)
 
   hazardTitle        String
   hazardDescription  String
@@ -222,10 +222,10 @@ model Incident {
   incidentId      String   @id @default(cuid())
 
   assetId         String
-  asset           Asset    @relation(fields: [assetId], references: [assetId])
+  asset           Asset    @relation(fields: [assetId], references: [assetId],onDelete: Cascade)
 
   riskId          String?
-  risk            Risk?     @relation(fields: [riskId], references: [riskId])
+  risk            Risk?     @relation(fields: [riskId], references: [riskId],onDelete: Cascade)
 
   incidentTitle   String
   description     String
