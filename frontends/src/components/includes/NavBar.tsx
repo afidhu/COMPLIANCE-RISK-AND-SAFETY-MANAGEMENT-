@@ -234,7 +234,7 @@ export default function NavBar() {
                         <li className="nav-item topbar-user dropdown hidden-caret">
                             <a className="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                                 <div className="avatar-sm">
-                                    <img src="assets/img/profile.jpg" alt="..." className="avatar-img rounded-circle" />
+                                    <img src="assets/img/profileLogo.png" alt="..." className="avatar-img rounded-circle" />
                                 </div>
                                 <span className="profile-username">
                                     <span className="op-7">Hi,</span>
@@ -246,12 +246,12 @@ export default function NavBar() {
                                     <li>
                                         <div className="user-box">
                                             <div className="avatar-lg">
-                                                <img src="assets/img/profile.jpg" alt="image profile" className="avatar-img rounded" />
+                                                <img src="assets/img/profileLogo.png" alt="image profile" className="avatar-img rounded" />
                                             </div>
                                             <div className="u-text">
                                                 <h4>{user?.fullName}</h4>
                                                 <p className="text-muted">{user?.email}</p>
-                                                <a href="profile.html" className="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                                <a href="profile.html" className="btn btn-xs btn-secondary btn-sm"></a>
                                             </div>
                                         </div>
                                     </li>

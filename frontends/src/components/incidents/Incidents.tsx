@@ -227,7 +227,7 @@ const deleteHandle = async (incidentId: string) => {
                     <th>Date</th>
                     <th>Severity</th>
                     <th>Reported By</th>
-                    <th>Status</th>
+                    {/* <th>Status</th> */}
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -345,7 +345,7 @@ const deleteHandle = async (incidentId: string) => {
                             </small>
                           </td>
 
-                          <td>
+                          {/* <td>
                             <span
                               className={getStatusBadge(
                                 incident.status ||
@@ -355,7 +355,7 @@ const deleteHandle = async (incidentId: string) => {
                               {incident.status ||
                                 "OPEN"}
                             </span>
-                          </td>
+                          </td> */}
 
                           <td>
                             <div className="d-flex gap-2">

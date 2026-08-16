@@ -51,7 +51,8 @@ export const registerUser = async (req: Request, resp: Response) => {
 // login a user
 export const loginUser = async(req:Request, resp:Response)=>{
     try {
-        const { email } = req.body;
+        const { email,password } = req.body;
+        console.log("req.body",req.body)
         const user = await prisma.user.findUnique({
             where: { email: `${email}` }
         });
@@ -59,8 +60,15 @@ export const loginUser = async(req:Request, resp:Response)=>{
         if (!user) {
             return resp.status(404).json({ message: "User not found" });
         }
-        console.log(user)
+        else  if( user.password  != password) {
+          
+        return resp.status(403).json({ message: "Wrong password" });
+           
+        }
+        else{
+            console.log(user)
         return resp.status(200).json(user);
+        }
     } catch (error) {
         console.error("Error logging in user:", error);
         return resp.status(500).json({ message: "Internal server error" });

@@ -286,7 +286,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';
                             }
-                            if (value.length < 6) {
+                            if (value.length < 2) {
                               return 'Password must be at least 6 characters';
                             }
                             return null;
@@ -438,6 +438,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context.read<AuthBloc>().add(
                                       LoginUserEvent(
                                         UserEntity(
+                                          password: passwordController.text.trim(),
                                           email: emailController.text.trim(),
                                         ),
                                       ),
