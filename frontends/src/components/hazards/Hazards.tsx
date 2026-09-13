@@ -42,6 +42,21 @@ export default function Hazards() {
     });
   }
 
+  const goToUpdate = async (hazardId: any, hazardTitle: any,hazardDescription:any) => {
+    navigation(`/HazardUpdate/${hazardId}`,{
+    state: { hazardTitle: hazardTitle,hazardDescription:hazardDescription }
+    });
+  }
+
+  const deleteItem = async (hazardId: any) => {
+    try {
+      const response = await axios.delete(`${BaseUrl}/hazards/delete/${hazardId}`)
+      console.log(response.data)
+      fetchHazard()
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="container-fluid px-3">
       <div className="page-inner">
@@ -129,14 +144,18 @@ export default function Hazards() {
                              </td>
                           <td>
 
-
-                            <button onClick={() => goTo(item.hazardId, item.hazardTitle,item.hazardDescription)} className="btn btn-link text-primary">
+                            {
+                              user.role ==='STAFF_MEMBER'?  <button onClick={()=>deleteItem(item.hazardId)} className="btn btn-link text-primary">
+                              <i className="fa fa-eye"></i>
+                            </button>: <button onClick={() => goTo(item.hazardId, item.hazardTitle,item.hazardDescription)} className="btn btn-link text-primary">
                               <i className="fa fa-eye"></i>
                             </button>
+                            }
+                           
 
 
 
-                            <button className="btn btn-link text-warning">
+                            <button onClick={() => goToUpdate(item.hazardId, item.hazardTitle, item.hazardDescription)} className="btn btn-link text-warning">
                               <i className="fa fa-pen"></i>
                             </button>
 

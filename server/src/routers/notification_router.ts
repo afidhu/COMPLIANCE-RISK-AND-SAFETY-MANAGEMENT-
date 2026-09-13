@@ -1,6 +1,5 @@
-
 import { Router } from "express";
-import { technicianNotification } from "../controllers/notifications_controller/technician_notif_controller.ts";
+import { technicianNotification } from "../controllers/notifications_controller/technician_notif_controller";
 import {
     createNotification,
     getNotificationById,
@@ -9,7 +8,7 @@ import {
     deleteNotification,
     getUnreadNotificationsByReceiver,
     getAllNotifications
-} from "../controllers/notifications_controller/crud_controller.ts";
+} from "../controllers/notifications_controller/crud_controller";
 
 const router = Router();
 

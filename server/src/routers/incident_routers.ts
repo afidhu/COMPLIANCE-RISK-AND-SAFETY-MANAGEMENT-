@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addIncident, deleteIncident, getIncidentById, getIncidents, updateIncident } from "../controllers/incidents_controller/crud_incidents.ts";
+import { addIncident, deleteIncident, getIncidentById, getIncidents, updateIncident } from "../controllers/incidents_controller/crud_incidents";
 
 
 

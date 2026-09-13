@@ -26,7 +26,7 @@ export default function AddMitigation({ hadazardId, hadazardTitle }: AddMitigati
   const fetchTechnicians = async () => {
     try {
       const response = await axios.get(`${BaseUrl}/auth/users/technician`);
-      console.log(response.data);
+      console.log('selectedUser?.userId', response.data);
       setTechnicians(response.data);
       
       // Optional: Set default technician if data exists
@@ -69,12 +69,14 @@ export default function AddMitigation({ hadazardId, hadazardTitle }: AddMitigati
     try {
       setLoading(true);
 
+      console.log('selectedUser?.userId',selectedUser?.userId)
+
       const response = await axios.post(
         `${BaseUrl}/mitigations/add`,
         {
           hazardId: formData.hadazardId,
           actionTitle: formData.action_title,
-          assignedToId: selectedUser?.userId || formData.assigned_to,
+          assignedToId: "cmr8x2iqv0003zje24onf0kiz",
           targetDate: formData.target_date,
           // status: formData.status,
         }
@@ -170,7 +172,7 @@ export default function AddMitigation({ hadazardId, hadazardTitle }: AddMitigati
                 </div>
 
                 {/* Assigned To */}
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label className="form-label fw-semibold">
                     Assigned To
                   </label>
@@ -196,12 +198,12 @@ export default function AddMitigation({ hadazardId, hadazardTitle }: AddMitigati
                       ))}
                     </select>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Target Date */}
                 <div className="mb-4">
                   <label className="form-label fw-semibold">
-                    Target Date
+                     Date
                   </label>
                   <div className="input-group">
                     <span className="input-group-text bg-light">

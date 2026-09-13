@@ -28,9 +28,9 @@ export default function ViewHazard() {
             }}
           >
             <div className="d-flex flex-column justify-content-between h-100">
-              <div>
-                <h3 className="mb-2 fw-bold">{state.hazardTitle}</h3>
-                <p className="mb-0 fs-6 text-white-75">{state.hazardDescription}</p>
+              <div style={{ textAlign: 'center' }}>
+               <p> <h5 className="mb-2  fw-bold mx-5" style={{ textAlign: 'center'}}>{state.hazardTitle}</h5></p>
+                <p className="mb-0 fs-6 text-white-75 mx-5" style={{ textAlign: 'center', marginLeft: '40%', marginRight: '40%' }}>{state.hazardDescription}</p>
               </div>
             </div>
           </div>

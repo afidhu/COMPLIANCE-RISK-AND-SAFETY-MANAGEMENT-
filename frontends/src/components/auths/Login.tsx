@@ -29,6 +29,7 @@ const handleLogin = async (e: React.FormEvent) => {
       `${BaseUrl}/auth/login/`,
       { email, password }
     );
+    console.log('user is ',response.data)
 
     setSuccess("Login successful");
 
@@ -73,7 +74,7 @@ if (response.data.isApproved === true) {
 
     
   } catch (err: any) {
-    alert(`error:${err.message}`);
+    alert(`Login Fail Wrong Credencial`);
     setError(
       err?.response?.data?.message || "Invalid credentials"
     );

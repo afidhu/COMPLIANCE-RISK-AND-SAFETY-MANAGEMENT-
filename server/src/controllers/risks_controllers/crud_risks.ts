@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../../index.ts";
+import { prisma } from "../../index";
 
 
 // Controller function to add a new risk
@@ -75,8 +75,7 @@ export const updateRisk = async (req: Request, resp: Response) => {
                 riskTitle,
                 riskDescription,
                 likelihood,
-                impact,
-                riskRating
+              
             }
         });
         return resp.status(200).json(updatedRisk);

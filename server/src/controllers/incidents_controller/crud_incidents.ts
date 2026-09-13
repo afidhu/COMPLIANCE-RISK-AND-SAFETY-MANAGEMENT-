@@ -1,6 +1,6 @@
 
 import type { Request, Response } from "express";
-import { prisma } from "../../index.ts";
+import { prisma } from "../../index";
 
 // add a new incident
 export const addIncident = async (req: Request, resp: Response) => {
@@ -104,20 +104,19 @@ export const getIncidentsByRiskId = async (req: Request, resp: Response) => {
 export const updateIncident = async (req: Request, resp: Response) => {
     try {
         const { id } = req.params;
-        const { assetId, riskId, incidentTitle, description, incidentDate } = req.body;
+        const { assetId, incidentTitle, description, incidentDate } = req.body;
         const updatedIncident = await prisma.incident.update({
             where: { incidentId: `${id}` },
             data: {
                 assetId,
-                riskId,
                 incidentTitle,
                 description,
                 incidentDate
             }
         });
         return resp.status(200).json(updatedIncident);
-    } catch (error) {
-        console.error("Error updating incident:", error);
+    } catch (error: any) {
+        console.error("Error updating incident:", error.message);
         return resp.status(500).json({ message: "Internal server error" });
     }
 }

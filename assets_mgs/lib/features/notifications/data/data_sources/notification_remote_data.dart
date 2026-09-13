@@ -9,7 +9,7 @@ class NotificationRemoteData {
 
   Future<Response> getNotify(String userId) async {
     try {
-      return await dioClient.dio.get('/notification/user/${userId.trim()}');
+      return await dioClient.dio.get('/notifications/user/${userId.trim()}');
 
     } catch (e) {
       print('eror : ${e.toString()}');
@@ -21,7 +21,7 @@ class NotificationRemoteData {
 
   Future<Response> readNotify(String notId) async {
     try {
-      return await dioClient.dio.patch('/notification/${notId.trim()}',data: {"is_read":true});
+      return await dioClient.dio.patch('/notifications/${notId.trim()}',data: {"is_read":true});
 
     } catch (e) {
       print('eror : ${e.toString()}');

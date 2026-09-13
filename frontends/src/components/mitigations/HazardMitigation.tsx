@@ -105,8 +105,8 @@ export default function HazardMitigation({ hazardId }) {
                     <th>Asset</th>
                     <th>Hazard</th>
                     <th>Action Title</th>
-                    <th>Assigned To</th>
-                    <th>Target Date</th>
+                    {/* <th>Assigned To</th> */}
+                    <th> Date</th>
                     <th>Status</th>
                   </tr>
 
@@ -148,7 +148,7 @@ export default function HazardMitigation({ hazardId }) {
                         <td>
                           {item.actionTitle}
                         </td>
-
+{/* 
                         <td>
 
                           <div className="fw-bold">
@@ -159,7 +159,7 @@ export default function HazardMitigation({ hazardId }) {
                             {item.assignedTo?.role}
                           </small>
 
-                        </td>
+                        </td> */}
 
                         <td>
                           {formatDate(item.targetDate)}

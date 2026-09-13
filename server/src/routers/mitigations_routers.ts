@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addMitigationAction, deleteMitigationAction, getMitigationActionById, getMitigationActions, getMitigationActionsByHazardId, getMitigationActionsByRiskId, updateMitigationAction } from "../controllers/mitigation_action/crud_mitigation.ts";
+import { addMitigationAction, deleteMitigationAction, getMitigationActionById, getMitigationActions, getMitigationActionsByHazardId, getMitigationActionsByRiskId, updateMitigationAction } from "../controllers/mitigation_action/crud_mitigation";
 
 
 

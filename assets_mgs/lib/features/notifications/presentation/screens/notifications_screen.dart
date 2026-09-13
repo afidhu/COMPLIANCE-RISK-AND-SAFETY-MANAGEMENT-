@@ -328,8 +328,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                      const SizedBox(height: 10),
                                          SizedBox(
                                            width: 100.w,
-                                           child: Text(
-                                             n.capa!.hazards!.hazardTitle.toString(),
+                                           child:  n.capa != null? Text(
+                                             n.capa!.hazards!.hazardTitle.toString() ,
+                                             maxLines: 3,
+                                             overflow:
+                                             TextOverflow.ellipsis,
+                                             style: const TextStyle(
+                                               fontSize: 15.5,
+                                               fontWeight:
+                                               FontWeight.w700,
+                                               height: 1.5,
+                                             ),
+                                           ): Text(
+                                           'No title defined',
                                              maxLines: 3,
                                              overflow:
                                              TextOverflow.ellipsis,
